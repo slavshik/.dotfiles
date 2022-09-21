@@ -673,3 +673,8 @@ key_bindings:
 
   # Type <escape>:w<enter> to save neovim
   - { key: S, mods: Command, chars: "\x1b\x3a\x77\x0a" }
+  - { key: F12, mods: Command, chars: "\x20\x64\x73" }
+  # Telescope find_files
+  - { key: O, mods: Command, chars: "\x20\x66\x66\x0a" }
+  # Telescope oldfiles
+  - { key: E, mods: Command, chars: "\x20\x65\x65\x0a" }

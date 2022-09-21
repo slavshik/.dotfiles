@@ -34,12 +34,11 @@ return require('packer').startup(function(use)
   use 'kdheepak/lazygit.nvim'
   use 'BurntSushi/ripgrep'
   use 'nvim-telescope/telescope-fzy-native.nvim'
-  use 'jakelinnzy/autocmd-lua'
   use("nvim-treesitter/nvim-treesitter", {
         run = ":TSUpdate"
     })
  -- Filefinder (lf.vim should be loaded before vim-floaterm to override vim-floaterm's lf wrapper)
- use "voitd/vim-floaterm"
+ use 'voldikss/vim-floaterm'
  use 'ptzz/lf.vim'
   
 end)
