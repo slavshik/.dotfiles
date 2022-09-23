@@ -77,7 +77,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git autojump vi-mode macos)
+plugins=(git autojump)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -104,26 +104,6 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-function yandex() {
-	START_PWD=$PWD
-	GAME_CH=$(git rev-parse --short HEAD)
-	cd "$(dirname $0)" || exit
-	SE_CH=$(git rev-parse --short HEAD)
-	cd "$START_PWD" || exit
-	COMMIT_HASH="$GAME_CH-$SE_CH" yarn build:prod && open zip
-}
-function awscache() {
-	aws cloudfront get-invalidation --distribution-id E1H93IAFP5HQGL --id $1 | jq
-}
-function yandex_dev() {
-	COMMIT_HASH=`g log -1 --pretty="%s $1"` yarn build:test && open zip
-}
-# function release() {
-# 	BUILD_NOTE=`g log -1 --pretty="%s $1"` yarn deploy:prod
-# }
-# function release_dev() {
-# 	BUILD_NOTE=`g log -1 --pretty="%s $1"` yarn deploy
-# }
 alias zshconfig="vim ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias python=python3

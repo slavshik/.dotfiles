@@ -13,6 +13,27 @@ nnoremap("<Leader>wq", "<cmd>wq<CR>")
 nnoremap("<Leader>w", "<cmd>w<CR>")
 
 -- Telescope
+local telescope = require("telescope")
+telescope.setup {
+    extensions = {
+        file_browser = {
+            theme = "ivy",
+            -- disables netrw and use telescope-file-browser in its place
+            hijack_netrw = true,
+            mappings = {
+                ["i"] = {
+                    -- your custom insert mode mappings
+                },
+                ["n"] = {
+                    -- your custom normal mode mappings
+                },
+            },
+        },
+    }
+}
+telescope.load_extension('harpoon')
+telescope.load_extension('file_browser')
+nnoremap("<Leader>W", "<cmd>Telescope file_browser<CR>")
 nnoremap("<Leader>ff", "<cmd>Telescope find_files<CR>")
 nnoremap("<Leader>ee", "<cmd>Telescope oldfiles<CR>")
 nnoremap("<S><S>", "<cmd>Telescope<CR>")
@@ -32,7 +53,6 @@ nnoremap("<C-\\>", function() harpoon_mark.add_file() end)
 for i = 0, 9 do
     nnoremap('<Leader>' .. i, harpoon_nav_file(i))
 end
-require("telescope").load_extension('harpoon')
 nnoremap("<C-e>", "<cmd>Telescope harpoon marks<cr>")
 nnoremap("<S-e>", function() harpoon_ui.toggle_quick_menu() end)
 

@@ -38,7 +38,27 @@ return require('packer').startup(function(use)
         run = ":TSUpdate"
     })
  -- Filefinder (lf.vim should be loaded before vim-floaterm to override vim-floaterm's lf wrapper)
- use 'voldikss/vim-floaterm'
- use 'ptzz/lf.vim'
+ -- use 'voldikss/vim-floaterm'
+ -- use 'ptzz/lf.vim'
   
+ -- from craftzdog
+ use 'onsails/lspkind-nvim' -- nice icons in drop-down
+ use { "nvim-telescope/telescope-file-browser.nvim" }
+ use {
+     'lewis6991/gitsigns.nvim',
+     config = function()
+         require('gitsigns').setup()
+     end
+ }
+ use({
+    "glepnir/lspsaga.nvim",
+    branch = "main",
+    config = function()
+        local saga = require("lspsaga")
+
+        saga.init_lsp_saga({
+            -- your configuration
+        })
+    end,
+})
 end)
