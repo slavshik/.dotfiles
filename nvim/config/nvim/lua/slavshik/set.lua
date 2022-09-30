@@ -19,9 +19,8 @@ vim.hlsearch = false
 vim.opt.incsearch = true
 vim.opt.smartindent = true
 
-
 vim.opt.wrap = false
-vim.opt.clipboard:append { "unnamedplus" }
+vim.opt.clipboard:append({ "unnamedplus" })
 
 vim.g.mapleader = " "
 
@@ -32,5 +31,6 @@ vim.opt.cmdheight = 1
 -- delays and poor user experience.
 vim.opt.updatetime = 50
 
-
 vim.opt.signcolumn = "yes" -- git/errors/linters SHOW always to prevent blinking and shifting
+--vim.opt.hi="Normal guibg=NONE ctermbg=NONE"
+--vim.opt.hi = "Normal"

@@ -14,57 +14,64 @@ nnoremap("<Leader>w", "<cmd>w<CR>")
 
 -- Telescope
 local telescope = require("telescope")
-telescope.setup {
-    extensions = {
-        file_browser = {
-            theme = "ivy",
-            -- disables netrw and use telescope-file-browser in its place
-            hijack_netrw = true,
-            mappings = {
-                ["i"] = {
-                    -- your custom insert mode mappings
-                },
-                ["n"] = {
-                    -- your custom normal mode mappings
-                },
-            },
-        },
-    }
-}
-telescope.load_extension('harpoon')
-telescope.load_extension('file_browser')
+telescope.setup({
+	extensions = {
+		file_browser = {
+			theme = "ivy",
+			-- disables netrw and use telescope-file-browser in its place
+			-- hijack_netrw = true,
+			mappings = {
+				["i"] = {
+					-- your custom insert mode mappings
+				},
+				["n"] = {
+					-- your custom normal mode mappings
+				},
+			},
+		},
+	},
+})
+telescope.load_extension("harpoon")
+telescope.load_extension("file_browser")
 nnoremap("<Leader>W", "<cmd>Telescope file_browser<CR>")
 nnoremap("<Leader>ff", "<cmd>Telescope find_files<CR>")
 nnoremap("<Leader>ee", "<cmd>Telescope oldfiles<CR>")
 nnoremap("<S><S>", "<cmd>Telescope<CR>")
-nnoremap('¶', "<cmd>Telescope lsp_references<CR>")
-nnoremap('<Leader>ds', "<cmd>Telescope lsp_document_symbols<CR>zz")
+nnoremap("¶", "<cmd>Telescope lsp_references<CR>")
+nnoremap("<Leader>ds", "<cmd>Telescope lsp_document_symbols<CR>zz")
 nnoremap("<Leader>t", "<cmd>Telescope<CR>")
 nnoremap("<Leader>F", "<cmd>Telescope live_grep<CR>")
 nnoremap("<C-7>", "<cmd>Telescope string_grep<CR>")
 
 -- Harpoon
 local function harpoon_nav_file(n)
-    return function()
-        harpoon_ui.nav_file(n)
-    end
+	return function()
+		harpoon_ui.nav_file(n)
+	end
 end
-nnoremap("<C-\\>", function() harpoon_mark.add_file() end)
+nnoremap("<C-\\>", function()
+	harpoon_mark.add_file()
+end)
 for i = 0, 9 do
-    nnoremap('<Leader>' .. i, harpoon_nav_file(i))
+	nnoremap("<Leader>" .. i, harpoon_nav_file(i))
 end
 nnoremap("<C-e>", "<cmd>Telescope harpoon marks<cr>")
-nnoremap("<S-e>", function() harpoon_ui.toggle_quick_menu() end)
+nnoremap("<S-e>", function()
+	harpoon_ui.toggle_quick_menu()
+end)
 
 -- MoveLine
-nnoremap('∆', ":MoveLine(1)<CR>")
-nnoremap('˚', ":MoveLine(-1)<CR>")
-vnoremap('¬', ":MoveHBlock(1)<CR>")
-vnoremap('˙', ":MoveHBlock(-1)<CR>")
-vnoremap('∆', ":MoveBlock(1)<CR>") 
-vnoremap('˚', ":MoveBlock(-1)<CR>")
-nnoremap('¬', ":MoveHChar(1)<CR>") 
-nnoremap('˙', ":MoveHChar(-1)<CR>")
+nnoremap("∆", ":MoveLine(1)<CR>")
+nnoremap("˚", ":MoveLine(-1)<CR>")
+vnoremap("¬", ":MoveHBlock(1)<CR>")
+vnoremap("˙", ":MoveHBlock(-1)<CR>")
+vnoremap("∆", ":MoveBlock(1)<CR>")
+vnoremap("˚", ":MoveBlock(-1)<CR>")
+nnoremap("¬", ":MoveHChar(1)<CR>")
+nnoremap("˙", ":movehchar(-1)<cr>")
+
+nnoremap("Ô", "yyp") -- duplicate line and move down (alt+shift+j)
+nnoremap("˚", "yyP") -- duplicate line and move up (alt+shift+k)
 
 -- GIT!
 nnoremap("<Leader>G", "<cmd>LazyGit<CR>")
