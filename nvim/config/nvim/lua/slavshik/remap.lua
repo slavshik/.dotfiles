@@ -5,8 +5,6 @@ local harpoon_ui = require("harpoon.ui")
 local harpoon_mark = require("harpoon.mark")
 
 -- Save/Quit
--- nnoremap("<Leader>W", "<cmd>Ex<CR>")
--- nnoremap("<Leader>W", "<cmd>Lf<CR>")
 nnoremap("<Leader>q", "<cmd>q<CR>")
 nnoremap("<Leader>Q", "<cmd>q!<CR>")
 nnoremap("<Leader>wq", "<cmd>wq<CR>")
@@ -33,7 +31,10 @@ telescope.setup({
 })
 telescope.load_extension("harpoon")
 telescope.load_extension("file_browser")
-nnoremap("<Leader>W", "<cmd>Telescope file_browser<CR>")
+nnoremap("<Leader>W", function()
+	require("telescope").extensions.file_browser.file_browser({ path = vim.fn.expand("%:p:h"), grouped = true })
+end)
+
 nnoremap("<Leader>ff", "<cmd>Telescope find_files<CR>")
 nnoremap("<Leader>ee", "<cmd>Telescope oldfiles<CR>")
 nnoremap("<S><S>", "<cmd>Telescope<CR>")
@@ -71,7 +72,7 @@ nnoremap("¬", ":MoveHChar(1)<CR>")
 nnoremap("˙", ":movehchar(-1)<cr>")
 
 nnoremap("Ô", "yyp") -- duplicate line and move down (alt+shift+j)
-nnoremap("˚", "yyP") -- duplicate line and move up (alt+shift+k)
+-- nnoremap("˚", "yyP") -- duplicate line and move up (alt+shift+k)
 
 -- GIT!
 nnoremap("<Leader>G", "<cmd>LazyGit<CR>")

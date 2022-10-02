@@ -428,6 +428,18 @@ mouse_bindings:
 # binding with the same triggers is defined. To unset a default binding, it can
 # be mapped to the `None` action.
 key_bindings:
+  - {key: F1, action: None}
+  - {key: F2, action: None}
+  - {key: F3, action: None}
+  - {key: F4, action: None}
+  - {key: F5, action: None}
+  - {key: F6, action: None}
+  - {key: F7, action: None}
+  - {key: F8, action: None}
+  - {key: F9, action: None}
+  - {key: F10, action: None}
+  - {key: F11, action: None}
+  - {key: F12, action: None}
     # TMUX
     # new window <CMD + T>
   - { key: T, mods: Command, chars: "\x02\x63"}
