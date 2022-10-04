@@ -1,5 +1,5 @@
 local nnoremap = require("slavshik.keymap").nnoremap
-local inoremap = require("slavshik.keymap").inoremap
+-- local inoremap = require("slavshik.keymap").inoremap
 local vnoremap = require("slavshik.keymap").vnoremap
 local harpoon_ui = require("harpoon.ui")
 local harpoon_mark = require("harpoon.mark")
@@ -31,18 +31,27 @@ telescope.setup({
 })
 telescope.load_extension("harpoon")
 telescope.load_extension("file_browser")
+local ts = require("telescope.builtin")
 nnoremap("<Leader>W", function()
 	require("telescope").extensions.file_browser.file_browser({ path = vim.fn.expand("%:p:h"), grouped = true })
 end)
 
-nnoremap("<Leader>ff", "<cmd>Telescope find_files<CR>")
-nnoremap("<Leader>ee", "<cmd>Telescope oldfiles<CR>")
-nnoremap("<S><S>", "<cmd>Telescope<CR>")
-nnoremap("¶", "<cmd>Telescope lsp_references<CR>")
-nnoremap("<Leader>ds", "<cmd>Telescope lsp_document_symbols<CR>zz")
 nnoremap("<Leader>t", "<cmd>Telescope<CR>")
-nnoremap("<Leader>F", "<cmd>Telescope live_grep<CR>")
-nnoremap("<C-7>", "<cmd>Telescope string_grep<CR>")
+nnoremap("<Leader>ff", function()
+	ts.find_files({})
+end)
+nnoremap("<Leader>ee", function()
+	ts.oldfiles({})
+end)
+
+nnoremap("<S><S>", "<cmd>Telescope<CR>")
+nnoremap("<Leader>ds", function()
+	ts.lsp_document_symbols()
+end)
+nnoremap("<Leader>F", function()
+	ts.live_grep()
+end)
+-- nnoremap("<C-7>", "<cmd>Telescope string_grep<CR>")
 
 -- Harpoon
 local function harpoon_nav_file(n)
