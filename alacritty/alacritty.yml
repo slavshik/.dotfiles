@@ -454,6 +454,7 @@ key_bindings:
 
   # Type <escape>:w<enter> to save neovim
   - { key: S, mods: Command, chars: "\x1b\x3a\x77\x0a" }
+  - { key: B, mods: Command, chars: "\x67\x64" }
   - { key: F12, mods: Command, chars: "\x20\x64\x73" }
   - { key: F6, mods: Shift, chars: "\x67\x72" }
   # Telescope find_files

@@ -13,7 +13,7 @@ local lsp_formatting = function(bufnr)
 end
 local on_attach = function(client, bufnr)
 	vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0 })
-	vim.keymap.set("n", "<S-b>", vim.lsp.buf.definition, { buffer = 0 })
+	vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = 0 })
 	vim.keymap.set("n", "<Leader>D", vim.lsp.buf.type_definition, { buffer = 0 })
 	vim.keymap.set("n", "<Leader>gi", vim.lsp.buf.implementation, { buffer = 0 })
 	vim.keymap.set("n", ">", vim.lsp.buf.code_action, { buffer = 0 })
