@@ -16,7 +16,7 @@ local on_attach = function(client, bufnr)
 	vim.keymap.set("n", "<S-b>", vim.lsp.buf.definition, { buffer = 0 })
 	vim.keymap.set("n", "<Leader>D", vim.lsp.buf.type_definition, { buffer = 0 })
 	vim.keymap.set("n", "<Leader>gi", vim.lsp.buf.implementation, { buffer = 0 })
-	vim.keymap.set("n", "<Leader>ca", vim.lsp.buf.code_action, { buffer = 0 })
+	vim.keymap.set("n", ">", vim.lsp.buf.code_action, { buffer = 0 })
 	vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<cr>", { buffer = 0 })
 	vim.keymap.set("n", "<Leader>r", function()
 		vim.lsp.buf.rename()
@@ -35,15 +35,32 @@ local on_attach = function(client, bufnr)
 end
 null_ls.setup({
 	on_attach = on_attach,
-	sources = {
-		require("null-ls").builtins.formatting.stylua,
-		-- require("null-ls").builtins.diagnostics.eslint,
-		-- require("null-ls").builtins.completion.spell,
-	},
+	sources = { require("null-ls").builtins.formatting.stylua },
 })
 local lsp_config = require("lspconfig")
 
-lsp_config.tsserver.setup({ on_attach = on_attach, capabilities = capabilities })
+lsp_config.tsserver.setup({
+	on_attach = function(client, bufnr)
+		on_attach(client, bufnr)
+		vim.keymap.set("n", "Ø", "<CMD>OrganizeImports<CR>", { buffer = 0 })
+	end,
+	capabilities = capabilities,
+	commands = {
+		OrganizeImports = {
+			function()
+				local params = {
+					command = "_typescript.organizeImports",
+					arguments = { vim.api.nvim_buf_get_name(0) },
+					title = "",
+				}
+				local bufnr = vim.api.nvim_get_current_buf()
+				vim.lsp.buf_request_sync(bufnr, "workspace/executeCommand", params, 1000)
+				lsp_formatting(bufnr)
+			end,
+			description = "Organize Imports",
+		},
+	},
+})
 local sumneko_root_path = "/Users/kvinty/.local/share/nvim/site/pack/packer/start/lua-language-server"
 local sumneko_binary = "/opt/homebrew/bin/lua-language-server"
 
