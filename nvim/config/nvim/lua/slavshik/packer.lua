@@ -28,8 +28,6 @@ return require("packer").startup(function(use)
 	-- Formatters
 	use("jose-elias-alvarez/null-ls.nvim")
 	use("MunifTanjim/prettier.nvim")
-	-- TODO: delete
-	use("mhartington/formatter.nvim")
 	-- Git
 	use("kdheepak/lazygit.nvim")
 	use("BurntSushi/ripgrep")
