@@ -26,6 +26,9 @@ return require("packer").startup(function(use)
 		requires = { { "nvim-lua/plenary.nvim" } },
 	})
 	-- Formatters
+	use("jose-elias-alvarez/null-ls.nvim")
+	use("MunifTanjim/prettier.nvim")
+	-- TODO: delete
 	use("mhartington/formatter.nvim")
 	-- Git
 	use("kdheepak/lazygit.nvim")
