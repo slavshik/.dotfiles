@@ -17,7 +17,7 @@ local on_attach = function(client, bufnr)
 	vim.keymap.set("n", "<Leader>D", vim.lsp.buf.type_definition, { buffer = 0 })
 	vim.keymap.set("n", "<Leader>gi", vim.lsp.buf.implementation, { buffer = 0 })
 	vim.keymap.set("n", ">", vim.lsp.buf.code_action, { buffer = 0 })
-	vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<cr>", { buffer = 0 })
+	vim.keymap.set("n", "gr", "<cmd>Trouble lsp_references<cr>", { buffer = 0 })
 	vim.keymap.set("n", "<Leader>r", function()
 		-- TODO: use Lspsaga
 		vim.lsp.buf.rename()

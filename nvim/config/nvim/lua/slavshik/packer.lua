@@ -34,6 +34,14 @@ return require("packer").startup(function(use)
 	use("nvim-telescope/telescope-fzy-native.nvim")
 	use("nvim-treesitter/nvim-treesitter", { run = ":TSUpdate" })
 	use("sumneko/lua-language-server")
+	-- Lua
+	use({
+		"folke/trouble.nvim",
+		requires = "kyazdani42/nvim-web-devicons",
+		config = function()
+			require("trouble").setup({})
+		end,
+	})
 	-- from craftzdog
 	use("onsails/lspkind-nvim") -- nice icons in drop-down
 	use({ "nvim-telescope/telescope-file-browser.nvim" }) -- FileBrowser
