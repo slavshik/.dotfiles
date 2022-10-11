@@ -16,13 +16,14 @@ local on_attach = function(client, bufnr)
 	vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = 0 })
 	vim.keymap.set("n", "<Leader>D", vim.lsp.buf.type_definition, { buffer = 0 })
 	vim.keymap.set("n", "<Leader>gi", vim.lsp.buf.implementation, { buffer = 0 })
-	vim.keymap.set("n", ">", vim.lsp.buf.code_action, { buffer = 0 })
+	vim.keymap.set("n", ">", "<cmd>Lspsaga code_action<cr>", { buffer = 0 })
 	vim.keymap.set("n", "gr", "<cmd>Trouble lsp_references<cr>", { buffer = 0 })
-	vim.keymap.set("n", "<Leader>r", function()
-		-- TODO: use Lspsaga
-		vim.lsp.buf.rename()
-		vim.cmd([[wa]])
-	end)
+	-- vim.keymap.set("n", "<Leader>r", function()
+	-- 	-- TODO: use Lspsaga
+	-- 	vim.lsp.buf.rename()
+	-- 	vim.cmd([[wa]])
+	-- end)
+	vim.keymap.set("n", "<Leader>r", "<cmd>Lspsaga rename<cr>", { buffer = bufnr })
 	if client.supports_method("textDocument/formatting") then
 		vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
 		vim.api.nvim_create_autocmd("BufWritePre", {
