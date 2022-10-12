@@ -452,7 +452,7 @@ key_bindings:
     # all windows <CMD + Shift + \>
   - { key: Backslash, mods: Command|Shift, chars: "\x02\x77"}
     # LazyGit (CMD + Shift + K -> <space>+Shift+G)
-  - { key: K, mods: Command, chars: "\x20\x47"}
+  - { key: K, mods: Command|Shift, chars: "\x20\x47"}
     # file browser (CMD + 1 -> <space>+Shift+W)
   - { key: Key1, mods: Command, chars: "\x20\x57"}
   # Type <escape>:w<enter> to save neovim
