@@ -1,3 +1,6 @@
 # .dotfiles
 
-My PDE with Alacritty, Neovim, tmux
+- Alacritty
+- Neovim
+- tmux 
+- zsh
