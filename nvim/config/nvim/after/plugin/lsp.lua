@@ -1,6 +1,7 @@
 -- LSP
+-- cmp_nvim_lsp.update_capabilities is deprecated, use cmp_nvim_lsp.default_capabilities instead. See :h deprecated
 local null_ls = require("null-ls")
-local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local lsp_formatting = function(bufnr)
 	vim.lsp.buf.format({
@@ -63,9 +64,9 @@ lsp_config.tsserver.setup({
 		},
 	},
 })
+-- require("luasnip.loaders.from_vscode").lazy_load()
 local sumneko_root_path = "/Users/kvinty/.local/share/nvim/site/pack/packer/start/lua-language-server"
 local sumneko_binary = "/opt/homebrew/bin/lua-language-server"
-
 lsp_config.sumneko_lua.setup({
 	cmd = { sumneko_binary, "-E", sumneko_root_path .. "/main.lua" },
 	on_attach = function(client, buffer)
@@ -94,6 +95,10 @@ lsp_config.sumneko_lua.setup({
 					"collectionfactory",
 					"msg",
 					"vmath",
+					"init",
+					"on_message",
+					"on_reload",
+					"final",
 				},
 			},
 			workspace = {
@@ -107,16 +112,16 @@ lsp_config.sumneko_lua.setup({
 		},
 	},
 })
-
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 -- Set up nvim-cmp.
+-- require("luasnip.loaders.from_vscode").lazy_load({ paths = { "~/.dotfiles/defold-vsc-snippets" } })
 local cmp = require("cmp")
-
 cmp.setup({
 	snippet = {
 		expand = function(args)
 			-- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
 			require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
+			-- require("luasnip.loaders.from_vscode").lazy_load()
 			-- require('snippy').expand_snippet(args.body) -- For `snippy` users.
 			-- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
 		end,
