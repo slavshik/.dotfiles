@@ -84,5 +84,7 @@ nnoremap("˙", ":movehchar(-1)<cr>")
 nnoremap("Ô", "yyp") -- duplicate line and move down (alt+shift+j)
 -- nnoremap("˚", "yyP") -- duplicate line and move up (alt+shift+k)
 
--- GIT!
+-- GIT! - remapped over to CMD+Shift+G in alacritty
 nnoremap("<Leader>G", "<cmd>LazyGit<CR>")
+-- Alt+C for color picker
+nnoremap("ç", "<CMD>VCoolor<CR>")
