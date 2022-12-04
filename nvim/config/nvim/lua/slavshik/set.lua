@@ -2,9 +2,10 @@
 vim.opt.nu = true
 vim.opt.relativenumber = true
 -- history
-vim.g.noswapfile = true
-vim.g.nobackup = true
--- vim.g.undodir = vim.fn.stdpath('.config') .. '/undodir'
+vim.opt.swapfile = false
+vim.opt.backup = false
+vim.opt.undodir = os.getenv("HOME") .. "/.config/.vim/undodir"
+vim.opt.undofile = true
 ---------------------------------
 vim.opt.tabstop = 4
 -- vim.opt.guicursor="n-v-c-sm:block,i-ci-ve:ver100,r-cr-o:hor20"
@@ -15,14 +16,12 @@ vim.opt.scrolloff = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.cursorline = true
-vim.hlsearch = false
+vim.opt.hlsearch = false
 vim.opt.incsearch = true
 vim.opt.smartindent = true
 
 vim.opt.wrap = false
 vim.opt.clipboard:append({ "unnamedplus" })
-
-vim.g.mapleader = " "
 
 -- Give more space for displaying messages.
 vim.opt.cmdheight = 1
@@ -42,3 +41,5 @@ vim.g.lazygit_floating_window_scaling_factor = 1.0 -- scaling factor for floatin
 -- vim.g.lazygit_floating_window_corner_chars = ['╭', '╮', '╰', '╯'] -- customize lazygit popup window corner characters
 -- vim.g.lazygit_floating_window_use_plenary = 1 -- use plenary.nvim to manage floating window if available
 -- vim.g.lazygit_use_neovim_remote = 1 -- fallback to 0 if neovim-remote is not installed
+
+vim.g.mapleader = " "
