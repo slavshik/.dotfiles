@@ -88,3 +88,4 @@ nnoremap("Ô", "yyp") -- duplicate line and move down (alt+shift+j)
 nnoremap("<Leader>G", "<cmd>LazyGit<CR>")
 -- Alt+C for color picker
 nnoremap("ç", "<CMD>VCoolor<CR>")
+nnoremap("<Leader>cc", "<CMD>VCoolor<CR>")
