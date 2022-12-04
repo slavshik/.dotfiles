@@ -65,6 +65,7 @@ end)
 for i = 0, 9 do
 	nnoremap("<Leader>" .. i, harpoon_nav_file(i))
 end
+nnoremap("<C-s>", "<C-w>v<C-w>l")
 nnoremap("<C-e>", "<cmd>Telescope harpoon marks<cr>")
 nnoremap("<S-e>", function()
 	harpoon_ui.toggle_quick_menu()
