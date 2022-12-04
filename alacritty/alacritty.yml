@@ -445,10 +445,12 @@ key_bindings:
   - { key: T, mods: Command, chars: "\x02\x63"}
     # close window <CMD + W>
   - { key: W, mods: Command, chars: "\x02\x78"}
-    # prev window <CMD + {>
+    # prev/next window <CMD + {/}>
   - { key: LBracket, mods: Command|Shift, chars: "\x02\x70"}
-    # next window <CMD + }>
   - { key: RBracket, mods: Command|Shift, chars: "\x02\x6e"}
+    # prev/next pane <CMD + [/]>
+  - { key: RBracket, mods: Command, chars: "\x02\x1b\x5b\x43"}
+  - { key: LBracket, mods: Command, chars: "\x02\x1b\x5b\x44"}
     # all windows <CMD + Shift + \>
   - { key: Backslash, mods: Command|Shift, chars: "\x02\x77"}
     # LazyGit (CMD + Shift + K -> <space>+Shift+G)
