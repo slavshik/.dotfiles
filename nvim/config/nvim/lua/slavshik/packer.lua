@@ -76,4 +76,7 @@ return require("packer").startup(function(use)
 			require("nvim-autopairs").setup({})
 		end,
 	})
+	-- COLORS
+	use("KabbAmine/vCoolor.vim")
+	use("NvChad/nvim-colorizer.lua")
 end)
