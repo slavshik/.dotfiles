@@ -1,4 +1,5 @@
 local nnoremap = require("slavshik.keymap").nnoremap
+
 -- local inoremap = require("slavshik.keymap").inoremap
 local vnoremap = require("slavshik.keymap").vnoremap
 local harpoon_ui = require("harpoon.ui")
@@ -35,7 +36,10 @@ local ts = require("telescope.builtin")
 -- nnoremap("<Leader>W", function()
 -- 	require("telescope").extensions.file_browser.file_browser({ path = vim.fn.expand("%:p:h"), grouped = true })
 -- end)
+-- remapped to CMD+1 with alacritty
 nnoremap("<Leader>W", "<cmd>Ex<CR>")
+-- reveal in Finder (remapped to CMD+Shift+1 with alacritty)
+nnoremap("<Leader>fi", "<CMD>!open % -R<CR><CR>")
 nnoremap("<Leader>t", "<cmd>Telescope<CR>")
 nnoremap("<Leader>ff", function()
 	ts.find_files({})
