@@ -7,7 +7,9 @@ local harpoon_mark = require("harpoon.mark")
 
 -- Save/Quit
 nnoremap("<Leader>q", "<cmd>q<CR>")
+nnoremap("<Leader>й", "<cmd>q<CR>")
 nnoremap("<Leader>Q", "<cmd>q!<CR>")
+nnoremap("<Leader>Й", "<cmd>q!<CR>")
 nnoremap("<Leader>wq", "<cmd>wq<CR>")
 nnoremap("<Leader>w", "<cmd>w<CR>")
 
