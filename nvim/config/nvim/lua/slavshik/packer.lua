@@ -76,6 +76,9 @@ return require("packer").startup(function(use)
 			require("nvim-autopairs").setup({})
 		end,
 	})
+	-- astro
+	use("wuelnerdotexe/vim-astro")
+	-- use("wuelnerdotexe/vim-astro")
 	-- COLORS
 	use("KabbAmine/vCoolor.vim")
 	use("NvChad/nvim-colorizer.lua")
