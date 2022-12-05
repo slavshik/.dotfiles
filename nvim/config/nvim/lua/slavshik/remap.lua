@@ -76,7 +76,8 @@ nnoremap("<C-e>", "<cmd>Telescope harpoon marks<cr>")
 nnoremap("<S-e>", function()
 	harpoon_ui.toggle_quick_menu()
 end)
-
+nnoremap("<C-d>", "<C-d>zz")
+nnoremap("<C-u>", "<C-u>zz")
 -- MoveLine
 nnoremap("∆", ":MoveLine(1)<CR>")
 nnoremap("˚", ":MoveLine(-1)<CR>")
