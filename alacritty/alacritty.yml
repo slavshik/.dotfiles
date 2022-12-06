@@ -49,7 +49,7 @@ window:
   # Values for `decorations` (macOS only):
   #     - transparent: Title bar, transparent background and title bar buttons
   #     - buttonless: Title bar, transparent background, but no title bar buttons
-  decorations: buttonless
+  decorations: full
 
   # Startup Mode (changes require restart)
   #
@@ -441,6 +441,8 @@ key_bindings:
   - {key: F11, action: None}
   - {key: F12, action: None}
     # TMUX
+    # create horisontal split
+  - { key: S, mods: Command|Shift, chars: "\x02\x25"}
     # new window <CMD + T>
   - { key: T, mods: Command, chars: "\x02\x63"}
     # close window <CMD + W>
@@ -448,6 +450,8 @@ key_bindings:
     # prev/next window <CMD + {/}>
   - { key: LBracket, mods: Command|Shift, chars: "\x02\x70"}
   - { key: RBracket, mods: Command|Shift, chars: "\x02\x6e"}
+  - { key: LBracket, mods: Command|Shift|Alt, chars: "\x02\x1b\x5b\x31\x3b\x36\x44"}
+  - { key: RBracket, mods: Command|Shift|Alt, chars: "\x02\x1b\x5b\x31\x3b\x36\x43"}
     # prev/next pane <CMD + [/]>
   - { key: RBracket, mods: Command, chars: "\x02\x1b\x5b\x43"}
   - { key: LBracket, mods: Command, chars: "\x02\x1b\x5b\x44"}
