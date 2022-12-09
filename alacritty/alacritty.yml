@@ -442,7 +442,9 @@ key_bindings:
   - {key: F12, action: None}
     # TMUX
     # create horisontal split
-  - { key: S, mods: Command|Shift, chars: "\x02\x25"}
+  - { key: W, mods: Command|Shift, chars: "\x02\x25"}
+    # break pane
+  - { key: E, mods: Command|Shift, chars: "\x02\x65"}
     # new window <CMD + T>
   - { key: T, mods: Command, chars: "\x02\x63"}
     # close window <CMD + W>
