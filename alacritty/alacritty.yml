@@ -470,6 +470,7 @@ key_bindings:
   - { key: F12, mods: Command, chars: "\x20\x64\x73" }
   - { key: F6, mods: Shift, chars: "\x67\x72" }
   # Telescope find_files
-  - { key: O, mods: Command, chars: "\x20\x66\x66\x0a" }
+  - { key: O, mods: Command, chars: "\x20\x66\x66" }
+  - { key: F, mods: Command|Shift, chars: "\x20\x46\x46" }
   # Telescope oldfiles
   - { key: E, mods: Command, chars: "\x20\x65\x65\x0a" }
