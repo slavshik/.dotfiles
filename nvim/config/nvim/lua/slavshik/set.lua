@@ -42,4 +42,5 @@ vim.g.lazygit_floating_window_scaling_factor = 1.0 -- scaling factor for floatin
 -- vim.g.lazygit_floating_window_use_plenary = 1 -- use plenary.nvim to manage floating window if available
 -- vim.g.lazygit_use_neovim_remote = 1 -- fallback to 0 if neovim-remote is not installed
 
+vim.g.netrw_banner = 0
 vim.g.mapleader = " "
