@@ -29,10 +29,14 @@ alias vim=nvim
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 # export PATH="~/.dotfiles/bin:$PATH"
 alias j=z # use zoxide instead of autojump
-alias t="~/.dotfiles/bin/t"
+alias t=tmux
+alias ta=tmux attach
+alias h="~/.dotfiles/bin/h"
+alias hard="git reset --hard @"
 bindkey -v #enable vim support
 GITSTATUS_LOG_LEVEL=DEBUG
 alias love="/Applications/love.app/Contents/MacOS/love"
-
+alias v="nvim"
 alias l="exa -la --git --group-directories-first"
 alias ll="exa -l --git --group-directories-first"
+source ~/.dotfiles/zsh/aliases.zsh
