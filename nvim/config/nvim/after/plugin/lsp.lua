@@ -65,7 +65,7 @@ lsp_config.tsserver.setup({
 	},
 })
 -- require("luasnip.loaders.from_vscode").lazy_load()
-local sumneko_root_path = "/Users/kvinty/.local/share/nvim/site/pack/packer/start/lua-language-server"
+local sumneko_root_path = os.getenv("HOME") .. "/.local/share/nvim/site/pack/packer/start/lua-language-server"
 local sumneko_binary = "/opt/homebrew/bin/lua-language-server"
 lsp_config.sumneko_lua.setup({
 	cmd = { sumneko_binary, "-E", sumneko_root_path .. "/main.lua" },
