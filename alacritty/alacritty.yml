@@ -461,6 +461,7 @@ key_bindings:
   - { key: Backslash, mods: Command|Shift, chars: "\x02\x77"}
     # LazyGit (CMD + Shift + K -> <space>+Shift+G)
   - { key: K, mods: Command|Shift, chars: "\x20\x47"}
+  - { key: M, mods: Command|Shift, chars: "\x20\x4d\x4d"}
     # file browser (CMD + 1 -> <space>+Shift+W)
   - { key: Key1, mods: Command, chars: "\x20\x57"}
   - { key: Key1, mods: Command|Shift, chars: "\x20\x66\x69"}
