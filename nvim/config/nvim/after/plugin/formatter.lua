@@ -10,7 +10,7 @@ local function get_port_and_token(path)
 end
 
 -- TODO: use with TCP
--- local port, token = get_port_and_token("/Users/kvinty/.prettierd")
+-- local port, token = get_port_and_token("/Users/$(whoami)/.prettierd")
 
 local prettier = require("prettier")
 prettier.setup({ bin = "prettierd" })
