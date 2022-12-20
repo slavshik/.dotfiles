@@ -46,4 +46,3 @@ function dta() {
     git tag --delete $1
     git push --delete origin $1
 }
-source ~/powerlevel10k/powerlevel10k.zsh-theme
