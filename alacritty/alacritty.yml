@@ -442,13 +442,16 @@ key_bindings:
   - {key: F12, action: None}
     # TMUX
     # create horisontal split
-  - { key: W, mods: Command|Shift, chars: "\x02\x25"}
+  - { key: T, mods: Command|Shift, chars: "\x02\x25"}
     # break pane
   - { key: E, mods: Command|Shift, chars: "\x02\x65"}
     # new window <CMD + T>
   - { key: T, mods: Command, chars: "\x02\x63"}
     # close window <CMD + W>
-  - { key: W, mods: Command, chars: "\x02\x78"}
+  - { key: W, mods: Command, chars: "\x1b\x3a\x71\x0a" }
+  - { key: W, mods: Command|Shift, chars: "\x02\x78"}
+    # force quit vim q!
+  - { key: X, mods: Command, chars: "\x1b\x3a\x71\x21\x0a" }
     # prev/next window <CMD + {/}>
   - { key: LBracket, mods: Command|Shift, chars: "\x02\x70"}
   - { key: RBracket, mods: Command|Shift, chars: "\x02\x6e"}
@@ -470,8 +473,11 @@ key_bindings:
   - { key: B, mods: Command, chars: "\x67\x64" }
   - { key: F12, mods: Command, chars: "\x20\x64\x73" }
   - { key: F6, mods: Shift, chars: "\x67\x72" }
-  # Telescope find_files
+  # Telescope find_files (git)
   - { key: O, mods: Command, chars: "\x20\x66\x66" }
+  # all files
+  - { key: O, mods: Command|Shift, chars: "\x20\x66\x67" }
+  # Live grep
   - { key: F, mods: Command|Shift, chars: "\x20\x46\x46" }
   # Telescope oldfiles
   - { key: E, mods: Command, chars: "\x20\x65\x65\x0a" }
