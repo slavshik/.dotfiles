@@ -2,7 +2,7 @@ vim.cmd([[packadd packer.vim]])
 
 return require("packer").startup(function(use)
 	use("wbthomason/packer.nvim")
-	use({ "kyazdani42/nvim-web-devicons" })
+	use("kyazdani42/nvim-web-devicons")
 	use("ellisonleao/gruvbox.nvim")
 	use("nvim-lualine/lualine.nvim")
 
@@ -13,6 +13,14 @@ return require("packer").startup(function(use)
 	-- git
 	use("tpope/vim-fugitive")
 	use("kdheepak/lazygit.nvim")
+	-- file browser
+	use({
+		"lmburns/lf.nvim",
+		config = function()
+			vim.g.lf_netrw = 1
+		end,
+		requires = { "nvim-lua/plenary.nvim", "akinsho/toggleterm.nvim" },
+	})
 	use({
 		"lewis6991/gitsigns.nvim",
 		config = function()
@@ -41,6 +49,12 @@ return require("packer").startup(function(use)
 			{ "rafamadriz/friendly-snippets" },
 		},
 	})
+	use({
+		"windwp/nvim-autopairs",
+		config = function()
+			require("nvim-autopairs").setup({})
+		end,
+	})
 	use({ "jose-elias-alvarez/null-ls.nvim" })
 	-- pettier
 	use({
@@ -51,6 +65,17 @@ return require("packer").startup(function(use)
 		},
 	})
 	use("github/copilot.vim")
+	use({
+		"glepnir/lspsaga.nvim",
+		branch = "main",
+		config = function()
+			local saga = require("lspsaga")
+
+			saga.init_lsp_saga({
+				-- your configuration
+			})
+		end,
+	})
 	use({
 		"folke/trouble.nvim",
 		requires = "kyazdani42/nvim-web-devicons",
