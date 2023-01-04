@@ -475,6 +475,7 @@ key_bindings:
   - { key: F6, mods: Shift, chars: "\x67\x72" }
   - { key: Slash, mods: Command, chars: "\x67\x63\x63" }
   - { key: Slash, mods: Command|Alt, chars: "\x67\x62" }
+  - { key: P, mods: Command, chars: "\x20\x54" }
   # Telescope find_files (git)
   - { key: O, mods: Command, chars: "\x20\x66\x66" }
   # LF file browser
