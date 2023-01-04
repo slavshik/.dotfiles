@@ -466,7 +466,7 @@ key_bindings:
   - { key: K, mods: Command|Shift, chars: "\x20\x47"}
   - { key: M, mods: Command|Shift, chars: "\x20\x4d\x4d"}
     # file browser (CMD + 1 -> <space>+Shift+W)
-  - { key: Key1, mods: Command, chars: "\x20\x57"}
+    # - { key: R, mods: Command, chars: "\x20\x62\x72\x6f"}
   - { key: Key1, mods: Command|Shift, chars: "\x20\x66\x69"}
   # Type <escape>:w<enter> to save neovim
   - { key: S, mods: Command, chars: "\x1b\x3a\x77\x0a" }
@@ -475,8 +475,8 @@ key_bindings:
   - { key: F6, mods: Shift, chars: "\x67\x72" }
   # Telescope find_files (git)
   - { key: O, mods: Command, chars: "\x20\x66\x66" }
-  # all files
-  - { key: O, mods: Command|Shift, chars: "\x20\x66\x67" }
+  # LF file browser
+  - { key: O, mods: Command|Shift, chars: "\x20\x62\x72" }
   # Live grep
   - { key: F, mods: Command|Shift, chars: "\x20\x46\x46" }
   # Telescope oldfiles
