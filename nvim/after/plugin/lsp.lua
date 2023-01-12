@@ -6,6 +6,7 @@ lsp.set_preferences({
 })
 lsp.ensure_installed({
 	"tsserver",
+	"gopls",
 	"eslint",
 	"sumneko_lua",
 })
