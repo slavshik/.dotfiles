@@ -50,3 +50,5 @@ function dta() {
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_CTRL_R_OPTS="--reverse"
 export FZF_TMUX_OPTS="-p"
+source ~/.dotfiles/lf/icons.zsh
+source ~/.dotfiles/lf/colors.zsh

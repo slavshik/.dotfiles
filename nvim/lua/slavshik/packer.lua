@@ -1,4 +1,4 @@
-vim.cmd([[packadd packer.vim]])
+vim.cmd.packadd("packer.nvim")
 
 return require("packer").startup(function(use)
 	use("wbthomason/packer.nvim")
@@ -11,14 +11,11 @@ return require("packer").startup(function(use)
 	use("nvim-treesitter/playground")
 	use("mbbill/undotree")
 	-- git
-	use("tpope/vim-fugitive")
+	-- use("tpope/vim-fugitive")
 	use("kdheepak/lazygit.nvim")
 	-- file browser
 	use({
 		"lmburns/lf.nvim",
-		config = function()
-			vim.g.lf_netrw = 1
-		end,
 		requires = { "nvim-lua/plenary.nvim", "akinsho/toggleterm.nvim" },
 	})
 	use({
@@ -55,12 +52,6 @@ return require("packer").startup(function(use)
 			require("nvim-autopairs").setup({})
 		end,
 	})
-	use({
-		"numToStr/Comment.nvim",
-		config = function()
-			require("Comment").setup()
-		end,
-	})
 	use({ "jose-elias-alvarez/null-ls.nvim" })
 	-- pettier
 	use({
@@ -74,13 +65,6 @@ return require("packer").startup(function(use)
 	use({
 		"glepnir/lspsaga.nvim",
 		branch = "main",
-		config = function()
-			local saga = require("lspsaga")
-
-			saga.init_lsp_saga({
-				-- your configuration
-			})
-		end,
 	})
 	use({
 		"folke/trouble.nvim",

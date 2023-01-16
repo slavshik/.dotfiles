@@ -1,6 +1,8 @@
 require("lf").setup({
 	escape_quit = true,
 	border = "rounded",
+	winblend = 0,
+	escape_quit = true,
 	-- highlights = { FloatBorder = { guifg = require("kimbox.palette").colors.magenta } },
 	default_actions = {
 		["<C-s>"] = "split",
@@ -11,5 +13,4 @@ require("lf").setup({
 	height = 0.60, -- height of the *floating* window
 	width = 0.90, -- width of the *floating* window
 })
--- TODO: move this to a keymap file
-vim.keymap.set("n", "<Leader>br", ":Lf<CR>")
+vim.keymap.set("n", "<Leader>l", ":Lf<CR>")
