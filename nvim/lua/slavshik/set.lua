@@ -19,7 +19,7 @@ vim.opt.incsearch = true
 vim.opt.smartindent = true
 
 vim.opt.wrap = false
-vim.opt.clipboard:append({ "unnamedplus" })
+-- vim.opt.clipboard:append({ "unnamedplus" })
 
 -- Give more space for displaying messages.
 vim.opt.cmdheight = 1
@@ -31,7 +31,7 @@ vim.opt.updatetime = 50
 vim.opt.signcolumn = "yes" -- git/errors/linters SHOW always to prevent blinking and shifting
 --
 -- LazyGit
-vim.g.lazygit_floating_window_winblend = 1.0 -- transparency of floating window
+vim.g.lazygit_floating_window_winblend = 0 -- transparency of floating window
 vim.g.lazygit_floating_window_scaling_factor = 1.0 -- scaling factor for floating window
 -- vim.g.lazygit_floating_window_corner_chars = ['╭', '╮', '╰', '╯'] -- customize lazygit popup window corner characters
 -- vim.g.lazygit_floating_window_use_plenary = 1 -- use plenary.nvim to manage floating window if available
@@ -39,4 +39,3 @@ vim.g.lazygit_floating_window_scaling_factor = 1.0 -- scaling factor for floatin
 -- vim.g.copilot_no_tab_map = true
 vim.g.netrw_banner = 0
 vim.g.mapleader = " "
-

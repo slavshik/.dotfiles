@@ -1,4 +1,4 @@
 require("slavshik.remap")
 require("slavshik.set")
 require("slavshik.colorscheme")
--- require("slavshik.packer")
+require("slavshik.packer")
