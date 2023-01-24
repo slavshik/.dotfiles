@@ -18,12 +18,7 @@ return require("packer").startup(function(use)
 		"lmburns/lf.nvim",
 		requires = { "nvim-lua/plenary.nvim", "akinsho/toggleterm.nvim" },
 	})
-	use({
-		"lewis6991/gitsigns.nvim",
-		config = function()
-			require("gitsigns").setup()
-		end,
-	})
+	use({ "lewis6991/gitsigns.nvim" })
 	-- lsp
 	use({
 		"VonHeikemen/lsp-zero.nvim",
