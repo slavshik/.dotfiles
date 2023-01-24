@@ -3,7 +3,9 @@ window:
   padding:
     x: 8
     y: 16
-
+  dimensions:
+    columns: 80 
+    lines: 25
   # Spread additional padding evenly around the terminal content.
   dynamic_padding: true
   decorations: full
@@ -86,8 +88,9 @@ key_bindings:
     # new window <CMD + T>
   - { key: T, mods: Command, chars: "\x02\x63"}
     # close window <CMD + W>
-  - { key: W, mods: Command, chars: "\x1b\x3a\x71\x0a" }
-  - { key: W, mods: Command|Shift, chars: "\x02\x78"}
+  - { key: W, mods: Command, chars: "\x02\x57" } # ctrl + B, W
+  # - { key: W, mods: Command, command: { program: "/bin/zsh", args: ["/Users/slavshik/.dotfiles/CMD-W.zsh"] } } # ctrl + B, W
+  - { key: W, mods: Command|Shift, chars: "\x02\x78"} # ctrl + B, x
     # force quit vim q!
   - { key: X, mods: Command, chars: "\x1b\x3a\x71\x21\x0a" }
     # prev/next window <CMD + {/}>
@@ -99,7 +102,7 @@ key_bindings:
   - { key: RBracket, mods: Command, chars: "\x02\x1b\x5b\x43"}
   - { key: LBracket, mods: Command, chars: "\x02\x1b\x5b\x44"}
     # all windows <CMD + Shift + \>
-  - { key: Backslash, mods: Command|Shift, chars: "\x02\x77"}
+  - { key: Backslash, mods: Command|Shift, chars: "\x02\x73"}
     # LazyGit (CMD + Shift + K -> <space>+g)
   - { key: K, mods: Command|Shift, chars: "\x20\x67"}
   - { key: M, mods: Command|Shift, chars: "\x20\x4d\x4d"}
@@ -113,7 +116,7 @@ key_bindings:
   - { key: F6, mods: Shift, chars: "\x67\x72" }
   - { key: Slash, mods: Command, chars: "\x67\x63\x63" }
   - { key: Slash, mods: Command|Alt, chars: "\x67\x62" }
-  - { key: P, mods: Command, chars: "\x20\x54" }
+  - { key: P, mods: Command|Shift, chars: "\x20\x54" }
   # Telescope find_files (git)
   - { key: O, mods: Command, chars: "\x20\x66\x66" }
   # LF file browser

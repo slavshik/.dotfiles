@@ -20,3 +20,5 @@ vim.keymap.set("n", "sv", ":vsplit<Return><C-w>w")
 -- next greatest remap ever : asbjornHaland
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
+-- Exit vim
+vim.keymap.set({ "n", "i", "v" }, "<C-b>W", vim.cmd.quit)
