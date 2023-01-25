@@ -4,12 +4,12 @@ window:
     x: 8
     y: 16
   dimensions:
-    columns: 80 
+    columns: 80
     lines: 25
   # Spread additional padding evenly around the terminal content.
   dynamic_padding: true
   decorations: full
-  startup_mode: Windowed  
+  startup_mode: Windowed
   title: Alacritty
   class:
     instance: Alacritty
@@ -63,64 +63,110 @@ debug:
 mouse:
   double_click: { threshold: 300 }
   triple_click: { threshold: 300 }
-  hide_when_typing:
-    false
+  hide_when_typing: false
 mouse_bindings:
   - { mouse: Middle, action: PasteSelection }
 key_bindings:
-  - {key: F1, action: None}
-  - {key: F2, action: None}
-  - {key: F3, action: None}
-  - {key: F4, action: None}
-  - {key: F5, action: None}
-  - {key: F6, action: None}
-  - {key: F7, action: None}
-  - {key: F8, action: None}
-  - {key: F9, action: None}
-  - {key: F10, action: None}
-  - {key: F11, action: None}
-  - {key: F12, action: None}
-    # TMUX
-    # create horisontal split
-  - { key: T, mods: Command|Shift, chars: "\x02\x25"}
-    # break pane
-  - { key: E, mods: Command|Shift, chars: "\x02\x65"}
+  - { key: F1, mods: Shift, chars: "\x1b[1;2P" }
+  - { key: F2, mods: Shift, chars: "\x1b[1;2Q" }
+  - { key: F3, mods: Shift, chars: "\x1b[1;2R" }
+  - { key: F4, mods: Shift, chars: "\x1b[1;2S" }
+  - { key: F5, mods: Shift, chars: "\x1b[15;2~" }
+  - { key: F6, mods: Shift, chars: "\x1b[17;2~" }
+  - { key: F7, mods: Shift, chars: "\x1b[18;2~" }
+  - { key: F8, mods: Shift, chars: "\x1b[19;2~" }
+  - { key: F9, mods: Shift, chars: "\x1b[20;2~" }
+  - { key: F10, mods: Shift, chars: "\x1b[21;2~" }
+  - { key: F11, mods: Shift, chars: "\x1b[23;2~" }
+  - { key: F12, mods: Shift, chars: "\x1b[24;2~" }
+  - { key: F1, mods: Control, chars: "\x1b[1;5P" }
+  - { key: F2, mods: Control, chars: "\x1b[1;5Q" }
+  - { key: F3, mods: Control, chars: "\x1b[1;5R" }
+  - { key: F4, mods: Control, chars: "\x1b[1;5S" }
+  - { key: F5, mods: Control, chars: "\x1b[15;5~" }
+  - { key: F6, mods: Control, chars: "\x1b[17;5~" }
+  - { key: F7, mods: Control, chars: "\x1b[18;5~" }
+  - { key: F8, mods: Control, chars: "\x1b[19;5~" }
+  - { key: F9, mods: Control, chars: "\x1b[20;5~" }
+  - { key: F10, mods: Control, chars: "\x1b[21;5~" }
+  - { key: F11, mods: Control, chars: "\x1b[23;5~" }
+  - { key: F12, mods: Control, chars: "\x1b[24;5~" }
+  - { key: F1, mods: Alt, chars: "\x1b[1;6P" }
+  - { key: F2, mods: Alt, chars: "\x1b[1;6Q" }
+  - { key: F3, mods: Alt, chars: "\x1b[1;6R" }
+  - { key: F4, mods: Alt, chars: "\x1b[1;6S" }
+  - { key: F5, mods: Alt, chars: "\x1b[15;6~" }
+  - { key: F6, mods: Alt, chars: "\x1b[17;6~" }
+  - { key: F7, mods: Alt, chars: "\x1b[18;6~" }
+  - { key: F8, mods: Alt, chars: "\x1b[19;6~" }
+  - { key: F9, mods: Alt, chars: "\x1b[20;6~" }
+  - { key: F10, mods: Alt, chars: "\x1b[21;6~" }
+  - { key: F11, mods: Alt, chars: "\x1b[23;6~" }
+  - { key: F12, mods: Alt, chars: "\x1b[24;6~" }
+  - { key: F1, mods: Super, chars: "\x1b[1;3P" }
+  - { key: F2, mods: Super, chars: "\x1b[1;3Q" }
+  - { key: F3, mods: Super, chars: "\x1b[1;3R" }
+  - { key: F4, mods: Super, chars: "\x1b[1;3S" }
+  - { key: F5, mods: Super, chars: "\x1b[15;3~" }
+  - { key: F6, mods: Super, chars: "\x1b[17;3~" }
+  - { key: F7, mods: Super, chars: "\x1b[18;3~" }
+  - { key: F8, mods: Super, chars: "\x1b[19;3~" }
+  - { key: F9, mods: Super, chars: "\x1b[20;3~" }
+  - { key: F10, mods: Super, chars: "\x1b[21;3~" }
+  - { key: F11, mods: Super, chars: "\x1b[23;3~" }
+  - { key: F12, mods: Super, chars: "\x1b[24;3~" }
+  # -----------------------------------------------------------------------------
+  #              TMUX
+  # -----------------------------------------------------------------------------
+  # all windows <CMD + Shift + \>
+  - { key: Backslash, mods: Command|Shift, chars: "\x02\x73" }
+    # close window <CMD + W> and close TMUX pane <CMD+ Shift + W>
+  - { key: W, mods: Command, chars: "\x02\x57" } # prefix + W
+  - { key: W, mods: Command|Shift, chars: "\x02\x78" } # prefix + x
+    # prev/next pane <CMD + [> / <CMD + ]>
+  - { key: RBracket, mods: Command, chars: "\x02\x1b\x5b\x43" }
+  - { key: LBracket, mods: Command, chars: "\x02\x1b\x5b\x44" }
+    # ----------------------------------------
     # new window <CMD + T>
-  - { key: T, mods: Command, chars: "\x02\x63"}
-    # close window <CMD + W>
-  - { key: W, mods: Command, chars: "\x02\x57" } # ctrl + B, W
-  # - { key: W, mods: Command, command: { program: "/bin/zsh", args: ["/Users/slavshik/.dotfiles/CMD-W.zsh"] } } # ctrl + B, W
-  - { key: W, mods: Command|Shift, chars: "\x02\x78"} # ctrl + B, x
-    # force quit vim q!
-  - { key: X, mods: Command, chars: "\x1b\x3a\x71\x21\x0a" }
+  - { key: T, mods: Command, chars: "\x02\x63" }
+    # create horisontal split
+  - { key: T, mods: Command|Shift, chars: "\x02\x25" }
+    # break pane
+  - { key: E, mods: Command|Shift, chars: "\x02\x65" }
     # prev/next window <CMD + {/}>
-  - { key: LBracket, mods: Command|Shift, chars: "\x02\x70"}
-  - { key: RBracket, mods: Command|Shift, chars: "\x02\x6e"}
-  - { key: LBracket, mods: Command|Shift|Alt, chars: "\x02\x1b\x5b\x31\x3b\x36\x44"}
-  - { key: RBracket, mods: Command|Shift|Alt, chars: "\x02\x1b\x5b\x31\x3b\x36\x43"}
-    # prev/next pane <CMD + [/]>
-  - { key: RBracket, mods: Command, chars: "\x02\x1b\x5b\x43"}
-  - { key: LBracket, mods: Command, chars: "\x02\x1b\x5b\x44"}
-    # all windows <CMD + Shift + \>
-  - { key: Backslash, mods: Command|Shift, chars: "\x02\x73"}
-    # LazyGit (CMD + Shift + K -> <space>+g)
-  - { key: K, mods: Command|Shift, chars: "\x20\x67"}
-  - { key: M, mods: Command|Shift, chars: "\x20\x4d\x4d"}
+  - { key: LBracket, mods: Command|Shift, chars: "\x02\x70" }
+  - { key: RBracket, mods: Command|Shift, chars: "\x02\x6e" }
+    # switch tabs
+  - {
+      key: LBracket,
+      mods: Command|Shift|Alt,
+      chars: "\x02\x1b\x5b\x31\x3b\x36\x44",
+    }
+  - {
+      key: RBracket,
+      mods: Command|Shift|Alt,
+      chars: "\x02\x1b\x5b\x31\x3b\x36\x43",
+    }
+
+  # -----------------------------------------------------------------------------
+  #               VIM
+  # -----------------------------------------------------------------------------
+  # LazyGit (CMD + Shift + K -> <space>+g)
+  - { key: K, mods: Command|Shift, chars: "\x20\x67" }
+  - { key: M, mods: Command|Shift, chars: "\x20\x4d\x4d" }
     # file browser (CMD + 1 -> <space>+Shift+W)
     # - { key: R, mods: Command, chars: "\x20\x62\x72\x6f"}
-  - { key: Key1, mods: Command|Shift, chars: "\x20\x66\x69"}
+  - { key: Key1, mods: Command|Shift, chars: "\x20\x66\x69" }
   # Type <escape>:w<enter> to save neovim
   - { key: S, mods: Command, chars: "\x1b\x3a\x77\x0a" }
   - { key: B, mods: Command, chars: "\x67\x64" }
-  - { key: F12, mods: Command, chars: "\x20\x64\x73" }
-  - { key: F6, mods: Shift, chars: "\x67\x72" }
   - { key: Slash, mods: Command, chars: "\x67\x63\x63" }
   - { key: Slash, mods: Command|Alt, chars: "\x67\x62" }
   - { key: P, mods: Command|Shift, chars: "\x20\x54" }
   # Telescope find_files (git)
   - { key: O, mods: Command, chars: "\x20\x66\x66" }
   # LF file browser
-  - { key: O, mods: Command|Shift, chars: "\x20\x6c" }
+  - { key: O, mods: Command|Shift, chars: "\x20\x6c\x66" }
   # Live grep
   - { key: F, mods: Command|Shift, chars: "\x20\x46\x46" }
   # Telescope oldfiles
