@@ -79,4 +79,10 @@ return require("packer").startup(function(use)
 		end,
 	})
 	use("onsails/lspkind-nvim") -- nice icons in drop-down
+	use({
+		"numToStr/Comment.nvim",
+		config = function()
+			require("Comment").setup()
+		end,
+	})
 end)
