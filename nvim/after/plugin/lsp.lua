@@ -10,13 +10,38 @@ lsp.ensure_installed({
 	"eslint",
 	"sumneko_lua",
 })
--- Fix Undefined global `vim`
 lsp.configure("sumneko_lua", {
 	settings = {
 		Lua = {
 			diagnostics = {
 				globals = { "vim" },
 			},
+		},
+	},
+})
+local lsp_formatting = function(bufnr)
+	vim.lsp.buf.format({
+		filter = function(client)
+			-- apply whatever logic you want (in this example, we'll only use null-ls)
+			return client.name == "null-ls"
+		end,
+		bufnr = bufnr,
+	})
+end
+lsp.configure("tsserver", {
+	commands = {
+		OrganizeImports = {
+			function()
+				local params = {
+					command = "_typescript.organizeImports",
+					arguments = { vim.api.nvim_buf_get_name(0) },
+					title = "",
+				}
+				local bufnr = vim.api.nvim_get_current_buf()
+				vim.lsp.buf_request_sync(bufnr, "workspace/executeCommand", params, 1000)
+				lsp_formatting(bufnr)
+			end,
+			description = "Organize Imports",
 		},
 	},
 })
@@ -34,6 +59,10 @@ cmp_mappings["<Tab>"] = nil
 cmp_mappings["<S-Tab>"] = nil
 lsp.setup_nvim_cmp({ mapping = cmp_mappings })
 lsp.on_attach(function(_, bufnr)
+	if _.name == "tsserver" then
+		-- !!! this is capital O here
+		vim.keymap.set("n", "<C-O>", "<CMD>OrganizeImports<CR>", { buffer = 0 })
+	end
 	local opts = { buffer = bufnr, remap = false }
 	vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
 	vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
