@@ -1,2 +1,4 @@
 set icons
+set shell sh
 map <C-c> cmd exit
+map <enter> $(nvim $fx)
