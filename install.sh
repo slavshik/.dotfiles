@@ -6,3 +6,4 @@ ln -s $DOTFILES/alacritty ~/.config/alacritty
 ln -s $DOTFILES/karabiner ~/.config/karabiner
 ln -s $DOTFILES/.yabairc ~/.yabairc
 ln -s $DOTFILES/.skhdrc ~/.skhdrc
+# git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
