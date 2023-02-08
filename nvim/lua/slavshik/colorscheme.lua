@@ -4,5 +4,8 @@ vim.o.background = "dark"
 vim.cmd([[colorscheme gruvbox]])
 vim.cmd([[hi normal guibg=None]])
 require("lualine").setup({
-	options = { theme = custom_gruvbox },
+	options = {
+		theme = custom_gruvbox,
+		disabled_filetypes = { "packer", "NvimTree" },
+	},
 })
