@@ -6,17 +6,26 @@ require("lspsaga").setup({
 	},
 	symbol_in_winbar = {
 		enable = true,
-		color_mode = false,
+		color_mode = true,
 		show_file = true,
 		folder_level = 3,
-		separator = " / ",
+		separator = " · ",
 	},
 })
-vim.keymap.set("n", ">", "<cmd>Lspsaga code_action<cr>")
-vim.keymap.set("n", "<Leader>lo", "<cmd>Lspsaga outline<cr>")
+
+vim.keymap.set("n", ">", function()
+	vim.cmd([[Lspsaga code_action]])
+end)
+vim.keymap.set("n", "<Leader>lo", function()
+	vim.cmd([[Lspsaga outline]])
+end)
 vim.keymap.set("n", "<S-F6>", function()
 	vim.cmd([[Lspsaga rename]])
 	vim.cmd.wa()
 end)
-vim.keymap.set("n", "<C-n>", "<cmd>Lspsaga diagnostic_jump_next<cr>")
-vim.keymap.set("n", "<C-p>", "<cmd>Lspsaga diagnostic_jump_prev<cr>")
+vim.keymap.set("n", "<C-n>", function()
+	vim.cmd([[Lspsaga diagnostic_jump_next]])
+end)
+vim.keymap.set("n", "<C-p>", function()
+	vim.cmd([[Lspsaga diagnostic_jump_prev]])
+end)
