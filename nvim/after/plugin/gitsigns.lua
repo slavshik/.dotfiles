@@ -10,7 +10,7 @@ gitsings.setup({
 		untracked = { text = "┆" },
 	},
 	signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
-	numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
+	numhl = true, -- Toggle with `:Gitsigns toggle_numhl`
 	linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
 	word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
 	watch_gitdir = {
@@ -42,4 +42,6 @@ gitsings.setup({
 		enable = false,
 	},
 })
-vim.keymap.set("n", "<leader>S", ":Gitsigns toggle_current_line_blame<CR>")
+vim.keymap.set("n", "<leader>gl", ":Gitsigns blame_line<CR>")
+-- vim.keymap.set("n", "<leader>gn", ":Gitsigns blame_line<CR>")
+-- vim.keymap.set("n", "<leader>gp", ":Gitsigns blame_line<CR>")

@@ -1,0 +1,19 @@
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+[user]
+	name = Alexander Slavschik
+	email = slavshik@me.com
+[core]
+	autocrlf = input
+	editor = nvim
+    pager = delta
+[delta]
+    navigate = true
+    light = true
+[merge]
+    conflictstyle = diff3
+[diff]
+    colorMoved = default
