@@ -185,3 +185,4 @@ key_bindings:
   - { key: F, mods: Command|Shift, chars: "\x20\x46\x46" }
   # Telescope oldfiles
   - { key: E, mods: Command, chars: "\x20\x65\x65\x0a" }
+  - { key: E, mods: Command|Shift, chars: "\x10" }
