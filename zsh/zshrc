@@ -11,9 +11,6 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
-alias zshconfig="vim ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-alias python=python3
 
 function b() {
    git checkout $(git branch | fzy -q "$1")
@@ -25,24 +22,19 @@ function tn() {
 function ba() {
    git checkout $(git branch --all | fzy)
 }
-alias vim=nvim
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 # export PATH="~/.dotfiles/bin:$PATH"
 export PATH="$PATH:/Users/$(whoami)/Library/Python/3.9/bin"
-alias j=z # use zoxide instead of autojump
-alias t=tmux
-alias ta=tmux attach
-alias lg=lazygit
-alias h="~/.dotfiles/bin/h"
-alias hard="git reset --hard @"
 bindkey -v #enable vim support
 GITSTATUS_LOG_LEVEL=DEBUG
-alias love="/Applications/love.app/Contents/MacOS/love"
-alias v="nvim"
-alias l="exa -la --git --group-directories-first"
-alias ll="exa -l --git --group-directories-first"
+
+LFCD="/Users/$(whoami)/.config/lf/lfcd.sh"
+if [ -f "$LFCD" ]; then
+    source "$LFCD"
+fi
 source ~/.dotfiles/zsh/aliases.zsh
+source ~/.dotfiles/zsh/keybindings.zsh
 
 function dta() {
     git tag --delete $1
