@@ -8,9 +8,9 @@ lsp.ensure_installed({
 	"tsserver",
 	"gopls",
 	"eslint",
-	"sumneko_lua",
+	"lua_ls",
 })
-lsp.configure("sumneko_lua", {
+lsp.configure("lua_ls", {
 	settings = {
 		Lua = {
 			diagnostics = {
