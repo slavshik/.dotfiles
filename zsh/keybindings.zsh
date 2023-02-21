@@ -1,5 +1,7 @@
 bindkey -s ' lf' 'lfcd\n'
 bindkey -s '^BW' 'exit\n'
+bindkey -s '^P' 'nvim .\n'
 bindkey -s ' K' 'lg\n'
 bindkey -s ' ee' '^R'
 bindkey -s '^Be' 'nvim\n'
+bindkey -s ' fi' 'open -R .\n'
