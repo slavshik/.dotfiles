@@ -1,4 +1,6 @@
 set icons
 set shell sh
 map <C-c> cmd exit
+map . $(open -R $fx)
+map o $(qlmanage -p $fx >> /dev/null)
 map <enter> $([ -d $fx ] && lf -remote "send $id quit" || nvim $fx)
