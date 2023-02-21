@@ -15,6 +15,19 @@ source $ZSH/oh-my-zsh.sh
 function b() {
    git checkout $(git branch | fzy -q "$1")
 }
+function yrs() {
+    if cat package.json > /dev/null 2>&1; then
+        scripts=$(cat package.json | jq -r ".scripts | keys []" | sed '1d;$d' | fzf --height="40%")
+
+        if [[ -n $scripts ]]; then
+            script_name=$(echo $scripts | awk -F ': ' '{gsub(/"/, "", $1); print $1}' | xargs)
+            print -s "yarn run "$script_name;
+            yarn run $script_name
+        fi
+    else
+        echo "Error: There's no package.json"
+    fi
+}
 function tn() {
     NAME=$(pwd | sed 's/.*\///g')
     tmux new -s "$NAME"
@@ -26,6 +39,7 @@ function ba() {
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 # export PATH="~/.dotfiles/bin:$PATH"
 export PATH="$PATH:/Users/$(whoami)/Library/Python/3.9/bin"
+export PATH="$PATH:/Users/$(whoami)/go/bin"
 bindkey -v #enable vim support
 GITSTATUS_LOG_LEVEL=DEBUG
 
@@ -44,3 +58,7 @@ function dta() {
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_CTRL_R_OPTS="--reverse"
 export FZF_TMUX_OPTS="-p"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
