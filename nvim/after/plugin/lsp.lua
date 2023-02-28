@@ -61,7 +61,7 @@ lsp.setup_nvim_cmp({ mapping = cmp_mappings })
 lsp.on_attach(function(_, bufnr)
 	if _.name == "tsserver" then
 		-- !!! this is capital O here
-		vim.keymap.set("n", "<C-O>", "<CMD>OrganizeImports<CR>", { buffer = 0 })
+		vim.keymap.set("n", "<C-ó>", "<CMD>OrganizeImports<CR>", { buffer = 0 })
 	end
 	local opts = { buffer = bufnr, remap = false }
 	vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)

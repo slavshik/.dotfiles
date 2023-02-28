@@ -6,6 +6,8 @@
 [user]
 	name = Alexander Slavschik
 	email = slavshik@me.com
+[interactive]
+    diffFilter = delta --color-only
 [core]
 	autocrlf = input
 	editor = nvim

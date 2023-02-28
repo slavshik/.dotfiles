@@ -42,6 +42,6 @@ gitsings.setup({
 		enable = false,
 	},
 })
-vim.keymap.set("n", "<leader>gl", ":Gitsigns blame_line<CR>")
+vim.keymap.set("n", "<leader>bl", ":Gitsigns blame_line<CR>")
 -- vim.keymap.set("n", "<leader>gn", ":Gitsigns blame_line<CR>")
 -- vim.keymap.set("n", "<leader>gp", ":Gitsigns blame_line<CR>")
