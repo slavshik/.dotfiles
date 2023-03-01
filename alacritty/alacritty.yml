@@ -133,9 +133,12 @@ key_bindings:
   - { key: T, mods: Command|Shift, chars: "\x02\x25" }
     # break pane
   - { key: E, mods: Command|Shift, chars: "\x02\x65" }
-    # prev/next window <CMD + {/}>
+    # prev/next window <CMD + Shift + [] >
   - { key: LBracket, mods: Command|Shift, chars: "\x02\x70" }
   - { key: RBracket, mods: Command|Shift, chars: "\x02\x6e" }
+    # prev/next session <CMD + alt + [] >
+  - { key: LBracket, mods: Command|Alt, chars: "\x02\x29" }
+  - { key: RBracket, mods: Command|Alt, chars: "\x02\x28" }
   - { key: Key1, mods: Command, chars: "\x02\x31" }
   - { key: Key2, mods: Command, chars: "\x02\x32" }
   - { key: Key3, mods: Command, chars: "\x02\x33" }
