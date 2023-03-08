@@ -137,8 +137,8 @@ key_bindings:
   - { key: LBracket, mods: Command|Shift, chars: "\x02\x70" }
   - { key: RBracket, mods: Command|Shift, chars: "\x02\x6e" }
     # prev/next session <CMD + alt + [] >
-  - { key: LBracket, mods: Command|Alt, chars: "\x02\x29" }
-  - { key: RBracket, mods: Command|Alt, chars: "\x02\x28" }
+  - { key: Minus, mods: Command|Shift, chars: "\x02\x29" }
+  - { key: Equals, mods: Command|Shift, chars: "\x02\x28" }
   - { key: Key1, mods: Command, chars: "\x02\x31" }
   - { key: Key2, mods: Command, chars: "\x02\x32" }
   - { key: Key3, mods: Command, chars: "\x02\x33" }
@@ -190,4 +190,4 @@ key_bindings:
   - { key: E, mods: Command, chars: "\x20\x65\x65\x0a" }
   - { key: E, mods: Command|Shift, chars: "\x10" }
   - { key: R, mods: Command, chars: "\x5f\x72\x75\x6e\x0a" }
-  - { key: R, mods: Command|Alt, chars: "\x5f\x72\x75\x6e\x5f\x73\x0a" }
+  - { key: R, mods: Command|Shift, chars: "\x5f\x72\x75\x6e\x5f\x73\x0a" }

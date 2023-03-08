@@ -1,8 +1,12 @@
 DOTFILES=~/.dotfiles
-ln -s $DOTFILES/zsh/zshrc ~/.zshrc
-ln -s $DOTFILES/nvim/ ~/.config/nvim
-ln -s $DOTFILES/tmux/tmux.conf ~/.tmux.conf
-ln -s $DOTFILES/alacritty ~/.config/alacritty
-ln -s $DOTFILES/karabiner ~/.config/karabiner
-ln -s $DOTFILES/.gitconfig ~/.gitconfig
+function dotlink() {
+    ln -s $DOTFILES/$1 $2
+}
+dotlink zsh/zshrc ~/.zshrc
+dotlink nvim/ ~/.config/nvim
+dotlink tmux.conf ~/.tmux.conf
+dotlink alacritty ~/.config/alacritty
+dotlink karabiner ~/.config/karabiner
+dotlink .gitconfig ~/.gitconfig
 # git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+./defaults_write.sh
