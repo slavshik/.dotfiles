@@ -10,10 +10,10 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
 -- next greatest remap ever : asbjornHaland
-vim.keymap.set({ "n", "v" }, "<C-y>", [["+y]])
-vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
+vim.keymap.set({ "n", "v" }, "<C-y>", [["+y]], { desc = "Copy to system clipboard" })
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Copy to system clipboard" })
 vim.keymap.set("n", "<leader>Y", [["+Y]])
-vim.keymap.set("n", "<C-Y>", [["+Y]])
+-- vim.keymap.set("n", "<C-Y>", [["+Y]])
 --
 vim.keymap.set("n", "Q", "<cmd>q!<cr>")
 vim.keymap.set("n", "<C-s>", "<cmd>w<cr>")
