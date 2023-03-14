@@ -137,8 +137,8 @@ key_bindings:
   - { key: LBracket, mods: Command|Shift, chars: "\x02\x70" }
   - { key: RBracket, mods: Command|Shift, chars: "\x02\x6e" }
     # prev/next session <CMD + alt + [] >
-  - { key: Minus, mods: Command|Shift, chars: "\x02\x29" }
-  - { key: Equals, mods: Command|Shift, chars: "\x02\x28" }
+  - { key: LBracket, mods: Command|Alt|Shift, chars: "\x02\x29" }
+  - { key: RBracket, mods: Command|Alt|Shift, chars: "\x02\x28" }
   - { key: Key1, mods: Command, chars: "\x02\x31" }
   - { key: Key2, mods: Command, chars: "\x02\x32" }
   - { key: Key3, mods: Command, chars: "\x02\x33" }
@@ -178,7 +178,7 @@ key_bindings:
   - { key: Slash, mods: Command|Alt, chars: "\x67\x62" }
   - { key: P, mods: Command|Shift, chars: "\x20\x54" }
   # Telescope find_files (git)
-  - { key: O, mods: Command, chars: "\x20\x66\x66" }
+  - { key: O, mods: Command, chars: "\x20\x6f" }
   - { key: Return, mods: Alt, chars: "\x3e" }
   - { key: F7, mods: Command, chars: "\x20\x6c\x6f" }
   - { key: F12, mods: Command, chars: "\x20\x64\x73" }
