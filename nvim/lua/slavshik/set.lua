@@ -35,3 +35,6 @@ vim.opt.signcolumn = "yes" -- git/errors/linters SHOW always to prevent blinking
 
 vim.g.netrw_banner = 0
 vim.g.mapleader = " "
+
+-- TODO: fix device specifics
+vim.g.copilot_node_command = "~/.nvm/versions/node/v19.7.0/bin/node"
