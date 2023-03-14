@@ -11,6 +11,9 @@ require("lspsaga").setup({
 		folder_level = 3,
 		separator = " · ",
 	},
+	code_action = {
+		extend_gitsigns = true,
+	},
 })
 
 vim.keymap.set("n", ">", function()
