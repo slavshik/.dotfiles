@@ -9,6 +9,7 @@ gitsings.setup({
 		changedelete = { text = "~" },
 		untracked = { text = "┆" },
 	},
+	trouble = true,
 	signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
 	numhl = true, -- Toggle with `:Gitsigns toggle_numhl`
 	linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
@@ -41,7 +42,13 @@ gitsings.setup({
 	yadm = {
 		enable = false,
 	},
+	on_attach = function()
+		local function map(mode, l, r, opts)
+			opts = opts or {}
+			opts.buffer = bufnr
+			vim.keymap.set(mode, l, r, opts)
+		end
+		map("n", "E", ":Gitsigns blame_line<CR>", { desc = "Git blame line", silent = true })
+		map("v", "E", ":Gitsigns reset_hunk<CR>", { desc = "Git reset hunk", silent = true })
+	end,
 })
-vim.keymap.set("n", "E", ":Gitsigns blame_line<CR>")
--- vim.keymap.set("n", "<leader>gn", ":Gitsigns blame_line<CR>")
--- vim.keymap.set("n", "<leader>gp", ":Gitsigns blame_line<CR>")
