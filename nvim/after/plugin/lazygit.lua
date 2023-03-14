@@ -1,5 +1,5 @@
 -- GIT! - remapped over to CMD+Shift+G in alacritty
-vim.keymap.set("n", "<Leader>K", vim.cmd.LazyGit)
+vim.keymap.set("n", "<Leader>K", vim.cmd.LazyGit, { desc = "Toggle lazygit" })
 -- LazyGit
 vim.g.lazygit_floating_window_winblend = 0 -- transparency of floating window
 vim.g.lazygit_floating_window_scaling_factor = 1.0 -- scaling factor for floating window
