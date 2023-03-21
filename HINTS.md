@@ -7,3 +7,6 @@ If you ever wish to return to this behaviour, execute the following command line
 
 `defaults write -g ApplePressAndHoldEnabled -bool true`
 You'll need to log out and log back in again for the setting to take effect.
+
+Packer plugins dir, TODO: move it to aliases or find a proper ENV variable.
+~/.local/share/nvim/site/pack/
