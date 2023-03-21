@@ -2,6 +2,7 @@ local prettier = require("prettier")
 local function has_prettier_config()
 	return prettier.config_exists({ check_package_json = true })
 end
+-- !! prettierd is required to be installed globally via npm or brew
 prettier.setup({
 	bin = "prettierd",
 	["null-ls"] = {
