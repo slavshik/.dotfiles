@@ -20,10 +20,11 @@ export PATH="$PATH:/Users/$(whoami)/go/bin"
 bindkey -v #enable vim support
 GITSTATUS_LOG_LEVEL=DEBUG
 
-LFCD="/Users/$(whoami)/.config/lf/lfcd.sh"
+LFCD=~/.dotfiles/lf/lfcd.sh
 if [ -f "$LFCD" ]; then
     source "$LFCD"
 fi
+
 source ~/.dotfiles/zsh/aliases.zsh
 source ~/.dotfiles/zsh/keybindings.zsh
 
