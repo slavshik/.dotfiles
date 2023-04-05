@@ -1,0 +1,4 @@
+set relativenumber
+let mapleader=" "
+cursorline " " " highlight current line
+nnoremap <leader>si :source ~/.ideavimrc<CR>
