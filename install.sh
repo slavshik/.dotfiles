@@ -8,6 +8,7 @@ dotlink tmux/tmux.conf ~/.tmux.conf
 dotlink alacritty/ ~/.config/alacritty
 dotlink karabiner/ ~/.config/karabiner
 dotlink .gitconfig ~/.gitconfig
+dotlink .ideavimrc ~/.ideavimrc
 # git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ./defaults_write.sh
 # TODO: install packer and brew dependencies
