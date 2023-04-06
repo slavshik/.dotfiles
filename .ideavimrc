@@ -7,3 +7,8 @@ vnoremap <C-j> :m '>+1<CR>gv=gv
 vnoremap <C-k> :m '<-2<CR>gv=gv
 nnoremap <C-j> V:m '>+1<CR>gv=gv<esc>
 nnoremap <C-k> V:m '<-2<CR>gv=ga<esc>
+" align to center after jump
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+nnoremap n nzzzv
+nnoremap N Nzzzv
