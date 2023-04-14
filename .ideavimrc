@@ -1,3 +1,6 @@
+"" Show matching braces/brackets
+set showmatch
+set showcmd
 set relativenumber
 let mapleader=" "
 cursorline " " " highlight current line
@@ -11,4 +14,9 @@ nnoremap <C-k> V:m '<-2<CR>gv=ga<esc>
 nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
 nnoremap n nzzzv
-nnoremap N Nzzzv
+nnoremap N nzzzv
+
+" These two lines will fully disable any visual or noisy bell
+" on both windows and linux. >:)
+set noerrorbells visualbell t_vb=
+autocmd GUIEnter * set visualbell t_vb=
