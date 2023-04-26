@@ -130,6 +130,8 @@ key_bindings:
   - { key: T, mods: Command, chars: "\x02\x63" }
     # create horisontal split
   - { key: T, mods: Command|Shift, chars: "\x02\x25" }
+    # create new tmux-session
+  - { key: T, mods: Command|Alt, chars: "\x02\x53" }
     # break pane
   - { key: E, mods: Command|Shift, chars: "\x02\x65" }
     # prev/next window <CMD + Shift + [] >
