@@ -4,3 +4,18 @@ map <C-c> cmd exit
 map . $(open -R $fx)
 map o $(qlmanage -p $fx >> /dev/null)
 map <enter> $([ -d $fx ] && lf -remote "send $id quit" || nvim $fx)
+
+# find filter
+cmd fzf_jump ${{
+    res="$(find . -maxdepth 1 | fzf-tmux -p --reverse --header='Jump to location' | sed 's/\\/\\\\/g;s/"/\\"/g')"
+    if [ -d "$res" ] ; then
+        cmd="cd"
+    elif [ -f "$res" ] ; then
+        cmd="select"
+    else
+        exit 0
+    fi
+    lf -remote "send $id $cmd \"$res\""
+}}
+
+map <c-f> :fzf_jump
