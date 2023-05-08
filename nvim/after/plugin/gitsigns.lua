@@ -42,7 +42,7 @@ gitsings.setup({
 	yadm = {
 		enable = false,
 	},
-	on_attach = function()
+	on_attach = function(bufnr)
 		local function map(mode, l, r, opts)
 			opts = opts or {}
 			opts.buffer = bufnr

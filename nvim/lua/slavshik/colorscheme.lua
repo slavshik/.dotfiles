@@ -1,5 +1,6 @@
 local custom_gruvbox = require("lualine.themes.gruvbox")
 custom_gruvbox.insert.c.bg = "#ff0000"
+-- vim.api.nvim_set_hl(O, "Normal", {_bg = "none" })
 vim.o.background = "dark"
 vim.cmd([[
 	colorscheme gruvbox
