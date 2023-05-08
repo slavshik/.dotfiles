@@ -2,3 +2,5 @@
 .idea/
 .lsp/
 nvim/plugin/packer_compiled.lua
+# my custom scripts 
+.slavshik/
