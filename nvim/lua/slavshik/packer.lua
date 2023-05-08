@@ -9,7 +9,7 @@ local ensure_packer = function()
 	return false
 end
 
-local packer_bootstrap = ensure_packer()
+local _ = ensure_packer()
 
 return require("packer").startup(function(use)
 	use("wbthomason/packer.nvim")
@@ -77,6 +77,8 @@ return require("packer").startup(function(use)
 			{ "jose-elias-alvarez/null-ls.nvim" },
 		},
 	})
+	-- eslint
+	use("MunifTanjim/eslint.nvim")
 	use("github/copilot.vim")
 	use({
 		"glepnir/lspsaga.nvim",
