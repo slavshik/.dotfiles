@@ -22,7 +22,13 @@ function yarnrun() {
             yarn run $script_name
         fi
     else
-        echo "Error: There's no package.json"
+        # echo "Error: There's no package.json"
+    fi
+}
+function npm_install() {
+    if cat package.json > /dev/null 2>&1; then
+        # TODO: add check for yarn/npm
+        yarn
     fi
 }
 function tn() {
