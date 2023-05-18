@@ -192,3 +192,5 @@ key_bindings:
   - { key: E, mods: Command|Shift, chars: "\x10" }
   - { key: R, mods: Command, chars: "\x5f\x72\x75\x6e\x0a" }
   - { key: R, mods: Command|Shift, chars: "\x5f\x72\x75\x6e\x5f\x73\x0a" }
+  - { key: I, mods: Command, chars: "\x20\x49\x49" }
+  - { key: I, mods: Command|Shift, chars: "\x20\x69\x69" }
