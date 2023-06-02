@@ -65,6 +65,7 @@ lsp.on_attach(function(_, bufnr)
 	end
 	local opts = { buffer = bufnr, remap = false }
 	vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+	vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
 	vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 	-- vim.keymap.set("n", "<Leader>D", vim.lsp.buf.type_definition, opts)
 	vim.keymap.set("n", "<Leader>gi", vim.lsp.buf.implementation, opts)
