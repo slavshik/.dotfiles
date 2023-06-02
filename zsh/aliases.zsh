@@ -14,7 +14,8 @@ function glone() {
 }
 function yarnrun() {
     if cat package.json > /dev/null 2>&1; then
-        scripts=$(cat package.json | jq -r ".scripts | keys []" | sed '1d;$d' | fzf --height="40%")
+        # scripts=$(cat package.json | jq -r ".scripts | keys []" | sed '1d;$d' | fzf --height="40%")
+        scripts=$(cat package.json | jq -r ".scripts | keys []" | fzf --height="40%")
 
         if [[ -n $scripts ]]; then
             script_name=$(echo $scripts | awk -F ': ' '{gsub(/"/, "", $1); print $1}' | xargs)
