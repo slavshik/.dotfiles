@@ -8,8 +8,12 @@ export ZSH="/Users/$(whoami)/.oh-my-zsh"
 export EDITOR="nvim"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
-plugins=(git)
-
+plugins=(
+    git 
+    zsh-autosuggestions
+)
+#run this to install autosuggestions 
+#git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 source $ZSH/oh-my-zsh.sh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
@@ -36,6 +40,9 @@ function dta() {
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_CTRL_R_OPTS="--reverse"
 export FZF_TMUX_OPTS="-p"
+# tmuxifier
+export PATH="$HOME/.tmuxifier/bin:$PATH"
+eval "$(tmuxifier init -)"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
