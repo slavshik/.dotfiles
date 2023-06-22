@@ -1,0 +1,3 @@
+[submodule "evolution"]
+	path = evolution
+	url = git@gitlab.evolution.com:aslaushchyk/dotfiles.git
