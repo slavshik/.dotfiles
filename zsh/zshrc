@@ -21,6 +21,7 @@ source $ZSH/oh-my-zsh.sh
 # export PATH="~/.dotfiles/bin:$PATH"
 export PATH="$PATH:/Users/$(whoami)/Library/Python/3.9/bin"
 export PATH="$PATH:/Users/$(whoami)/go/bin"
+export PATH="$PATH:/Applications/WebStorm.app/Contents/MacOS"
 bindkey -v #enable vim support
 GITSTATUS_LOG_LEVEL=DEBUG
 
@@ -28,7 +29,10 @@ LFCD=~/.dotfiles/lf/lfcd.sh
 if [ -f "$LFCD" ]; then
     source "$LFCD"
 fi
-
+EVO=~/.dotfiles/evolution/index.zsh
+if [ -f "$EVO" ]; then
+    source "$EVO"
+fi
 source ~/.dotfiles/zsh/aliases.zsh
 source ~/.dotfiles/zsh/keybindings.zsh
 
