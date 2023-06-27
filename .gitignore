@@ -2,5 +2,6 @@
 .idea/
 .lsp/
 nvim/plugin/packer_compiled.lua
+karabiner/automatic_backups/
 # my custom scripts 
 .slavshik/
