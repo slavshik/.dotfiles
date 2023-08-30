@@ -13,3 +13,5 @@ dotlink .ideavimrc ~/.ideavimrc
 # git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ./defaults_write.sh
 # TODO: install packer and brew dependencies
+
+ln -sfn $DOTFILES/lazygit/config.yml ~/Library/Application\ Support/lazygit/config.yml
