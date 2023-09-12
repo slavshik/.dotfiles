@@ -61,3 +61,10 @@ lfm_tag() {
 lfm_tag_similar() {
     curl http://ws.audioscrobbler.com/2.0/\?method\=tag.getsimilar\&tag\=$1\&api_key\=$LFM_TOKEN\&format\=json --silent | jq
 }
+
+# bun completions
+[ -s "/Users/slavshik/.bun/_bun" ] && source "/Users/slavshik/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
