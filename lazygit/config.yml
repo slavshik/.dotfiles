@@ -7,3 +7,4 @@ git:
     pager: delta --dark --paging=never
 services:
   'gitlab.evolution.com': gitlab:gitlab.evolution.com
+  'gitlab.evolutiongaming.com': gitlab:gitlab.evolution.com
