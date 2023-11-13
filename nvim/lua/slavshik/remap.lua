@@ -25,3 +25,5 @@ vim.keymap.set("n", "sv", ":vsplit<Return><C-w>w")
 vim.keymap.set({ "n", "i", "v" }, "<C-b>W", vim.cmd.quit)
 vim.keymap.set({ "n", "v" }, "`", "}")
 vim.keymap.set({ "n", "v" }, "~", "{")
+-- easymotion
+vim.keymap.set("n", "s", "<Plug>(easymotion-prefix)")

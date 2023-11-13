@@ -18,7 +18,7 @@ telescope.setup({
 	},
 	pickers = {
 		find_files = {
-			theme = "ivy",
+			theme = "dropdown",
 		},
 		lsp_document_symbols = {
 			theme = "dropdown",
