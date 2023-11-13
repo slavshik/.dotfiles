@@ -32,3 +32,7 @@ end, { desc = "LSP next diagnostic" })
 vim.keymap.set("n", "<C-p>", function()
 	vim.cmd([[Lspsaga diagnostic_jump_prev]])
 end, { desc = "LSP previous diagnostic" })
+
+vim.keymap.set("n", "<leader>i", function()
+	vim.cmd([[Lspsaga show_cursor_diagnostics]])
+end, { desc = "LSP show cursor diagnostics" })

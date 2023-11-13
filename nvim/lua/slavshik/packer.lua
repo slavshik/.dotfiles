@@ -88,14 +88,6 @@ return require("packer").startup(function(use)
 		requires = "kyazdani42/nvim-web-devicons",
 		config = function()
 			require("trouble").setup({
-				signs = {
-					-- icons / text used for a diagnostic
-					error = "",
-					warning = "",
-					hint = "",
-					information = "",
-					other = "﫠",
-				},
 				use_diagnostic_signs = false,
 			})
 		end,
@@ -120,4 +112,5 @@ return require("packer").startup(function(use)
 			})
 		end,
 	})
+	use("easymotion/vim-easymotion")
 end)

@@ -1,3 +1,4 @@
+-- https://github.com/lmburns/lf.nvim
 require("lf").setup({
 	default_cmd = "lf", -- default `lf` command
 	default_action = "edit", -- default action when `Lf` opens a file
@@ -8,13 +9,10 @@ require("lf").setup({
 		["<C-v>"] = "vsplit",
 		["<C-o>"] = "tab drop",
 	},
-
 	winblend = 0, -- psuedotransparency level
-	dir = "", -- directory where `lf` starts ('gwd' is git-working-directory, "" is CWD)
+	dir = "gwd", -- directory where `lf` starts ('gwd' is git-working-directory, "" is CWD)
 	direction = "float", -- window type: float horizontal vertical
 	border = "single", -- border kind: single double shadow curved
-	height = 0.80, -- height of the *floating* window
-	width = 0.85, -- width of the *floating* window
 	escape_quit = true, -- map escape to the quit command (so it doesn't go into a meta normal mode)
 	focus_on_open = true, -- focus the current file when opening Lf (experimental)
 	mappings = true, -- whether terminal buffer mapping is enabled
@@ -27,7 +25,6 @@ require("lf").setup({
 			guibg = 0,
 		},
 	},
-
 	-- Layout configurations
 	-- layout_mapping = "<A-u>", -- resize window with this key
 

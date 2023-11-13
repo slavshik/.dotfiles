@@ -2,6 +2,9 @@
 set showmatch
 set showcmd
 set relativenumber
+set easymotion
+set hlsearch
+set incsearch
 let mapleader=" "
 cursorline " " " highlight current line
 nnoremap <leader>si :source ~/.ideavimrc<CR>
@@ -20,3 +23,4 @@ nnoremap N nzzzv
 " on both windows and linux. >:)
 set noerrorbells visualbell t_vb=
 autocmd GUIEnter * set visualbell t_vb=
+map s <Plug>(easymotion-prefix)
