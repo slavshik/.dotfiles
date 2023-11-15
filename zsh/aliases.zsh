@@ -27,17 +27,32 @@ function yarnrun() {
     fi
 }
 function npm_install() {
-    if cat package.json > /dev/null 2>&1; then
-        # TODO: add check for yarn/npm
-        yarn
+    if [[ -f "package.json" ]]; then
+        if [[ -f ".nvmrc" ]]; then
+            nvm use
+        fi
+        if cat package.json > /dev/null 2>&1; then
+            # TODO: add check for yarn/npm
+            yarn
+        fi
+    else
+        echo "no package.json"       
     fi
+            
 }
+
 function tn() {
     NAME=$(pwd | sed 's/.*\///g')
     tmux new -s "$NAME"
 }
 function runscript_save() {
-    [ -f "$1" ] && ./$1
+    if [[ -f "$1" ]]; then 
+        ./$1
+    else
+        if [[ -f "package.json" ]]; then
+            yarnrun
+        fi
+    fi
 }
 function _run_s() {
     if [ -f "$1" ]; then
