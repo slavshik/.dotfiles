@@ -19,6 +19,7 @@ telescope.setup({
 	pickers = {
 		find_files = {
 			theme = "dropdown",
+			previewer = false,
 		},
 		lsp_document_symbols = {
 			theme = "dropdown",

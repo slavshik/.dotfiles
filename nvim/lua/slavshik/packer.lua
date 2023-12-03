@@ -13,8 +13,6 @@ local _ = ensure_packer()
 
 return require("packer").startup(function(use)
 	use("wbthomason/packer.nvim")
-	use("kyazdani42/nvim-web-devicons")
-
 	use("nvim-tree/nvim-tree.lua")
 	use("ellisonleao/gruvbox.nvim")
 	use("nvim-lualine/lualine.nvim")
