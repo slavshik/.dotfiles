@@ -130,3 +130,4 @@ ripgrep
 webp
 # https://arunkv.medium.com/using-touchid-for-sudo-on-macos-b9a163b8eeaf
 pam-reattach
+zsh-autosuggestions
