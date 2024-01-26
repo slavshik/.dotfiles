@@ -16,6 +16,7 @@ vim.keymap.set("n", "<leader>Y", [["+Y]])
 -- vim.keymap.set("n", "<C-Y>", [["+Y]])
 --
 vim.keymap.set("n", "Q", "<cmd>q!<cr>")
+vim.keymap.set("x", "Q", "<nop>")
 vim.keymap.set("n", "<C-s>", "<cmd>w<cr>")
 vim.keymap.set("n", "<tab>", "<C-w>w")
 -- Split window

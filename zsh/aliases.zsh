@@ -77,3 +77,4 @@ alias lg=lazygit
 alias l="exa -la --git --group-directories-first"
 alias ll="exa -l --git --group-directories-first"
 alias mine="git log --decorate --all --author=\"`git config user.email`\""
+# TODO: add alias for `git push origin -u HEAD`

@@ -6,6 +6,7 @@ lsp.set_preferences({
 })
 lsp.ensure_installed({
 	"tsserver",
+	"clangd",
 	"gopls",
 	"eslint",
 	"lua_ls",
@@ -43,6 +44,13 @@ lsp.configure("tsserver", {
 			end,
 			description = "Organize Imports",
 		},
+	},
+})
+-- temporary to remove the warning
+lsp.configure("clangd", {
+	cmd = {
+		"clangd",
+		"--offset-encoding=utf-16",
 	},
 })
 local cmp = require("cmp")
