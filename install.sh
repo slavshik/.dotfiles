@@ -15,3 +15,4 @@ dotlink .ideavimrc ~/.ideavimrc
 # TODO: install packer and brew dependencies
 
 ln -sfn $DOTFILES/lazygit/config.yml ~/Library/Application\ Support/lazygit/config.yml
+ln -sfn $DOTFILES/lazygit/state.yml ~/Library/Application\ Support/lazygit/state.yml
