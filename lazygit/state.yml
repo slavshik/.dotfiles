@@ -3,6 +3,8 @@ recentrepos:
 - /Users/slavshik/.dotfiles
 - /Users/slavshik/Documents/EVO/js-clients
 - /Users/slavshik/Documents/EVO/localization
+- /Users/slavshik/Documents/dev/pkostat
+- /Users/slavshik/Documents/dev/pixi-playground
 - /Users/slavshik/Documents/dev/jest
 - /Users/slavshik/Documents/Editornado/web-game
 - /Users/slavshik/Documents/EVO/fast-branding
@@ -31,4 +33,4 @@ customcommandshistory:
 - git push --force-with-lease
 hidecommandlog: false
 ignorewhitespaceindiffview: false
-diffcontextsize: 27
+diffcontextsize: 28
