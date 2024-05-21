@@ -20,3 +20,6 @@
     conflictstyle = diff3
 [diff]
     colorMoved = default
+
+[delta]
+    side-by-side = true
