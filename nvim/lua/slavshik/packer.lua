@@ -1,3 +1,6 @@
+-- Description: Packer plugins installed:
+-- ~/.local/share/nvim/site/pack/
+
 local ensure_packer = function()
 	local fn = vim.fn
 	local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
@@ -111,4 +114,10 @@ return require("packer").startup(function(use)
 		end,
 	})
 	use("easymotion/vim-easymotion")
+	use({
+		"stevearc/oil.nvim",
+		config = function()
+			require("oil").setup()
+		end,
+	})
 end)
