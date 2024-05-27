@@ -1,29 +1,33 @@
+# \u0002 - ctrl+b (tmux prefix)
 [keyboard]
 bindings = [
+# SAVE command (for some reason doesn't work if defined inline)
     { key = "S", mods = "Command", chars = """
-        \u001B:w
-    """ },
-    { key = "Backslash", mods = "Command|Shift", chars = "\u0002s" },
-    { key = "W", mods = "Command", chars = "\u0002W" },
-    { key = "W", mods = "Command|Shift", chars = "\u0002x" },
-    { key = "RBracket", mods = "Command", chars = "\u0002\u001B[C" },
-    { key = "LBracket", mods = "Command", chars = "\u0002\u001B[D" },
-    { key = "T", mods = "Command", chars = "\u0002c" },
-    { key = "T", mods = "Command|Shift", chars = "\u0002%" },
-    { key = "T", mods = "Command|Alt", chars = "\u0002S" },
-    { key = "E", mods = "Command|Shift", chars = "\u0002e" },
-    { key = "LBracket", mods = "Command|Shift", chars = "\u0002p" },
-    { key = "RBracket", mods = "Command|Shift", chars = "\u0002n" },
-    { key = "LBracket", mods = "Command|Alt|Shift", chars = "\u0002)" },
-    { key = "RBracket", mods = "Command|Alt|Shift", chars = "\u0002(" },
+\u001B:w
+""" },
+    { key = "W", mods = "Command", chars = "\u0002W" }, # !CLOSE TAB/vim/Terminal/etc
+    { key = "N", mods = "Command|Shift", chars = "\u0002S" }, # new tmux session
+    { key = "T", mods = "Command", chars = "\u0002c" }, # new tmux tab
+    { key = "K", mods = "Command|Shift", chars = " K" }, # open lazygit
+    { key = "Slash", mods = "Command", chars = "gcc" }, # comment line 
+    { key = "Slash", mods = "Command|Alt", chars = "gb" }, # comment out block
+
+    { key = "|", mods="Command|Shift", chars = "\u0002w" }, # tmux all sessions view
+    { key = "{", mods="Command|Shift", chars = "\u0002p" }, # tmux previous session
+    { key = "}", mods="Command|Shift", chars = "\u0002n" }, # tmux next session
+    { key = "LBracket", mods = "Command", chars = "\u0002\u001B[D" }, # tmux left pane
+    { key = "RBracket", mods = "Command", chars = "\u0002\u001B[C" }, # tmux right pane
+    { key = "LBracket", mods = "Command|Alt|Shift", chars = "\u0002)" }, # tmux next session
+    { key = "RBracket", mods = "Command|Alt|Shift", chars = "\u0002(" }, # tmux previous session
+    { key = "T", mods = "Command|Shift", chars = "\u0002%" }, # tmux open new pane (vertical)
+    { key = "!", mods = "Command|Shift", chars = " fi" }, # open file in Finder
+
     { key = "LBracket", mods = "Command|Shift|Alt", chars = "\u0002\u001B[1;6D" },
     { key = "RBracket", mods = "Command|Shift|Alt", chars = "\u0002\u001B[1;6C" },
-    { key = "K", mods = "Command|Shift", chars = " K" },
+
+    { key = "E", mods = "Command|Shift", chars = "\u0002e" },
     { key = "M", mods = "Command|Shift", chars = " MM" },
-    { key = "Key1", mods = "Command|Shift", chars = " fi" },
     { key = "B", mods = "Command", chars = "gd" },
-    { key = "Slash", mods = "Command", chars = "gcc" },
-    { key = "Slash", mods = "Command|Alt", chars = "gb" },
     { key = "P", mods = "Command|Shift", chars = " T" },
     { key = "O", mods = "Command", chars = " o" },
     { key = "Return", mods = "Alt", chars = ">" },
