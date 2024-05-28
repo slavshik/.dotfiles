@@ -46,7 +46,10 @@ telescope.setup({
 		},
 	},
 })
+
 require("telescope").load_extension("file_browser")
+require("telescope").load_extension("zf-native")
+
 vim.keymap.set("n", "<leader>O", function()
 	require("telescope").extensions.file_browser.file_browser()
 end, { desc = "File browser" })

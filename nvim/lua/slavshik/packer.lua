@@ -120,4 +120,5 @@ return require("packer").startup(function(use)
 			require("oil").setup()
 		end,
 	})
+	use("natecraddock/telescope-zf-native.nvim")
 end)
