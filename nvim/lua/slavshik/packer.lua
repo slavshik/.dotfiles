@@ -121,4 +121,5 @@ return require("packer").startup(function(use)
 		end,
 	})
 	use("natecraddock/telescope-zf-native.nvim")
+	use({ "stevearc/dressing.nvim" })
 end)
