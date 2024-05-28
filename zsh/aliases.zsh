@@ -41,10 +41,6 @@ function npm_install() {
             
 }
 
-function tn() {
-    NAME=$(pwd | sed 's/.*\///g')
-    tmux new -s "$NAME"
-}
 function runscript_save() {
     if [[ -f "$1" ]]; then 
         ./$1
@@ -63,6 +59,9 @@ function _run_s() {
         chmod u+x .$(whoami)/run.sh
         nvim .$(whoami)/run.sh
     fi
+}
+function jj() {
+    sesh connect $(sesh list | fzf)
 }
 alias _run="runscript_save .$(whoami)/run.sh"
 alias zshconfig="vim ~/.zshrc"
