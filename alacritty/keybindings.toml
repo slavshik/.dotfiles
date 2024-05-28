@@ -1,10 +1,7 @@
 # \u0002 - ctrl+b (tmux prefix)
 [keyboard]
 bindings = [
-# SAVE command (for some reason doesn't work if defined inline)
-    { key = "S", mods = "Command", chars = """
-\u001B:w
-""" },
+    { key = "S", mods = "Command", chars = "\u001B:w\n" }, # save command
     { key = "W", mods = "Command", chars = "\u0002W" }, # !CLOSE TAB/vim/Terminal/etc
     { key = "N", mods = "Command|Shift", chars = "\u0002S" }, # new tmux session
     { key = "T", mods = "Command", chars = "\u0002c" }, # new tmux tab
@@ -20,20 +17,27 @@ bindings = [
     { key = "LBracket", mods = "Command|Alt|Shift", chars = "\u0002)" }, # tmux next session
     { key = "RBracket", mods = "Command|Alt|Shift", chars = "\u0002(" }, # tmux previous session
     { key = "T", mods = "Command|Shift", chars = "\u0002%" }, # tmux open new pane (vertical)
-    { key = "!", mods = "Command|Shift", chars = " fi" }, # open file in Finder
+    { key = "!", mods = "Command|Shift", chars = " !@f" }, # open file in Finder
 
     { key = "LBracket", mods = "Command|Shift|Alt", chars = "\u0002\u001B[1;6D" },
     { key = "RBracket", mods = "Command|Shift|Alt", chars = "\u0002\u001B[1;6C" },
 
+    { key = "E", mods = "Command", chars = " e" },
     { key = "E", mods = "Command|Shift", chars = "\u0002e" },
     { key = "M", mods = "Command|Shift", chars = " MM" },
     { key = "B", mods = "Command", chars = "gd" },
     { key = "P", mods = "Command|Shift", chars = " T" },
     { key = "O", mods = "Command", chars = " o" },
+    { key = "O", mods = "Command|Shift", chars = " lf" }, # open lf browser
     { key = "Return", mods = "Alt", chars = ">" },
     { key = "Return", mods = "Alt|Shift", chars = "<" },
     { key = "D", mods = "Command", chars = "\u0002d" },
-    { key = "R", mods = "Command", chars = "\u001B:so" },
+    { key = "R", mods = "Command", chars = "_run\n" },
+    { key = "F", mods = "Command|Shift", chars = " FF" },
+    { key = "I", mods = "Command", chars = " II" }, # npm_install script
+    { key = "I", mods = "Command|Shift", chars = " ii" }, # yarnrun script
+    { key = "K", mods = "Command", chars = "\u0002K" }, # session manager
+
     # -------------------------------------------------------------
     # 
     # 
