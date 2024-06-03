@@ -19,7 +19,16 @@ return require("packer").startup(function(use)
 	use("nvim-tree/nvim-tree.lua")
 	use("ellisonleao/gruvbox.nvim")
 	use("nvim-lualine/lualine.nvim")
-	use({ "nvim-lua/telescope.nvim", requires = { { "nvim-lua/plenary.nvim" } } })
+	use({
+		"nvim-lua/telescope.nvim",
+		requires = {
+			{
+				"nvim-lua/plenary.nvim",
+				"natecraddock/telescope-zf-native.nvim",
+				"nvim-telescope/telescope-live-grep-args.nvim",
+			},
+		},
+	})
 	use({ "nvim-telescope/telescope-file-browser.nvim" })
 	use("nvim-treesitter/nvim-treesitter", { run = ":TSUpdate" })
 	use("nvim-treesitter/playground")
@@ -120,6 +129,5 @@ return require("packer").startup(function(use)
 			require("oil").setup()
 		end,
 	})
-	use("natecraddock/telescope-zf-native.nvim")
 	use({ "stevearc/dressing.nvim" })
 end)

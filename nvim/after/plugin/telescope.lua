@@ -48,6 +48,7 @@ telescope.setup({
 })
 
 require("telescope").load_extension("file_browser")
+require("telescope").load_extension("live_grep_args")
 require("telescope").load_extension("zf-native")
 
 vim.keymap.set("n", "<leader>O", function()
@@ -61,6 +62,9 @@ vim.keymap.set("n", "<leader>o", builtin.find_files, { desc = "Find files <CMD +
 --------------------------------------------------------------
 vim.keymap.set("n", "<leader>ds", builtin.lsp_document_symbols, { desc = "Document symbols" })
 vim.keymap.set("n", "<leader>fg", builtin.git_files, { desc = "Git files" })
-vim.keymap.set("n", "<leader>FF", builtin.live_grep, { desc = "Live grep" })
+-- vim.keymap.set("n", "<leader>FF", builtin.live_grep, { desc = "Live grep" })
+vim.keymap.set("n", "<leader>FF", function()
+	require("telescope").extensions.live_grep_args.live_grep_args()
+end, { desc = "Live grep" })
 vim.keymap.set("v", "<leader>FF", builtin.grep_string, { desc = "Grep string" })
 vim.keymap.set("n", "<leader>e", builtin.buffers, { desc = "Buffers" })
