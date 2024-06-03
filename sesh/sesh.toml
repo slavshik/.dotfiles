@@ -1,22 +1,26 @@
 [[session]]
-name = "Dotfiles ⚙️"
+name = "⚙️ Dotfiles"
 path = "~/.dotfiles"
 startup_command = "nvim -c ':Telescope find_files'"
 
 [[session]]
-name = "Home 🏠"
+name = "🏠Home"
 path = "~"
 
 [[session]]
-name = "Evo 🪴"
+name = "🪴Evo"
 path = "~/Documents/EVO/js-clients/"
 startup_script = "~/.config/sesh/scripts/evo"
 
 [[session]]
-name = "Diesel 🐶"
+name = "🐶Diesel"
 path = "~/Documents/Diesel/"
 
 [[session]]
-name = "Dev 💻"
+name = "💻Dev"
 path = "~/Documents/dev/"
 startup_command = "l"
+
+[[session]]
+name = "🖥 Desktop"
+path = "~/Desktop/"

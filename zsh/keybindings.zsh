@@ -1,6 +1,6 @@
 bindkey -s ' lf' 'lfcd\n'
 bindkey -s '^BW' 'exit\n'
-bindkey -s '^BK' 'sesh connect $(sesh list | fzf)\n'
+bindkey -s '^BK' 'sesh connect $(sesh list -c | fzf)\n'
 bindkey -s '^P' 'nvim .\n'
 bindkey -s ' K' 'lg\n'
 bindkey -s ' ee' '^R'

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
-tmux split-window -h
+tmux new-window
 tmux send-keys "lazygit" Enter
-tmux select-pane -t :.+
+tmux last-window
+clear
