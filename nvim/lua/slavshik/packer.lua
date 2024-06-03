@@ -129,5 +129,6 @@ return require("packer").startup(function(use)
 			require("oil").setup()
 		end,
 	})
-	use({ "stevearc/dressing.nvim" })
+	use("stevearc/dressing.nvim")
+	use("romgrk/barbar.nvim")
 end)
