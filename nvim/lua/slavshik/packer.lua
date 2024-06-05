@@ -16,7 +16,6 @@ local _ = ensure_packer()
 
 return require("packer").startup(function(use)
 	use("wbthomason/packer.nvim")
-	use("nvim-tree/nvim-tree.lua")
 	use("ellisonleao/gruvbox.nvim")
 	use("nvim-lualine/lualine.nvim")
 	use({
