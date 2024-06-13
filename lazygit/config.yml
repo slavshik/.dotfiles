@@ -1,6 +1,3 @@
-gui:
-  nerdFontsVersion: "3"
-  mainBranches: [master, main]
 os:
   editPreset: "nvim"
 git:
@@ -16,6 +13,8 @@ services:
   'gitlab.evolution.com': gitlab:gitlab.evolution.com
   'gitlab.evolutiongaming.com': gitlab:gitlab.evolution.com
 gui:
+  nerdFontsVersion: "3"
+  mainBranches: [master, main]
   theme: 
       activeBorderColor:
         - '#ff9900'
