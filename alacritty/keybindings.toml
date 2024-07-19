@@ -91,15 +91,15 @@ bindings = [
     { key = "F11", mods = "Super", chars = "\u001B[23;3~" },
     { key = "F12", mods = "Super", chars = "\u001B[24;3~" },
     # ----------------------------------------------------
+    # -------- tabs in tmux -----------------------------
     { key = "Key1", mods = "Command", chars = "\u00021" },
     { key = "Key2", mods = "Command", chars = "\u00022" },
     { key = "Key3", mods = "Command", chars = "\u00023" },
     { key = "Key4", mods = "Command", chars = "\u00024" },
-    { key = "Key5", mods = "Command", chars = "\u00035" },
-    { key = "Key6", mods = "Command", chars = "\u00036" },
-    { key = "Key7", mods = "Command", chars = "\u00037" },
-    { key = "Key8", mods = "Command", chars = "\u00038" },
-    { key = "Key9", mods = "Command", chars = "\u00039" },
-    { key = "Key0", mods = "Command", chars = "\u00030" },
+    { key = "Key5", mods = "Command", chars = "\u00025" },
+    { key = "Key6", mods = "Command", chars = "\u00026" },
+    { key = "Key7", mods = "Command", chars = "\u00027" },
+    { key = "Key8", mods = "Command", chars = "\u00028" },
+    { key = "Key9", mods = "Command", chars = "\u00029" },
 ]
 
