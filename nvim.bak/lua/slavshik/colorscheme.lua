@@ -19,3 +19,7 @@ require("lualine").setup({
 		disabled_filetypes = { "packer", "NvimTree" },
 	},
 })
+return {
+    "nvim-lualine/lualine.nvim", 
+    dependencies = { 'nvim-tree/nvim-web-devicons' }
+}
