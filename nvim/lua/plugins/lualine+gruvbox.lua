@@ -1,11 +1,12 @@
 return {
-    'nvim-lualine/lualine.nvim',
-    dependencies = { 
-        'nvim-tree/nvim-web-devicons',
-        'ellisonleao/gruvbox.nvim'
+    "nvim-lualine/lualine.nvim",
+    dependencies = {
+        "nvim-tree/nvim-web-devicons",
+        "ellisonleao/gruvbox.nvim",
     },
     config = function()
         local custom_gruvbox = require("lualine.themes.gruvbox")
+
         custom_gruvbox.insert.c.bg = "#ff0000"
         -- vim.api.nvim_set_hl(O, "Normal", {_bg = "none" })
         vim.o.background = "dark"
@@ -26,5 +27,5 @@ return {
                 disabled_filetypes = { "packer", "NvimTree" },
             },
         })
-    end
+    end,
 }

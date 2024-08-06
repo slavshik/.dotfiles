@@ -15,6 +15,9 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- Treat pcss files as css
+vim.api.nvim_create_autocmd({ "BufRead", "BufNew", "BufNewFile" }, { pattern = "*.pcss", command = "set filetype=css" })
+
 require("lazy").setup({
 	spec = {
 		"romgrk/barbar.nvim",
