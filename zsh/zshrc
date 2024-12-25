@@ -5,7 +5,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-export ZSH="/Users/$(whoami)/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 export EDITOR="nvim"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
@@ -48,10 +48,6 @@ export FZF_TMUX_OPTS="-p"
 export PATH="$HOME/.tmuxifier/bin:$PATH"
 eval "$(tmuxifier init -)"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 # ------------------------------------------------------------
 # LASTFM
 export LFM_TOKEN=df8d8fcb8f4c7aa23fc404897c7d6a2b
@@ -70,3 +66,23 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 eval "$(fnm env --use-on-cd --shell zsh)"
+
+# >>> JVM installed by coursier >>>
+export JAVA_HOME="/Users/slavshik/Library/Caches/Coursier/arc/https/github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.24%252B8/OpenJDK11U-jdk_x64_mac_hotspot_11.0.24_8.tar.gz/jdk-11.0.24+8/Contents/Home"
+# <<< JVM installed by coursier <<<
+
+# >>> coursier install directory >>>
+export PATH="$PATH:/Users/slavshik/Library/Application Support/Coursier/bin"
+# <<< coursier install directory <<<
+
+export PATH="$PATH:/Users/slavshik/Documents/dev/flutter/bin"
+
+# fnm
+FNM_PATH="/Users/slavshik/Library/Application Support/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="/Users/slavshik/Library/Application Support/fnm:$PATH"
+  eval "`fnm env`"
+fi
+
+eval "$(fnm env --use-on-cd --version-file-strategy=recursive)"
+POWERLEVEL9K_INSTANT_PROMPT=quiet #disable errors
