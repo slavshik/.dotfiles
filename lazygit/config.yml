@@ -4,8 +4,8 @@ git:
   branchLogCmd: "git log --pretty=format:\"%C(yellow)%h %C(reset) %s %C(cyan)%cE\" {{branchName}} --"
   commitPrefixes:
     js-clients: # This is repository folder name
-      pattern: "^([A-Z]+\\-[0-9]+).*"
-      replace: '$1 '
+      - pattern: "^([A-Z]+\\-[0-9]+).*"
+        replace: '$1 '
   paging:
     colorArg: always
     pager: delta --dark --paging=never
@@ -15,13 +15,11 @@ services:
 gui:
   nerdFontsVersion: "3"
   mainBranches: [master, main]
-  theme: 
-      activeBorderColor:
-        - '#ff9900'
-        - bold
-
-      inactiveBorderColor:
-        - black
-
-      showRandomTip: true
-      showCommandLog: true
+  theme:
+    activeBorderColor:
+      - '#ff9900'
+      - bold
+    inactiveBorderColor:
+      - black
+    showRandomTip: true
+    showCommandLog: true
