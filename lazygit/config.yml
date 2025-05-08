@@ -23,3 +23,9 @@ gui:
       - black
     showRandomTip: true
     showCommandLog: true
+customCommands:
+  - key: "<c-f>"
+    context: "files"
+    command: "git push --force-with-lease"
+    description: "Force push with lease"
+    output: "terminal"
