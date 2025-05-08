@@ -1,7 +1,7 @@
 os:
   editPreset: "nvim"
 git:
-  branchLogCmd: "git log --pretty=format:\"%C(yellow)%h %C(reset) %s %C(cyan)%cE\" {{branchName}} --"
+  branchLogCmd: "git log --color=always --pretty=format:\"%C(yellow)%h %C(reset) %s %C(cyan)%cE\" {{branchName}} --"
   commitPrefixes:
     js-clients: # This is repository folder name
       - pattern: "^([A-Z]+\\-[0-9]+).*"
