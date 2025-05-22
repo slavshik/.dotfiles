@@ -6,6 +6,9 @@ git:
     js-clients: # This is repository folder name
       - pattern: "^([A-Z]+\\-[0-9]+).*"
         replace: '$1 '
+    js-dealermodules: # This is repository folder name
+      - pattern: "^([A-Z]+\\-[0-9]+).*"
+        replace: '$1 '
   paging:
     colorArg: always
     pager: delta --dark --paging=never
@@ -25,7 +28,13 @@ gui:
     showCommandLog: true
 customCommands:
   - key: "<c-f>"
-    context: "files"
+    context: "files,localBranches"
     command: "git push --force-with-lease"
     description: "Force push with lease"
     output: "terminal"
+  - key: "<c-j>"
+    context: "files,localBranches"
+    loadingText: "Loading..."
+    command: ~/.dotfiles/evolution/aicommit.sh
+    description: "Generate commit message from AI"
+    output: terminal
