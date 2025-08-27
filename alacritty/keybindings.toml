@@ -38,6 +38,9 @@ bindings = [
     { key = "I", mods = "Command|Shift", chars = " ii" }, # yarnrun script
     { key = "K", mods = "Command", chars = "\u0002K" }, # session manager
 
+    { key = ".", mods = "Command", chars = "\u0002." }, # move window right (prefix + .)
+    { key = ",", mods = "Command", chars = "\u0002," }, # move window left (prefix + ,)
+
     # -------------------------------------------------------------
     # 
     # 
