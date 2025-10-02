@@ -8,6 +8,11 @@ name = "🏠Home"
 path = "~"
 
 [[session]]
+name = "! Ela" 
+path = "~/Documents/Ela"
+# startup_script = "~/.config/sesh/scripts/evo"
+
+[[session]]
 name = "🪴Evo"
 path = "~/Documents/EVO/js-clients/"
 startup_script = "~/.config/sesh/scripts/evo"
