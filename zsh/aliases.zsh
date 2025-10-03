@@ -32,8 +32,11 @@ function npm_install() {
             nvm use
         fi
         if cat package.json > /dev/null 2>&1; then
-            # TODO: add check for yarn/npm
-            yarn
+            if [ - yarn.lock ]; then
+                yarn
+            else
+                npm i
+            fi
         fi
     else
         echo "no package.json"       
