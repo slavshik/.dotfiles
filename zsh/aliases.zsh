@@ -28,9 +28,6 @@ function yarnrun() {
 }
 function npm_install() {
     if [[ -f "package.json" ]]; then
-        if [[ -f ".nvmrc" ]]; then
-            nvm use
-        fi
         if cat package.json > /dev/null 2>&1; then
             if [ - yarn.lock ]; then
                 yarn
@@ -41,7 +38,6 @@ function npm_install() {
     else
         echo "no package.json"       
     fi
-            
 }
 
 function runscript_save() {
