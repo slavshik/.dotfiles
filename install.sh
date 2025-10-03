@@ -6,6 +6,7 @@ dotlink zsh/zshrc ~/.zshrc
 dotlink nvim/ ~/.config/nvim
 dotlink tmux/tmux.conf ~/.tmux.conf
 dotlink alacritty/ ~/.config/alacritty
+dotlink lf/ ~/.config/lf
 dotlink karabiner/ ~/.config/karabiner
 dotlink .gitconfig ~/.gitconfig
 dotlink .gitignore_system ~/.gitignore
