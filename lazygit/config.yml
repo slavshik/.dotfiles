@@ -15,6 +15,7 @@ git:
 services:
   'gitlab.evolution.com': gitlab:gitlab.evolution.com
   'gitlab.evolutiongaming.com': gitlab:gitlab.evolution.com
+  'gitlab.gosystem.io': gitlab:gitlab.gosystem.io
 gui:
   nerdFontsVersion: "3"
   mainBranches: [master, main]
