@@ -15,6 +15,7 @@ git:
 services:
   'gitlab.evolution.com': gitlab:gitlab.evolution.com
   'gitlab.evolutiongaming.com': gitlab:gitlab.evolution.com
+  'gitlab.gosystem.io': gitlab:gitlab.gosystem.io
 gui:
   nerdFontsVersion: "3"
   mainBranches: [master, main]
@@ -35,6 +36,6 @@ customCommands:
   - key: "<c-j>"
     context: "files,localBranches"
     loadingText: "Loading..."
-    command: ~/.dotfiles/evolution/aicommit.sh
+    command: ~/.dotfiles/route_ai_commit.sh
     description: "Generate commit message from AI"
     output: terminal
