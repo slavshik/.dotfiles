@@ -16,7 +16,7 @@ return {
 			-- if there is a language server active in the file
 			local lsp_attach = function(_, bufnr)
 				local opts = { buffer = bufnr, remap = false }
-				if _.name == "tsserver" then
+				if _.name == "ts_ls" then
 					-- !!! this is capital O here
 					vim.keymap.set("n", "<C-ó>", "<CMD>OrganizeImports<CR>", opts)
 				end
@@ -59,7 +59,7 @@ return {
 			})
 			require("mason-lspconfig").setup({
 				ensure_installed = {
-					"tsserver",
+					"ts_ls",
 					"clangd",
 					"gopls",
 					"eslint",
@@ -69,7 +69,7 @@ return {
 					-- this first function is the "default handler"
 					-- it applies to every language server without a "custom handler"
 					function(server_name)
-						require("lspconfig")[server_name].setup({})
+						vim.lspconfig[server_name].setup({})
 					end,
 				},
 			})
