@@ -1,16 +1,7 @@
 # #!/bin/bash
 
-URL=`git remote get-url origin`
-
-# Check if a URL is provided
-if [ -z "$URL" ]; then
-  echo "Usage: $0 <url>"
-  exit 1
-fi
-
-# Check if the URL contains '*.evolution.com'
-if [[ "$URL" == ".evolution.com" ]]; then
-  ./evolution/aicommit.sh
+if git remote get-url origin | grep -q "\.evolution\.com"; then
+   sh ~/.dotfiles/evolution/aicommit.sh
 else
-  ./aicommit.sh
+   sh ~/.dotfiles/aicommit.sh
 fi
