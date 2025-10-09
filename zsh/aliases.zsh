@@ -30,13 +30,16 @@ function yarnrun() {
     fi
 }
 function npm_install() {
+    if [[ -f "yarn.lock" ]]; then
+        if cat yarn.lock > /dev/null 2>&1; then
+            yarn
+            exit
+        fi
+    fi
+
     if [[ -f "package.json" ]]; then
         if cat package.json > /dev/null 2>&1; then
-            if [ - yarn.lock ]; then
-                yarn
-            else
-                npm i
-            fi
+            npm i
         fi
     else
         echo "no package.json"       
