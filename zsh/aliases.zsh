@@ -12,16 +12,17 @@ function glone() {
     REPO=$(gh repo list $ORG --json=name --jq=".[] .name" | fzf)
     [ -n "$REPO" ] && gh repo clone $ORG/$REPO
 }
-function yarnrun() {
+function proj_run() {
     if cat package.json > /dev/null 2>&1; then
         scripts=$(cat package.json | jq -r ".scripts | keys []" | fzf --height="40%")
 
         if [[ -n $scripts ]]; then
             script_name=$(echo $scripts | awk -F ': ' '{gsub(/"/, "", $1); print $1}' | xargs)
-            print -s "yarn run "$script_name;
             if [ - yarn.lock ]; then
+                print -s "yarn run "$script_name;
                 yarn run $script_name
             else
+                print -s "npm run "$script_name;
                 npm run $script_name
             fi
         fi
@@ -29,20 +30,26 @@ function yarnrun() {
         # echo "Error: There's no package.json"
     fi
 }
-function npm_install() {
+
+function proj_install() {
     if [[ -f "yarn.lock" ]]; then
         if cat yarn.lock > /dev/null 2>&1; then
             yarn
-            exit
+            return
         fi
     fi
 
     if [[ -f "package.json" ]]; then
         if cat package.json > /dev/null 2>&1; then
             npm i
+            return
         fi
-    else
-        echo "no package.json"       
+    fi
+
+    if [[ -f "go.mod" ]]; then
+        if cat go.mod > /dev/null 2>&1; then
+            go install
+        fi
     fi
 }
 
