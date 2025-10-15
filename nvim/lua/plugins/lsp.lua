@@ -35,7 +35,7 @@ return {
 			lsp_zero.configure("lua_ls", {
 				settings = { Lua = { diagnostics = { globals = { "vim" } } } },
 			})
-			lsp_zero.configure("tsserver", {
+			lsp_zero.configure("ts_ls", {
 				commands = {
 					OrganizeImports = {
 						function()
@@ -69,7 +69,7 @@ return {
 					-- this first function is the "default handler"
 					-- it applies to every language server without a "custom handler"
 					function(server_name)
-						vim.lspconfig[server_name].setup({})
+						vim.lsp.config[server_name].setup({})
 					end,
 				},
 			})
