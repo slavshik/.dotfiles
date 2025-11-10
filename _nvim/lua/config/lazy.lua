@@ -19,13 +19,13 @@ vim.opt.rtp:prepend(lazypath)
 vim.api.nvim_create_autocmd({ "BufRead", "BufNew", "BufNewFile" }, { pattern = "*.pcss", command = "set filetype=css" })
 
 require("lazy").setup({
-    spec = {
+	spec = {
         { import = "plugins" },
-    },
+	},
 
-    -- Configure any other settings here. See the documentation for more details.
-    -- colorscheme that will be used when installing plugins.
-    install = { colorscheme = { "habamax" } },
-    -- automatically check for plugin updates
-    checker = { enabled = true },
+	-- Configure any other settings here. See the documentation for more details.
+	-- colorscheme that will be used when installing plugins.
+	install = { colorscheme = { "habamax" } },
+	-- automatically check for plugin updates
+	checker = { enabled = true },
 })
