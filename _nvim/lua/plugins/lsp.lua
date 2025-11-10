@@ -81,18 +81,7 @@ return {
 		lazy = true,
 		config = false,
 	},
-	{
-		"williamboman/mason.nvim",
-		lazy = false,
-		config = true,
-	},
-
 	-- Autocompletion
-	{
-		"windwp/nvim-autopairs",
-		event = "InsertEnter",
-		opts = {},
-	},
 	{
 		"hrsh7th/nvim-cmp",
 		event = "InsertEnter",
