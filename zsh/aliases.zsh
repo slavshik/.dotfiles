@@ -18,7 +18,8 @@ function proj_run() {
 
         if [[ -n $scripts ]]; then
             script_name=$(echo $scripts | awk -F ': ' '{gsub(/"/, "", $1); print $1}' | xargs)
-            if [ - yarn.lock ]; then
+
+            if cat yarn.lock > /dev/null 2>&1; then
                 print -s "yarn run "$script_name;
                 yarn run $script_name
             else
@@ -27,7 +28,7 @@ function proj_run() {
             fi
         fi
     else
-        # echo "Error: There's no package.json"
+        echo "Error: There's no package.json"
     fi
 }
 
