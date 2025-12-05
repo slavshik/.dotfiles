@@ -88,3 +88,4 @@ eval "$(fnm env --use-on-cd --version-file-strategy=recursive)"
 POWERLEVEL9K_INSTANT_PROMPT=quiet #disable errors
 export PATH="$PATH:/Users/slavshik/Documents/dev/emsdk"
 export PATH="$PATH:/Users/slavshik/Documents/dev/emsdk/upstream/emscripten"
+export PATH="$HOME/.local/bin:$PATH"
