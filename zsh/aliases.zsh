@@ -58,9 +58,7 @@ function runscript_save() {
     if [[ -f "$1" ]]; then 
         ./$1
     else
-        if [[ -f "package.json" ]]; then
-            yarnrun
-        fi
+        proj_run
     fi
 }
 function _run_s() {
