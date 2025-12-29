@@ -6,6 +6,9 @@ bindings = [
     { key = "N", mods = "Command|Shift", chars = "\u0002S" }, # new tmux session
     { key = "T", mods = "Command", chars = "\u0002c" }, # new tmux tab
     { key = "K", mods = "Command|Shift", chars = " K" }, # open lazygit
+    { key = "Z", mods = "Command", chars = "\u001Bu" }, # undo in vim (u)
+    { key = "Z", mods = "Command|Shift", chars = "\u001B\u0012"}, # redo in vim (^R)
+
     { key = "Slash", mods = "Command", chars = "gcc" }, # comment line 
     { key = "Slash", mods = "Command|Alt", chars = "gb" }, # comment out block
 
