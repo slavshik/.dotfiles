@@ -19,7 +19,11 @@ function proj_run() {
         if [[ -n $scripts ]]; then
             script_name=$(echo $scripts | awk -F ': ' '{gsub(/"/, "", $1); print $1}' | xargs)
 
-            if cat yarn.lock > /dev/null 2>&1; then
+            if cat bun.lock > /dev/null 2>&1; then
+                print -s "bun run "$script_name;
+                bun run $script_name
+                return
+            elif cat yarn.lock > /dev/null 2>&1; then
                 print -s "yarn run "$script_name;
                 yarn run $script_name
             else
@@ -35,13 +39,23 @@ function proj_run() {
 function proj_install() {
     if [[ -f "yarn.lock" ]]; then
         if cat yarn.lock > /dev/null 2>&1; then
+            echo yarn
             yarn
+            return
+        fi
+    fi
+
+    if [[ -f "bun.lock" ]]; then
+        if cat bun.lock > /dev/null 2>&1; then
+            echo bun install
+            bun install
             return
         fi
     fi
 
     if [[ -f "package.json" ]]; then
         if cat package.json > /dev/null 2>&1; then
+            echo npm i
             npm i
             return
         fi
