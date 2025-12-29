@@ -9,9 +9,9 @@ git:
     js-dealermodules: # This is repository folder name
       - pattern: "^([A-Z]+\\-[0-9]+).*"
         replace: '$1 '
-  paging:
-    colorArg: always
-    pager: delta --dark --paging=never
+  pagers:
+    - colorArg: always
+      pager: delta --dark --paging=never
 services:
   'gitlab.evolution.com': gitlab:gitlab.evolution.com
   'gitlab.evolutiongaming.com': gitlab:gitlab.evolution.com
