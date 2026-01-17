@@ -76,9 +76,9 @@ export PATH="$PATH:/Users/slavshik/Library/Application Support/Coursier/bin"
 export PATH="$PATH:/Users/slavshik/Documents/dev/flutter/bin"
 
 # fnm
-FNM_PATH="/Users/slavshik/Library/Application Support/fnm"
+FNM_PATH="/Users/$(whoami)/Library/Application Support/fnm"
 if [ -d "$FNM_PATH" ]; then
-  export PATH="/Users/slavshik/Library/Application Support/fnm:$PATH"
+  export PATH="/Users/$(whoami)/Library/Application Support/fnm:$PATH"
   eval "$(fnm env --use-on-cd --version-file-strategy=recursive --shell zsh)"
   # eval "$(fnm env --use-on-cd --shell zsh)"
   # eval "`fnm env`"
