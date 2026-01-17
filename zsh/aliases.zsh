@@ -85,6 +85,12 @@ function _run_s() {
         nvim .$(whoami)/run.sh
     fi
 }
+
+function dta() {
+    git tag --delete $1
+    git push --delete origin $1
+}
+
 function jj() {
     sesh connect $(sesh list | fzf)
 }
