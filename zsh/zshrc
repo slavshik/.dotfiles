@@ -65,8 +65,6 @@ lfm_tag_similar() {
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-eval "$(fnm env --use-on-cd --shell zsh)"
-
 # >>> JVM installed by coursier >>>
 export JAVA_HOME="/Users/slavshik/Library/Caches/Coursier/arc/https/github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.24%252B8/OpenJDK11U-jdk_x64_mac_hotspot_11.0.24_8.tar.gz/jdk-11.0.24+8/Contents/Home"
 # <<< JVM installed by coursier <<<
@@ -81,10 +79,11 @@ export PATH="$PATH:/Users/slavshik/Documents/dev/flutter/bin"
 FNM_PATH="/Users/slavshik/Library/Application Support/fnm"
 if [ -d "$FNM_PATH" ]; then
   export PATH="/Users/slavshik/Library/Application Support/fnm:$PATH"
-  eval "`fnm env`"
+  eval "$(fnm env --use-on-cd --version-file-strategy=recursive --shell zsh)"
+  # eval "$(fnm env --use-on-cd --shell zsh)"
+  # eval "`fnm env`"
 fi
 
-eval "$(fnm env --use-on-cd --version-file-strategy=recursive)"
 POWERLEVEL9K_INSTANT_PROMPT=quiet #disable errors
 export PATH="$PATH:/Users/slavshik/Documents/dev/emsdk"
 export PATH="$PATH:/Users/slavshik/Documents/dev/emsdk/upstream/emscripten"
