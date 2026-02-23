@@ -29,15 +29,14 @@ LFCD=~/.dotfiles/lf/lfcd.sh
 if [ -f "$LFCD" ]; then
     source "$LFCD"
 fi
+source ~/.dotfiles/zsh/jira.zsh          # shared jira module (must load before company folders)
+
 EVO=~/.dotfiles/evolution/index.zsh
 [ -f "$EVO" ] && source "$EVO"
 
 ELA=~/.dotfiles/ela/index.zsh
 [ -f "$ELA" ] && source "$ELA"
 
-source ~/.dotfiles/zsh/jira.zsh          # shared jira module (overwrites old single-instance funcs)
-jira-register evo "https://jira.evolution.com" EVO_JIRA_PAT bearer
-jira-register ela "https://jira.gosystem.io" ELA_JIRA_PAT bearer
 _jira_restore_profile
 source ~/.dotfiles/zsh/aliases.zsh
 source ~/.dotfiles/zsh/keybindings.zsh
