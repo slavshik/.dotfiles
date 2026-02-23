@@ -20,10 +20,10 @@ source $ZSH/oh-my-zsh.sh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 # export PATH="~/.dotfiles/bin:$PATH"
-export PATH="$PATH:/Users/$(whoami)/Library/Python/3.9/bin"
-export PATH="$PATH:/Users/$(whoami)/go/bin"
+export PATH="$PATH:$HOME/Library/Python/3.9/bin"
+export PATH="$PATH:$HOME/go/bin"
 bindkey -v #enable vim support
-GITSTATUS_LOG_LEVEL=DEBUG
+GITSTATUS_LOG_LEVEL=WARN
 
 LFCD=~/.dotfiles/lf/lfcd.sh
 if [ -f "$LFCD" ]; then
@@ -54,32 +54,32 @@ lfm_tag_similar() {
 }
 
 # bun completions
-[ -s "/Users/slavshik/.bun/_bun" ] && source "/Users/slavshik/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 # >>> JVM installed by coursier >>>
-export JAVA_HOME="/Users/slavshik/Library/Caches/Coursier/arc/https/github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.24%252B8/OpenJDK11U-jdk_x64_mac_hotspot_11.0.24_8.tar.gz/jdk-11.0.24+8/Contents/Home"
+export JAVA_HOME="$HOME/Library/Caches/Coursier/arc/https/github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.24%252B8/OpenJDK11U-jdk_x64_mac_hotspot_11.0.24_8.tar.gz/jdk-11.0.24+8/Contents/Home"
 # <<< JVM installed by coursier <<<
 
 # >>> coursier install directory >>>
-export PATH="$PATH:/Users/slavshik/Library/Application Support/Coursier/bin"
+export PATH="$PATH:$HOME/Library/Application Support/Coursier/bin"
 # <<< coursier install directory <<<
 
-export PATH="$PATH:/Users/slavshik/Documents/dev/flutter/bin"
+export PATH="$PATH:$HOME/Documents/dev/flutter/bin"
 
 # fnm
-FNM_PATH="/Users/$(whoami)/Library/Application Support/fnm"
+FNM_PATH="$HOME/Library/Application Support/fnm"
 if [ -d "$FNM_PATH" ]; then
-  export PATH="/Users/$(whoami)/Library/Application Support/fnm:$PATH"
+  export PATH="$HOME/Library/Application Support/fnm:$PATH"
   eval "$(fnm env --use-on-cd --version-file-strategy=recursive --shell zsh)"
   # eval "$(fnm env --use-on-cd --shell zsh)"
   # eval "`fnm env`"
 fi
 
 POWERLEVEL9K_INSTANT_PROMPT=quiet #disable errors
-export PATH="$PATH:/Users/slavshik/Documents/dev/emsdk"
-export PATH="$PATH:/Users/slavshik/Documents/dev/emsdk/upstream/emscripten"
+export PATH="$PATH:$HOME/Documents/dev/emsdk"
+export PATH="$PATH:$HOME/Documents/dev/emsdk/upstream/emscripten"
 export PATH="$HOME/.local/bin:$PATH"
