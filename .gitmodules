@@ -1,3 +1,6 @@
 [submodule "evolution"]
 	path = evolution
 	url = git@gitlab.evolution.com:aslaushchyk/dotfiles.git
+[submodule "ela"]
+	path = ela
+	url = git@github.com:slavshik/dotfiles-ela.git
