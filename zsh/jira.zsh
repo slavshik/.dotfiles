@@ -145,9 +145,11 @@ jira-my() {
     echo "$res" | jq -r '.issues[] | "\(.key)\t\(.fields.summary)"' > "$_JIRA_CACHE" 2>/dev/null
     echo "$res" | jq -r '
         .issues[] |
-        "\(.key | . + " " * (14 - length))[\(.fields.status.name)] \(.fields.summary)"
+        "\u001b[36m\(.key)\u001b[0m\(" " * (14 - (.key | length)))[\(.fields.status.name)] \(.fields.summary)"
     '
 }
+
+alias jir='jira-my | fzf --ansi'
 
 jira-search() {
     _jira_require_profile || return 1
