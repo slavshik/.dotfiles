@@ -149,7 +149,7 @@ jira-my() {
     '
 }
 
-alias jir='jira-my | fzf --ansi'
+alias jir='jira-my | fzf --ansi --bind "ctrl-o:become(open $JIRA_HOST/browse/{1})"'
 
 jira-search() {
     _jira_require_profile || return 1
