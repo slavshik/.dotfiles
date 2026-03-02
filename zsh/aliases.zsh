@@ -68,8 +68,25 @@ function proj_install() {
     fi
 }
 
+function _find_claude_scripts() {
+    local dir="$PWD"
+    while [[ "$dir" != "/" ]]; do
+        local scripts_dir="$dir/.claude/scripts"
+        if [[ -d "$scripts_dir" ]] && [[ -n "$(ls -A "$scripts_dir" 2>/dev/null)" ]]; then
+            echo "$scripts_dir"
+            return 0
+        fi
+        dir="${dir:h}"
+    done
+    return 1
+}
+
 function runscript_save() {
-    if [[ -f "$1" ]]; then 
+    local scripts_dir
+    if scripts_dir=$(_find_claude_scripts); then
+        local pick=$(find "$scripts_dir" -maxdepth 1 -type f -perm +111 -exec basename {} \; | fzf --height="40%" --prompt="script> ")
+        [[ -n "$pick" ]] && "$scripts_dir/$pick"
+    elif [[ -f "$1" ]]; then
         ./$1
     else
         proj_run
