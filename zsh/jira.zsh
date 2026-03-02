@@ -21,6 +21,7 @@ jira-register() {
 
 _jira_state_file="${XDG_STATE_HOME:-$HOME/.local/state}/jira-profile"
 
+# jira-use [label] — switch Jira profile or list all
 jira-use() {
     local label="$1"
     local profiles=("${(@k)_JIRA_PROFILES}")
@@ -112,6 +113,7 @@ _jira_curl() {
 
 # --- Commands ---
 
+# jira <KEY> — view issue details
 jira() {
     _jira_require_profile || return 1
     local key="${1:u}"
@@ -127,6 +129,7 @@ jira() {
     '
 }
 
+# jira-open <KEY> — open issue in browser
 jira-open() {
     _jira_require_profile || return 1
     local key="${1:u}"
@@ -134,6 +137,7 @@ jira-open() {
     open "$JIRA_HOST/browse/$key"
 }
 
+# jira-my [N] — list my unresolved issues
 jira-my() {
     _jira_require_profile || return 1
     local max="${1:-15}"
@@ -151,6 +155,7 @@ jira-my() {
 
 alias jir='jira-my | fzf --ansi --bind "ctrl-o:become(open $JIRA_HOST/browse/{1})"'
 
+# jira-search <text> — free-text search
 jira-search() {
     _jira_require_profile || return 1
     [[ -z "$1" ]] && { echo "Usage: jira-search <text>"; return 1; }
@@ -164,6 +169,7 @@ jira-search() {
     '
 }
 
+# jira-comment <KEY> <msg> — add a comment
 jira-comment() {
     _jira_require_profile || return 1
     local key="${1:u}"
@@ -174,6 +180,7 @@ jira-comment() {
         -d "$(jq -n --arg b "$body" '{body: $b}')" | jq -r '"Comment added (id: \(.id))"'
 }
 
+# jira-assign <KEY> [user] — assign issue (defaults to self)
 jira-assign() {
     _jira_require_profile || return 1
     local key="${1:u}"
@@ -190,6 +197,7 @@ jira-assign() {
     echo "Assigned $key to ${user:-me}"
 }
 
+# jira-status <KEY> — transition status via fzf
 jira-status() {
     _jira_require_profile || return 1
     local key="${1:u}"
