@@ -30,6 +30,7 @@ if [ -f "$LFCD" ]; then
     source "$LFCD"
 fi
 source ~/.dotfiles/zsh/jira.zsh          # shared jira module (must load before company folders)
+source ~/.dotfiles/zsh/gitlab.zsh
 
 EVO=~/.dotfiles/evolution/index.zsh
 [ -f "$EVO" ] && source "$EVO"

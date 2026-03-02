@@ -127,3 +127,20 @@ alias mine="git log --decorate --all --author=\"`git config user.email`\""
 alias webstorm="open -a 'WebStorm' --args '$1' >/dev/null 2>&1"
 
 # TODO: add alias for `git push origin -u HEAD`
+
+# helpme [filter] — list custom commands from dotfiles
+helpme() {
+    local filter="${1:-}"
+    local files=(~/.dotfiles/zsh/jira.zsh ~/.dotfiles/zsh/gitlab.zsh ~/.dotfiles/zsh/aliases.zsh)
+    for f in $files; do
+        [[ -f "$f" ]] || continue
+        local label="${${f:t}%.zsh}"
+        grep -E '^# \w+.* — ' "$f" | while IFS= read -r line; do
+            local cmd="${line#\# }"
+            local name="${cmd%% —*}"
+            local desc="${cmd#*— }"
+            [[ -n "$filter" && "$name" != *"$filter"* && "$label" != *"$filter"* ]] && continue
+            printf "\033[36m%-16s\033[0m %s\n" "$name" "$desc"
+        done
+    done
+}
