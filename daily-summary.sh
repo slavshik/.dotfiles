@@ -248,14 +248,14 @@ fi
 
 # --- Send ---
 if $SEND; then
-    if [[ -n "${JOBBY_TG_TOKEN:-}" ]]; then
-        local channel="${JOBBY_TG_CHANNEL:--1003858565793}"
-        curl -s -X POST "https://api.telegram.org/bot${JOBBY_TG_TOKEN}/sendMessage" \
+    if [[ -n "${SENDER_TG_TOKEN:-}" ]]; then
+        local channel="${JOBBY_CHANNEL:--1003858565793}"
+        curl -s -X POST "https://api.telegram.org/bot${SENDER_TG_TOKEN}/sendMessage" \
             -H "Content-Type: application/json" \
             -d "$(jq -nc --arg chat "$channel" --arg text "$SUMMARY" '{chat_id: $chat, text: $text}')" > /dev/null 2>&1
         echo "📤 Sent to Jobby-logs channel" >&2
     else
-        echo "⚠️  Set JOBBY_TG_TOKEN for --send" >&2
-        echo "   export JOBBY_TG_TOKEN=\"8734188691:AAFRSBUZFlK4fQMuImq4QJJHtWsDsPZ8mBY\"" >&2
+        echo "⚠️  Set SENDER_TG_TOKEN for --send" >&2
+        echo "   Must be a DIFFERENT bot than Jobby (e.g. Bunny bot token)" >&2
     fi
 fi
