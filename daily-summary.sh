@@ -140,25 +140,33 @@ collect_github() {
 
 # --- Git commits (scan repos) ---
 collect_git() {
-    local email=$(git config --global user.email 2>/dev/null || echo "")
-    [[ -z "$email" ]] && { echo "[]"; return; }
-
     local all_commits="[]"
-    local search_dirs=("$HOME/projects" "$HOME/dev" "$HOME/work" )
+    local repo_dirs=()
 
-    for dir in "${search_dirs[@]}"; do
-        [[ -d "$dir" ]] || continue
-        for repo in $(find "$dir" -maxdepth 2 -name ".git" -type d 2>/dev/null); do
-            local repo_dir=$(dirname "$repo")
-            local repo_name=$(basename "$repo_dir")
-            local commits
-            commits=$(cd "$repo_dir" && git log \
-                --author="$email" \
-                --since="$SINCE_DATE" \
-                --format='{"hash":"%h","message":"%s","date":"%ci"}' \
-                --all 2>/dev/null | jq -sc --arg r "$repo_name" '[.[] | . + {repo: $r}]' 2>/dev/null || echo "[]")
-            all_commits=$(echo "$all_commits $commits" | jq -sc '.[0] + .[1]')
-        done
+    # Discover repos from repos.conf files in submodule dirs
+    for conf in "$DOTFILES_DIR"/*/repos.conf; do
+        [[ -f "$conf" ]] || continue
+        while IFS= read -r line; do
+            local expanded="${line/#\~/$HOME}"
+            expanded="${expanded%/}"
+            [[ -d "$expanded/.git" ]] && repo_dirs+=("$expanded")
+        done < "$conf"
+    done
+
+    # Deduplicate
+    repo_dirs=(${(u)repo_dirs})
+
+    local repo_name email commits
+    for repo_dir in "${repo_dirs[@]}"; do
+        repo_name=$(basename "$repo_dir")
+        email=$(cd "$repo_dir" && git config user.email 2>/dev/null || echo "")
+        [[ -z "$email" ]] && continue
+        commits=$(cd "$repo_dir" && git log \
+            --author="$email" \
+            --since="$SINCE_DATE" \
+            --format='{"hash":"%h","message":"%s","date":"%ci"}' \
+            --all 2>/dev/null | jq -sc --arg r "$repo_name" '[.[] | . + {repo: $r}]' 2>/dev/null || echo "[]")
+        all_commits=$(echo "$all_commits $commits" | jq -sc '.[0] + .[1]')
     done
     echo "  Commits: $(echo "$all_commits" | jq length)" >&2
     echo "$all_commits"
