@@ -250,9 +250,12 @@ fi
 if $SEND; then
     if [[ -n "${SENDER_TG_TOKEN:-}" ]]; then
         local channel="${JOBBY_CHANNEL:--1003858565793}"
-        curl -s -X POST "https://api.telegram.org/bot${SENDER_TG_TOKEN}/sendMessage" \
-            -H "Content-Type: application/json" \
-            -d "$(jq -nc --arg chat "$channel" --arg text "$SUMMARY" '{chat_id: $chat, text: $text}')" > /dev/null 2>&1
+        local tmp_file="/tmp/daily-summary-${HOST}-$(date +%Y%m%d).json"
+        echo "$SUMMARY" | jq . > "$tmp_file"
+        curl -s -X POST "https://api.telegram.org/bot${SENDER_TG_TOKEN}/sendDocument" \
+            -F chat_id="$channel" \
+            -F document="@${tmp_file}" \
+            -F caption="📊 Daily summary from $HOST" > /dev/null 2>&1
         echo "📤 Sent to Jobby-logs channel" >&2
     else
         echo "⚠️  Set SENDER_TG_TOKEN for --send" >&2
