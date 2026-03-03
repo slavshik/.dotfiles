@@ -5,7 +5,7 @@
 # Usage:
 #   ./daily-summary.sh              # yesterday's summary (JSON to stdout)
 #   ./daily-summary.sh --days 3     # last 3 days
-#   ./daily-summary.sh --send       # pipe to Bunny via Telegram
+#   ./daily-summary.sh --send       # send via Telegram
 #   ./daily-summary.sh --pretty     # human-readable instead of JSON
 #
 # Requires: curl, jq. Optional: glab (GitLab), gh (GitHub)
@@ -248,13 +248,15 @@ fi
 
 # --- Send ---
 if $SEND; then
-    if [[ -n "${BUNNY_TG_TOKEN:-}" && -n "${BUNNY_TG_CHAT:-}" ]]; then
-        curl -s -X POST "https://api.telegram.org/bot${BUNNY_TG_TOKEN}/sendDocument" \
-            -F chat_id="$BUNNY_TG_CHAT" \
-            -F document="@/tmp/daily-summary-$(date +%Y%m%d).json" \
+    if [[ -n "${JOBBY_TG_TOKEN:-}" && -n "${JOBBY_TG_CHAT:-}" ]]; then
+        local tmp_file="/tmp/daily-summary-$(date +%Y%m%d).json"
+        echo "$SUMMARY" | jq . > "$tmp_file"
+        curl -s -X POST "https://api.telegram.org/bot${JOBBY_TG_TOKEN}/sendDocument" \
+            -F chat_id="$JOBBY_TG_CHAT" \
+            -F document="@${tmp_file}" \
             -F caption="📊 Daily summary from $HOST" > /dev/null 2>&1
-        echo "📤 Sent to Bunny" >&2
+        echo "📤 Sent to Telegram" >&2
     else
-        echo "⚠️  Set BUNNY_TG_TOKEN + BUNNY_TG_CHAT for --send" >&2
+        echo "⚠️  Set JOBBY_TG_TOKEN + JOBBY_TG_CHAT for --send" >&2
     fi
 fi
