@@ -1,6 +1,7 @@
 os:
   editPreset: "nvim"
 git:
+  skipHookPrefixes: ["fixup!", "squash!"]
   branchLogCmd: "git log --color=always --pretty=format:\"%C(yellow)%h 📅 %C(green)%cd %C(reset)%s %C(cyan)%cE\" --date=short {{branchName}} --"
   commitPrefixes:
     js-clients: # This is repository folder name
@@ -18,6 +19,13 @@ services:
   'gitlab.gosystem.io': gitlab:gitlab.gosystem.io
 gui:
   nerdFontsVersion: "3"
+  # Override .tsx icon: default lazygit uses U+ED46 which is missing in MesloLGL Nerd Font.
+  # Using U+E7BA instead (same as lf config).
+  customIcons:
+    extensions:
+      .tsx:
+        icon: ""
+        color: "#04BCD4"
   mainBranches: [master, main]
   theme:
     activeBorderColor:
