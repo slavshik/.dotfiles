@@ -161,11 +161,15 @@ collect_git() {
         repo_name=$(basename "$repo_dir")
         email=$(cd "$repo_dir" && git config user.email 2>/dev/null || echo "")
         [[ -z "$email" ]] && continue
+        local remote_url
+        remote_url=$(cd "$repo_dir" && git remote get-url origin 2>/dev/null || echo "")
+        # Normalize SSH to HTTPS
+        remote_url=$(echo "$remote_url" | sed -E 's|^git@([^:]+):|https://\1/|; s|\.git$||')
         commits=$(cd "$repo_dir" && git log \
             --author="$email" \
             --since="$SINCE_DATE" \
-            --format='{"hash":"%h","message":"%s","date":"%ci"}' \
-            --all 2>/dev/null | jq -sc --arg r "$repo_name" '[.[] | . + {repo: $r}]' 2>/dev/null || echo "[]")
+            --format='{"hash":"%H","short_hash":"%h","message":"%s","date":"%ci"}' \
+            --all 2>/dev/null | jq -sc --arg r "$repo_name" --arg u "$remote_url" '[.[] | . + {repo: $r, remote_url: $u}]' 2>/dev/null || echo "[]")
         all_commits=$(echo "$all_commits $commits" | jq -sc '.[0] + .[1]')
     done
     echo "  Commits: $(echo "$all_commits" | jq length)" >&2

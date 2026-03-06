@@ -89,3 +89,6 @@ POWERLEVEL9K_INSTANT_PROMPT=quiet #disable errors
 export PATH="$PATH:$HOME/Documents/dev/emsdk"
 export PATH="$PATH:$HOME/Documents/dev/emsdk/upstream/emscripten"
 export PATH="$HOME/.local/bin:$PATH"
+
+# OpenClaw Completion
+source "/Users/slavshik/.openclaw/completions/openclaw.zsh"
