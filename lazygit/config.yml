@@ -26,6 +26,10 @@ gui:
       .tsx:
         icon: ""
         color: "#04BCD4"
+    filenames:
+      package.json:
+        icon: ""
+        color: "#8BC34A"
   mainBranches: [master, main]
   theme:
     activeBorderColor:
