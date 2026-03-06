@@ -6,11 +6,10 @@ _gl_pick_mr() {
     local mrs
     mrs=$(glab mr list --per-page=30 "$@")
     [[ $? -ne 0 ]] && return 1
-    local pick=$(echo "$mrs" | fzf --ansi --header-lines=1 \
-        --prompt="MR > " --preview-window=hidden)
-    [[ -z "$pick" ]] && return 0
-    local id=$(echo "$pick" | awk '{print $1}' | tr -d '!')
-    glab mr view --web "$id"
+    echo "$mrs" | fzf --ansi --header-lines=1 \
+        --prompt="MR > " --preview-window=hidden \
+        --bind "enter:become(glab mr view --web \$(echo {} | awk '{print \$1}' | tr -d '!'))" \
+        --bind "ctrl-y:become(echo -n \$(echo {} | awk '{print \$1}' | tr -d '!') | pbcopy && echo 'Copied MR ID')"
 }
 
 # gl-mrs — list my open MRs, pick one to open in browser
@@ -40,9 +39,8 @@ gl-pipes() {
     local pipes
     pipes=$(glab ci list --per-page=20 "$@")
     [[ $? -ne 0 ]] && return 1
-    local pick=$(echo "$pipes" | fzf --ansi --header-lines=1 \
-        --prompt="Pipeline > " --preview-window=hidden)
-    [[ -z "$pick" ]] && return 0
-    local id=$(echo "$pick" | awk '{print $1}' | tr -d '()')
-    glab ci view "$id"
+    echo "$pipes" | fzf --ansi --header-lines=1 \
+        --prompt="Pipeline > " --preview-window=hidden \
+        --bind "enter:become(glab ci view \$(echo {} | awk '{print \$1}' | tr -d '()'))" \
+        --bind "ctrl-y:become(echo -n \$(echo {} | awk '{print \$1}' | tr -d '()') | pbcopy && echo 'Copied pipeline ID')"
 }

@@ -84,8 +84,14 @@ function _find_claude_scripts() {
 function runscript_save() {
     local scripts_dir
     if scripts_dir=$(_find_claude_scripts); then
-        local pick=$(find "$scripts_dir" -maxdepth 1 -type f -perm +111 -exec basename {} \; | fzf --height="40%" --prompt="script> ")
-        [[ -n "$pick" ]] && "$scripts_dir/$pick"
+        local pick=$(find "$scripts_dir" -maxdepth 1 -type f -perm +111 -exec basename {} \; | fzf --height="40%" --prompt="script> " \
+            --bind "ctrl-o:become(echo $scripts_dir/{1})")
+        [[ -z "$pick" ]] && return 0
+        if [[ -x "$scripts_dir/$pick" ]]; then
+            "$scripts_dir/$pick"
+        else
+            print -z "$pick | "
+        fi
     elif [[ -f "$1" ]]; then
         ./$1
     else

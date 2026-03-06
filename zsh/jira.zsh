@@ -153,7 +153,9 @@ jira-my() {
     '
 }
 
-alias jir='jira-my | fzf --ansi --bind "ctrl-o:become(open $JIRA_HOST/browse/{1})"'
+alias jir='jira-my | fzf --ansi \
+    --bind "enter:become(open $JIRA_HOST/browse/{1})" \
+    --bind "ctrl-y:become(echo -n {1} | pbcopy && echo \"Copied {1}\")"'
 
 # jira-search <text> — free-text search
 jira-search() {
