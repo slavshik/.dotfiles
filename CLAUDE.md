@@ -17,9 +17,10 @@ Homebrew packages are tracked in `Brewfile` (flat list, no `brew bundle` integra
 
 ## Repository Structure
 
-- **zsh/zshrc** — Main shell config. Sources oh-my-zsh (powerlevel10k theme), then loads modules in order: `jira.zsh` → company submodules (`evolution/`, `ela/`) → `aliases.zsh` → `keybindings.zsh`
+- **zsh/zshrc** — Main shell config. Sources oh-my-zsh (powerlevel10k theme), then loads modules in order: `jira.zsh` → `gitlab.zsh` → company submodules (`evolution/`, `ela/`) → `aliases.zsh` → `keybindings.zsh`
 - **zsh/jira.zsh** — Multi-profile Jira CLI (shared across company configs). Company submodules call `jira-register` to add profiles; `_jira_restore_profile` auto-activates on shell start
-- **zsh/aliases.zsh** — Shell aliases and utility functions (`proj_run`, `proj_install`, `glone`, etc.)
+- **zsh/gitlab.zsh** — GitLab MR/pipeline helpers using `glab` + `fzf`. Auth via `GITLAB_TOKEN`/`GITLAB_HOST` from company `.secure.zsh`
+- **zsh/aliases.zsh** — Shell aliases and utility functions (`proj_run`, `proj_install`, `glone`, `helpme`, etc.)
 - **nvim/** — Neovim config using Lazy.nvim. Entry point: `init.lua` → `lua/{set,remap,russian}.lua` + `lua/config/{lazy,lsp}.lua`. Plugins live in `lua/plugins/` as individual files
 - **tmux/** — tmux config with TPM plugins, sesh session manager (prefix+K), vim-tmux-navigator
 - **alacritty/** — Terminal emulator config (TOML format)
@@ -27,6 +28,8 @@ Homebrew packages are tracked in `Brewfile` (flat list, no `brew bundle` integra
 - **lf/** — lf file manager config with `lfcd.sh` for directory-changing integration
 - **karabiner/** — Karabiner-Elements keyboard remapping
 - **sesh/** — tmux session manager config
+- **.gitconfig** — Git config (delta pager, nvim editor, LFS)
+- **.ideavimrc** — IdeaVim config for JetBrains IDEs
 
 ## Git Submodules
 
