@@ -19,3 +19,14 @@ cmd fzf_jump ${{
 }}
 
 map <c-f> :fzf_jump
+
+# delete with trash (fallback to rm)
+cmd delete ${{
+    if command -v trash >/dev/null 2>&1; then
+        echo "$fx" | tr '\n' '\0' | xargs -0 trash
+    else
+        echo "$fx" | tr '\n' '\0' | xargs -0 rm -rf
+    fi
+}}
+
+map <delete> delete
