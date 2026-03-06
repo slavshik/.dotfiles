@@ -91,4 +91,4 @@ export PATH="$PATH:$HOME/Documents/dev/emsdk/upstream/emscripten"
 export PATH="$HOME/.local/bin:$PATH"
 
 # OpenClaw Completion
-source "/Users/slavshik/.openclaw/completions/openclaw.zsh"
+[[ -f "$HOME/.openclaw/completions/openclaw.zsh" ]] && source "$HOME/.openclaw/completions/openclaw.zsh"
