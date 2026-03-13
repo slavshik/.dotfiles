@@ -43,6 +43,8 @@ bindings = [
 
     { key = ".", mods = "Command", chars = "\u0002." }, # move window right (prefix + .)
     { key = ",", mods = "Command", chars = "\u0002," }, # move window left (prefix + ,)
+    { key = "Comma", mods = "Command|Alt", chars = "\u0002<" }, # move active tmux pane left
+    { key = "Period", mods = "Command|Alt", chars = "\u0002>" }, # move active tmux pane right
 
     # -------------------------------------------------------------
     # 
@@ -108,4 +110,3 @@ bindings = [
     { key = "Key8", mods = "Command", chars = "\u00028" },
     { key = "Key9", mods = "Command", chars = "\u00029" },
 ]
-
