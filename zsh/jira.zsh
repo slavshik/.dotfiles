@@ -113,12 +113,19 @@ _jira_curl() {
 
 # --- Commands ---
 
-# jira <KEY> — view issue details
+# internal: fetch full issue JSON (description, comments, attachments)
+_jira_fetch_full() {
+    local key="${1:u}"
+    [[ -z "$key" ]] && { echo "Usage: _jira_fetch_full <ISSUE-KEY>" >&2; return 1; }
+    _jira_curl "$JIRA_API/issue/$key?fields=summary,status,assignee,priority,issuetype,description,labels,components,comment,attachment,fixVersions,customfield_10016,customfield_10014"
+}
+
+# jira <KEY> — view issue summary
 jira() {
     _jira_require_profile || return 1
     local key="${1:u}"
     [[ -z "$key" ]] && { echo "Usage: jira <ISSUE-KEY>"; return 1; }
-    local res=$(_jira_curl "$JIRA_API/issue/$key?fields=summary,status,assignee,priority,issuetype")
+    local res=$(_jira_fetch_full "$key")
     local err=$(echo "$res" | jq -r '.errorMessages[0] // empty')
     [[ -n "$err" ]] && { echo "Error: $err"; return 1; }
     echo "$res" | jq -r '
@@ -127,6 +134,48 @@ jira() {
         "Priority: \(.fields.priority.name)\n" +
         "Assignee: \(.fields.assignee.displayName // "Unassigned")"
     '
+}
+
+# jira-detail <KEY> — full issue view: description, comments, attachments
+jira-detail() {
+    _jira_require_profile || return 1
+    local key="${1:u}"
+    [[ -z "$key" ]] && { echo "Usage: jira-detail <ISSUE-KEY>"; return 1; }
+    local res=$(_jira_fetch_full "$key")
+    local err=$(echo "$res" | jq -r '.errorMessages[0] // empty')
+    [[ -n "$err" ]] && { echo "Error: $err"; return 1; }
+
+    # Header
+    echo "$res" | jq -r '
+        "\(.key)  [\(.fields.issuetype.name)] \(.fields.summary)",
+        "─────────────────────────────────────────",
+        "Status:    \(.fields.status.name)",
+        "Priority:  \(.fields.priority.name)",
+        "Assignee:  \(.fields.assignee.displayName // "Unassigned")",
+        (if (.fields.labels | length) > 0 then "Labels:    \(.fields.labels | join(", "))" else empty end),
+        (if .fields.customfield_10016 != null then "Story pts: \(.fields.customfield_10016)" else empty end),
+        (if (.fields.fixVersions | length) > 0 then "Fix ver:   \(.fields.fixVersions[].name)" else empty end),
+        "",
+        "Description:",
+        (.fields.description // "(none)")
+    '
+
+    # Last 3 comments
+    local comment_count=$(echo "$res" | jq '.fields.comment.comments | length')
+    if (( comment_count > 0 )); then
+        echo "\nComments (last 3):"
+        echo "$res" | jq -r '
+            .fields.comment.comments[-3:] | .[] |
+            "  [\(.updated[:10]) \(.author.displayName)] \(.body | split("\n")[0])"
+        '
+    fi
+
+    # Attachments
+    local att_count=$(echo "$res" | jq '.fields.attachment | length')
+    if (( att_count > 0 )); then
+        echo "\nAttachments:"
+        echo "$res" | jq -r '.fields.attachment[] | "  \(.filename) (\(.mimeType))"'
+    fi
 }
 
 # jira-open <KEY> — open issue in browser
@@ -238,5 +287,5 @@ _jira_complete_profiles() {
     _describe 'jira profile' profiles
 }
 
-compdef _jira_complete_keys jira jira-open jira-comment jira-assign jira-status
+compdef _jira_complete_keys jira jira-detail jira-open jira-comment jira-assign jira-status
 compdef _jira_complete_profiles jira-use

@@ -135,12 +135,17 @@ helpme() {
     for f in $files; do
         [[ -f "$f" ]] || continue
         local label="${${f:t}%.zsh}"
-        grep -E '^# \w+.* — ' "$f" | while IFS= read -r line; do
+        local matches=()
+        while IFS= read -r line; do
             local cmd="${line#\# }"
             local name="${cmd%% —*}"
             local desc="${cmd#*— }"
             [[ -n "$filter" && "$name" != *"$filter"* && "$label" != *"$filter"* ]] && continue
-            printf "\033[36m%-16s\033[0m %s\n" "$name" "$desc"
-        done
+            matches+=("$(printf "\033[36m%-20s\033[0m %s" "$name" "$desc")")
+        done < <(grep -E '^# \w+.* — ' "$f")
+        if (( ${#matches[@]} > 0 )); then
+            printf "\n\033[1;33m%s\033[0m\n" "$label"
+            printf '%s\n' "${matches[@]}"
+        fi
     done
 }
