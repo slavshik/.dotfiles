@@ -1,12 +1,12 @@
 ---
 name: jira
-description: Read a Jira ticket and display its full details including description, acceptance criteria, and recent comments. Use when the user mentions a Jira key (e.g. ELA-123, PROJ-456), asks to look up a ticket, or wants context from a Jira issue.
+description: Interact with Jira tickets — view details, add comments, assign, or transition status. Use when the user mentions a Jira key (e.g. ELA-123, PROJ-456), asks to look up a ticket, wants context from a Jira issue, or wants to comment/assign/update a ticket.
 tools: Bash, Read
 ---
 
-# Jira Ticket Reader
+# Jira Ticket Helper
 
-Fetch and display full details of a Jira ticket.
+View, comment on, assign, and transition Jira tickets.
 
 ## Input
 
@@ -16,6 +16,12 @@ The ticket key is either:
 - Inferred from git context when the user says "current ticket", "this ticket", "the jira issue", etc.
 
 If no key is provided and it wasn't possible to infer one, ask the user.
+
+**Actions** can be requested via arguments or natural language:
+- `--comment "message"` or user says "add a comment" → use `jira-comment`
+- `--assign [user]` or user says "assign to me" → use `jira-assign`
+- User says "move to In Progress" / "transition" → use status transition API
+- No action flag → default to fetching and displaying the ticket
 
 ## Inferring key from git context
 
@@ -114,6 +120,41 @@ rm -f "$tmpfile"
 **When to show attachments:**
 - Always list attachment filenames at the end of the ticket output (if any exist)
 - Download and display images only if the user asks, or if there are ≤3 images and the ticket has design/UI context
+
+## Actions
+
+The following dotfile helpers are available for mutating tickets. All use `zsh -i -c '...'` to auto-load dotfiles.
+
+### Add a comment
+
+```bash
+zsh -i -c 'jira-comment MONDICE-385 Landscape now fixed, MR updated.' 2>/dev/null
+```
+
+- `jira-comment <KEY> <message>` — adds a comment to the ticket
+- Output: `Comment added (id: 12345)`
+
+### Assign a ticket
+
+```bash
+zsh -i -c 'jira-assign MONDICE-385' 2>/dev/null        # assign to self
+zsh -i -c 'jira-assign MONDICE-385 jdoe' 2>/dev/null   # assign to specific user
+```
+
+- `jira-assign <KEY> [username]` — assigns the ticket (defaults to self if no user given)
+
+### Transition status
+
+Note: this helper uses `fzf` interactively, so it cannot be used non-interactively. Instead, use the API directly when Claude needs to transition:
+
+```bash
+# 1. List available transitions
+res=$(zsh -i -c '_jira_curl "$JIRA_API/issue/MONDICE-385/transitions"' 2>/dev/null)
+echo "$res" | jq -r '.transitions[] | "\(.id) \(.name)"'
+
+# 2. Apply a transition by ID
+zsh -i -c '_jira_curl -X POST "$JIRA_API/issue/MONDICE-385/transitions" -d "{\"transition\":{\"id\":\"31\"}}"' 2>/dev/null
+```
 
 ## Example jq snippets
 
