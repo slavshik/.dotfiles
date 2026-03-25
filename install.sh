@@ -18,3 +18,5 @@ dotlink sesh/ ~/.config/sesh
 
 ln -sfn $DOTFILES/lazygit/config.yml ~/Library/Application\ Support/lazygit/config.yml
 ln -sfn $DOTFILES/lazygit/state.yml ~/Library/Application\ Support/lazygit/state.yml
+
+dotlink claude/skills ~/.claude/skills
