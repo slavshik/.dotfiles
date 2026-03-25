@@ -13,13 +13,14 @@
 set -uo pipefail
 
 DAYS=1
+DAYS_EXPLICIT=false
 SEND=false
 PRETTY=false
 DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        --days) DAYS="$2"; shift 2 ;;
+        --days) DAYS="$2"; DAYS_EXPLICIT=true; shift 2 ;;
         --send) SEND=true; shift ;;
         --pretty) PRETTY=true; shift ;;
         -h|--help)
@@ -28,6 +29,20 @@ while [[ $# -gt 0 ]]; do
         *) echo "Unknown: $1"; exit 1 ;;
     esac
 done
+
+# On Monday, auto-expand to cover Friday+weekend unless --days was explicit
+if ! $DAYS_EXPLICIT; then
+    local dow=$(date +%u)  # 1=Monday ... 7=Sunday
+    if (( dow == 1 )); then
+        DAYS=3
+    elif (( dow == 6 )); then
+        # Saturday: look back to Friday
+        DAYS=1
+    elif (( dow == 7 )); then
+        # Sunday: look back to Friday
+        DAYS=2
+    fi
+fi
 
 SINCE_DATE=$(date -v-${DAYS}d +%Y-%m-%d 2>/dev/null || date -d "$DAYS days ago" +%Y-%m-%d)
 TODAY=$(date +%Y-%m-%d)
