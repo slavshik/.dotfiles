@@ -260,6 +260,79 @@ jira-status() {
     echo "Transitioned $key -> $(echo "$choice" | cut -d' ' -f2-)"
 }
 
+# jira-by-status <status> [N] — list my issues by status name
+jira-by-status() {
+    _jira_require_profile || return 1
+    local st="$1" max="${2:-15}"
+    [[ -z "$st" ]] && { echo "Usage: jira-by-status <status> [max=15]"; return 1; }
+    local res=$(_jira_curl "$JIRA_API/search" \
+        -G --data-urlencode "jql=assignee=currentUser() AND status=\"$st\" ORDER BY updated DESC" \
+        --data-urlencode "maxResults=$max" \
+        --data-urlencode "fields=summary,status,priority,issuetype")
+    local total=$(echo "$res" | jq -r '.total')
+    [[ "$total" == "0" ]] && { echo "No issues with status \"$st\""; return 0; }
+    echo "$res" | jq -r '
+        .issues[] |
+        "\u001b[36m\(.key)\u001b[0m\(" " * (14 - (.key | length)))[\(.fields.status.name)] \(.fields.summary)"
+    '
+}
+
+# jira-transition <KEY> <status> — transition issue to status by name (fuzzy match)
+jira-transition() {
+    _jira_require_profile || return 1
+    local key="${1:u}" target="$2"
+    [[ -z "$key" || -z "$target" ]] && { echo "Usage: jira-transition <ISSUE-KEY> <status>"; return 1; }
+    local res=$(_jira_curl "$JIRA_API/issue/$key/transitions")
+    local target_lower=$(echo "$target" | tr '[:upper:]' '[:lower:]')
+    local match=$(echo "$res" | jq -r --arg t "$target_lower" '
+        .transitions[] |
+        select(.name | ascii_downcase | contains($t)) |
+        "\(.id)\t\(.name)"
+    ' | head -1)
+    [[ -z "$match" ]] && {
+        echo "No transition matching \"$target\" for $key. Available:"
+        echo "$res" | jq -r '.transitions[] | "  \(.name)"'
+        return 1
+    }
+    local tid=$(echo "$match" | cut -f1)
+    local tname=$(echo "$match" | cut -f2)
+    _jira_curl -X POST "$JIRA_API/issue/$key/transitions" \
+        -d "$(jq -n --arg id "$tid" '{transition: {id: $id}}')"
+    echo "$key → $tname"
+}
+
+# jira-mr <KEY> [--web] — find GitLab MR by ticket key
+jira-mr() {
+    _jira_require_profile || return 1
+    local key="${1:u}" open_web=false
+    [[ -z "$key" ]] && { echo "Usage: jira-mr <ISSUE-KEY> [--web]"; return 1; }
+    [[ "$2" == "--web" ]] && open_web=true
+    local mr=$(glab mr list --author=@me --search="$key" 2>/dev/null | grep -i "$key")
+    [[ -z "$mr" ]] && { echo "No MR found for $key"; return 1; }
+    echo "$mr"
+    if $open_web; then
+        local mr_id=$(echo "$mr" | grep -oE '![0-9]+' | head -1 | tr -d '!')
+        [[ -n "$mr_id" ]] && glab mr view "$mr_id" --web
+    fi
+}
+
+# jira-batch-transition <from-status> <to-status> — move all my issues between statuses
+jira-batch-transition() {
+    _jira_require_profile || return 1
+    local from="$1" to="$2"
+    [[ -z "$from" || -z "$to" ]] && { echo "Usage: jira-batch-transition <from-status> <to-status>"; return 1; }
+    local res=$(_jira_curl "$JIRA_API/search" \
+        -G --data-urlencode "jql=assignee=currentUser() AND status=\"$from\" ORDER BY updated DESC" \
+        --data-urlencode "maxResults=50" \
+        --data-urlencode "fields=key,summary")
+    local keys=($(echo "$res" | jq -r '.issues[].key'))
+    [[ ${#keys[@]} -eq 0 ]] && { echo "No issues with status \"$from\""; return 0; }
+    echo "Transitioning ${#keys[@]} issue(s) from \"$from\" → \"$to\":"
+    for k in "${keys[@]}"; do
+        jira-transition "$k" "$to"
+    done
+}
+
 # --- Completions ---
 
 _jira_branch_key() {
@@ -287,5 +360,5 @@ _jira_complete_profiles() {
     _describe 'jira profile' profiles
 }
 
-compdef _jira_complete_keys jira jira-detail jira-open jira-comment jira-assign jira-status
+compdef _jira_complete_keys jira jira-detail jira-open jira-comment jira-assign jira-status jira-transition jira-mr
 compdef _jira_complete_profiles jira-use

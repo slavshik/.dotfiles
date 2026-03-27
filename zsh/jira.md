@@ -4,7 +4,7 @@ Shell commands for multiple Jira instances. Switched via `jira-use`.
 
 ## Setup
 
-1. Each company's `.secure.zsh` exports a PAT variable (e.g. `EVO_JIRA_PAT`, `ELA_JIRA_PAT`).
+1. Each company's `.secure.zsh` exports a PAT variable (e.g. `JIRA_PAT`, `ELA_JIRA_PAT`).
 2. Profiles are registered in `zshrc` via `jira-register <label> <host> <pat_env_var> [auth_type]`.
 3. `_jira_restore_profile` auto-restores the last-used profile on shell startup.
 
@@ -14,7 +14,7 @@ Requires: `curl`, `jq`, `fzf` (for `jira-status`).
 
 | Label | Host | PAT variable |
 |---|---|---|
-| `evo` | `jira.evolution.com` | `EVO_JIRA_PAT` |
+| `evo` | `jira.evolution.com` | `JIRA_PAT` |
 | `ela` | `jira.gosystem.io` | `ELA_JIRA_PAT` |
 
 ## Commands
@@ -29,6 +29,10 @@ Requires: `curl`, `jq`, `fzf` (for `jira-status`).
 | `jira-comment <KEY> <msg>` | Add a comment |
 | `jira-assign <KEY> [user]` | Assign issue (defaults to self) |
 | `jira-status <KEY>` | Transition status via fzf picker |
+| `jira-by-status <status> [N]` | List my issues filtered by status name |
+| `jira-transition <KEY> <status>` | Transition issue by status name (fuzzy match) |
+| `jira-mr <KEY> [--web]` | Find GitLab MR by ticket key |
+| `jira-batch-transition <from> <to>` | Move all my issues between statuses |
 
 Issue keys are auto-uppercased (`mondice-91` → `MONDICE-91`).
 
