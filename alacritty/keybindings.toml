@@ -6,6 +6,8 @@ bindings = [
     { key = "N", mods = "Command|Shift", chars = "\u0002S" }, # new tmux session
     { key = "T", mods = "Command", chars = "\u0002c" }, # new tmux tab
     { key = "K", mods = "Command|Shift", chars = " K" }, # open lazygit
+    { key = "H", mods = "Command|Shift", chars = "\u0002H" }, # resize tmux pane left
+    { key = "L", mods = "Command|Shift", chars = "\u0002L" }, # resize tmux pane right
     { key = "Z", mods = "Command", chars = "\u001Bu" }, # undo in vim (u)
     { key = "Z", mods = "Command|Shift", chars = "\u001B\u0012"}, # redo in vim (^R)
 
