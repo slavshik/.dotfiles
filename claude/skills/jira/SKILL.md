@@ -41,22 +41,26 @@ Inform the user which key was inferred before displaying the ticket.
 
 ## How to fetch
 
-Use `_jira_fetch_full` from dotfiles via an interactive zsh shell (dotfiles are auto-loaded):
-
+**Quick view** (summary only):
 ```bash
-KEY="${KEY^^}"  # uppercase
-
-res=$(zsh -i -c "_jira_fetch_full $KEY" 2>/dev/null)
-
-# Check for errors
-err=$(echo "$res" | jq -r '.errorMessages[0] // empty' 2>/dev/null)
-if [[ -n "$err" ]]; then
-  echo "Error: $err"; exit 1
-fi
+zsh -i -c 'jira MONDICE-385' 2>/dev/null
 ```
 
-- `_jira_fetch_full KEY` — defined in `~/.dotfiles/zsh/jira.zsh`, fetches all fields: summary, status, assignee, priority, issuetype, description, labels, components, comment, attachment, fixVersions, story points, sprint
-- `zsh -i` loads dotfiles automatically — no explicit sourcing needed in the skill
+**Full detail** (description, comments, attachments):
+```bash
+zsh -i -c 'jira-detail MONDICE-385' 2>/dev/null
+```
+
+**Raw JSON** (when you need to parse specific fields with jq):
+```bash
+res=$(zsh -i -c '_jira_fetch_full MONDICE-385' 2>/dev/null)
+err=$(echo "$res" | jq -r '.errorMessages[0] // empty' 2>/dev/null)
+[[ -n "$err" ]] && { echo "Error: $err"; exit 1; }
+```
+
+- `_jira_fetch_full KEY` — returns raw JSON with all fields: summary, status, assignee, priority, issuetype, description, labels, components, comment, attachment, fixVersions, story points, sprint
+- `zsh -i` loads dotfiles automatically — no explicit sourcing needed
+- Keys are auto-uppercased by all helpers
 
 ## Output format
 
@@ -145,36 +149,34 @@ zsh -i -c 'jira-assign MONDICE-385 jdoe' 2>/dev/null   # assign to specific user
 
 ### Transition status
 
-Note: this helper uses `fzf` interactively, so it cannot be used non-interactively. Instead, use the API directly when Claude needs to transition:
-
 ```bash
-# 1. List available transitions
-res=$(zsh -i -c '_jira_curl "$JIRA_API/issue/MONDICE-385/transitions"' 2>/dev/null)
-echo "$res" | jq -r '.transitions[] | "\(.id) \(.name)"'
-
-# 2. Apply a transition by ID
-zsh -i -c '_jira_curl -X POST "$JIRA_API/issue/MONDICE-385/transitions" -d "{\"transition\":{\"id\":\"31\"}}"' 2>/dev/null
+zsh -i -c 'jira-transition MONDICE-385 "in progress"' 2>/dev/null
 ```
 
-## Example jq snippets
+- `jira-transition <KEY> <status>` — fuzzy-matches the target status name against available transitions
+- Output: `MONDICE-385 → In Progress`
+- Note: `jira-status` (fzf picker) is interactive-only and won't work in Bash tool
+
+### Search and list
 
 ```bash
-echo "$res" | jq -r '
-  "\(.key)  [\(.fields.issuetype.name)] \(.fields.summary)\n" +
-  "Status:    \(.fields.status.name)\n" +
-  "Priority:  \(.fields.priority.name)\n" +
-  "Assignee:  \(.fields.assignee.displayName // "Unassigned")\n" +
-  (if (.fields.labels | length) > 0 then "Labels:    \(.fields.labels | join(", "))\n" else "" end) +
-  (if .fields.customfield_10016 != null then "Story pts: \(.fields.customfield_10016)\n" else "" end) +
-  "\nDescription:\n\(.fields.description // "(none)")"
-'
+zsh -i -c 'jira-my' 2>/dev/null              # my unresolved issues (default 15)
+zsh -i -c 'jira-my 30' 2>/dev/null            # up to 30 results
+zsh -i -c 'jira-search "drag and drop"' 2>/dev/null  # free-text search
+zsh -i -c 'jira-by-status "In Progress"' 2>/dev/null # my issues filtered by status
 ```
 
-For comments:
+### Find GitLab MR by ticket
+
 ```bash
-echo "$res" | jq -r '
-  .fields.comment.comments[-3:] |
-  .[] |
-  "[\(.updated[:10]) \(.author.displayName)] \(.body | split("\n")[0])"
-'
+zsh -i -c 'jira-mr MONDICE-385' 2>/dev/null         # find MR
+zsh -i -c 'jira-mr MONDICE-385 --web' 2>/dev/null   # find and open in browser
 ```
+
+### Batch transition
+
+```bash
+zsh -i -c 'jira-batch-transition "To Do" "In Progress"' 2>/dev/null
+```
+
+- Moves all of the user's issues from one status to another
