@@ -12,5 +12,10 @@ return {
         end, 
         { desc = "Open Oil in vertical split" })
     end,
-    "stevearc/oil.nvim", opts = {default_file_explorer = true},
+    "stevearc/oil.nvim", opts = {
+        default_file_explorer = true,
+        view_options = {
+            show_hidden = true,
+        },
+    },
 }
