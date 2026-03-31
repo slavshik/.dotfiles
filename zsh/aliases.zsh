@@ -1,6 +1,12 @@
 # source scripts
 for f in ~/.dotfiles/zsh/scripts/*.sh; do source "$f"; done
 
+# ssh into a LAN device picked via fzf
+function ss() {
+  local target=$(lan | fzf | cut -d' ' -f1)
+  [[ -n "$target" ]] && ssh "$target"
+}
+
 function https() {
     SSL_PATH=~/.config/ssl
     http-server -S -C $SSL_PATH/key.pem -K $SSL_PATH/key.key -p 8080

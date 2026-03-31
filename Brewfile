@@ -1,7 +1,5 @@
 # Taps
-tap "joshmedeski/sesh"
 tap "oven-sh/bun"
-tap "yakitrak/yakitrak"
 
 # Core tools
 brew "git"
@@ -50,14 +48,10 @@ brew "joshmedeski/sesh/sesh"
 brew "yakitrak/yakitrak/obsidian-cli"
 
 # Casks
-cask "ngrok"
+# cask "ngrok" # 403 For some reason
 
 # Go tools
 go "golang.org/x/tools/gopls"
-go "github.com/jesseduffield/lazydocker"
-go "github.com/jesseduffield/lazygit"
-go "github.com/gokcehan/lf"
-go "honnef.co/go/tools/cmd/staticcheck"
 
 # Cargo
 cargo "wasm-pack"
