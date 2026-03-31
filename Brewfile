@@ -1,134 +1,57 @@
-aom
-fontconfig
-harfbuzz
-lazygit
-libuv
-lua@5.3
-oniguruma
-sdl2
-wget
-autojump
-freetype
-helix
-libass
-libvmaf
-luajit
-openexr
-six
-x264
-brotli
-frei0r
-heroku
-libev
-libvorbis
-luajit-openresty
-openssl@1.1
-skhd
-x265
-c-ares
-fribidi
-heroku-node
-libevent
-libvpx
-luv
-opus
-snappy
-xorgproto
-ca-certificates
-fzf
-highway
-libffi
-libvterm
-lz4
-pcre
-sqlite
-xz
-cairo
-fzy
-hub
-libidn2
-libx11
-lzo
-pcre2
-starship
-yabai
-ccls
-gdbm
-icu4c
-liblinear
-libxau
-macos-term-size
-pixman
-stylua
-yarn
-cmake
-gettext
-imath
-libnghttp2
-libxcb
-mpdecimal
-pkg-config
-texinfo
-z3
-commitizen
-gh
-ios-deploy
-libogg
-libxdmcp
-msgpack
-python-typing-extensions
-the_silver_searcher
-zoxide
-cppman
-giflib
-jemalloc
-libpng
-libxext
-nasm
-python@3.10
-theora
-zstd
-dav1d
-git-lfs
-jpeg
-libpthread-stubs
-libxrender
-ncurses
-python@3.11
-tmux
-exa
-glib
-jpeg-turbo
-libssh2
-libyaml
-neovim
-python@3.9
-tree-sitter
-fd
-go
-jpeg-xl
-libtermkey
-llvm
-nghttp2
-pyyaml
-unibilium
-ffmpeg
-gobject-introspection
-jq
-libtiff
-lua
-nmap
-readline
-utf8proc
-fish
-graphite2
-lame
-libunistring
-lua-language-server
-node@14
-ripgrep
-webp
-# https://arunkv.medium.com/using-touchid-for-sudo-on-macos-b9a163b8eeaf
-pam-reattach
-zsh-autosuggestions
-fsouza/prettierd/prettierd
+# Taps
+tap "joshmedeski/sesh"
+tap "oven-sh/bun"
+tap "yakitrak/yakitrak"
+
+# Core tools
+brew "git"
+brew "git-delta"
+brew "git-lfs"
+brew "gh"
+brew "neovim"
+brew "tmux"
+brew "fzf"
+brew "ripgrep"
+brew "zoxide"
+brew "zsh-autosuggestions"
+brew "lsd"
+brew "pam-reattach"
+
+# Dev
+brew "fnm"
+brew "go"
+brew "uv"
+brew "python@3.12"
+brew "yarn"
+brew "tree-sitter"
+brew "tree-sitter-cli"
+brew "oven-sh/bun/bun"
+
+# Media & network
+brew "ffmpeg"
+brew "cloudflared"
+brew "http-server"
+
+# AI
+brew "aichat"
+
+# Utilities
+brew "ical-buddy"
+brew "joshmedeski/sesh/sesh"
+brew "yakitrak/yakitrak/obsidian-cli"
+
+# Casks
+cask "ngrok"
+
+# Go tools
+go "golang.org/x/tools/gopls"
+go "github.com/jesseduffield/lazydocker"
+go "github.com/jesseduffield/lazygit"
+go "github.com/gokcehan/lf"
+go "honnef.co/go/tools/cmd/staticcheck"
+
+# Cargo
+cargo "wasm-pack"
+
+# Python (uv)
+uv "mflux"
