@@ -23,6 +23,9 @@ gui:
   # Using U+E7BA instead (same as lf config).
   customIcons:
     extensions:
+      .py:
+        icon: ""
+        color: "#3572A5"
       .tsx:
         icon: ""
         color: "#04BCD4"
