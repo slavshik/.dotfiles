@@ -50,9 +50,7 @@ brew "joshmedeski/sesh/sesh"
 brew "yakitrak/yakitrak/obsidian-cli"
 
 # Casks
-cask "font-fira-code"
 cask "ngrok"
-cask "raycast"
 
 # Go tools
 go "golang.org/x/tools/gopls"
