@@ -128,6 +128,7 @@ alias l="lsd -la --git --group-directories-first"
 alias ll="lsd -l --git --group-directories-first"
 alias mine="git log --decorate --all --author=\"`git config user.email`\""
 alias webstorm="open -a 'WebStorm' --args '$1' >/dev/null 2>&1"
+alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 
 # TODO: add alias for `git push origin -u HEAD`
 
