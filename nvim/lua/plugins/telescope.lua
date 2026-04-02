@@ -31,6 +31,7 @@ return { 'nvim-telescope/telescope.nvim', branch = 'master',
                 },
                 lsp_document_symbols = {
                     theme = "dropdown",
+                    sorter = require("telescope.sorters").get_fzy_sorter(),
                 },
             },
             extensions = {
