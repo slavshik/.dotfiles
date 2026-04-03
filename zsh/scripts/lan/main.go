@@ -1,9 +1,12 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"net"
+	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 	"sync"
 	"time"
@@ -46,8 +49,11 @@ func main() {
 	}
 
 	// Collect IPs first, then resolve names concurrently
+	devices := loadDevices()
+
 	type entry struct {
 		ip   string
+		mac  string
 		host string
 	}
 	var entries []entry
@@ -62,12 +68,16 @@ func main() {
 		if strings.HasPrefix(ip, "224.") || strings.HasPrefix(ip, "239.") || strings.HasSuffix(ip, ".255") {
 			continue
 		}
-		entries = append(entries, entry{ip: ip})
+		mac := parseArpMAC(line)
+		entries = append(entries, entry{ip: ip, mac: mac})
 	}
 
-	// Concurrent reverse DNS
+	// Concurrent reverse DNS (only for entries without a device name)
 	var mu sync.Mutex
 	for i := range entries {
+		if _, ok := devices[entries[i].mac]; ok {
+			continue
+		}
 		wg.Add(1)
 		go func(e *entry) {
 			defer wg.Done()
@@ -83,8 +93,23 @@ func main() {
 	}
 	wg.Wait()
 
+	isTTY := isTerminal()
+	reset, dim, green, yellow := "", "", "", ""
+	if isTTY {
+		reset = "\033[0m"
+		dim = "\033[2m"
+		green = "\033[32m"
+		yellow = "\033[33m"
+	}
+
 	for _, e := range entries {
-		fmt.Printf("%s # %s\n", e.ip, e.host)
+		deviceName, known := devices[e.mac]
+		if known {
+			fmt.Printf("%s%s%s %s# %s✔ %s%s\n", green, e.ip, reset, dim, green, deviceName, reset)
+		} else {
+			name := e.host
+			fmt.Printf("%s%s%s %s# %s %s%s\n", yellow, e.ip, reset, dim, e.mac, name, reset)
+		}
 	}
 }
 
@@ -134,6 +159,60 @@ func parseArpIP(line string) string {
 func maskSize(mask net.IPMask) int {
 	ones, bits := mask.Size()
 	return 1 << uint(bits-ones)
+}
+
+func isTerminal() bool {
+	fi, err := os.Stdout.Stat()
+	if err != nil {
+		return false
+	}
+	return fi.Mode()&os.ModeCharDevice != 0
+}
+
+func parseArpMAC(line string) string {
+	fields := strings.Fields(line)
+	for i, f := range fields {
+		if f == "at" && i+1 < len(fields) {
+			mac := strings.ToLower(fields[i+1])
+			// Normalize single-digit octets: 0:1a:2b → 00:1a:2b
+			parts := strings.Split(mac, ":")
+			for j, p := range parts {
+				if len(p) == 1 {
+					parts[j] = "0" + p
+				}
+			}
+			return strings.Join(parts, ":")
+		}
+	}
+	return ""
+}
+
+func loadDevices() map[string]string {
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return nil
+	}
+	f, err := os.Open(filepath.Join(home, ".config", "lan", "devices.txt"))
+	if err != nil {
+		return nil
+	}
+	defer f.Close()
+
+	devices := make(map[string]string)
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan() {
+		line := strings.TrimSpace(scanner.Text())
+		if line == "" || strings.HasPrefix(line, "#") {
+			continue
+		}
+		parts := strings.SplitN(line, " ", 2)
+		if len(parts) == 2 {
+			mac := strings.ToLower(strings.TrimSpace(parts[0]))
+			name := strings.TrimSpace(parts[1])
+			devices[mac] = name
+		}
+	}
+	return devices
 }
 
 func incrementIP(base net.IP, inc int) net.IP {
