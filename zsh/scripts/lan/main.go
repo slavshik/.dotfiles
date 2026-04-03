@@ -57,6 +57,7 @@ func main() {
 		host string
 	}
 	var entries []entry
+	seen := make(map[string]bool)
 	for _, line := range strings.Split(string(out), "\n") {
 		if strings.Contains(line, "incomplete") || line == "" {
 			continue
@@ -68,6 +69,10 @@ func main() {
 		if strings.HasPrefix(ip, "224.") || strings.HasPrefix(ip, "239.") || strings.HasSuffix(ip, ".255") {
 			continue
 		}
+		if seen[ip] {
+			continue
+		}
+		seen[ip] = true
 		mac := parseArpMAC(line)
 		entries = append(entries, entry{ip: ip, mac: mac})
 	}
