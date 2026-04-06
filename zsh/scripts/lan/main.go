@@ -57,7 +57,8 @@ func main() {
 		host string
 	}
 	var entries []entry
-	seen := make(map[string]bool)
+	seenIP := make(map[string]bool)
+	seenDevice := make(map[string]bool)
 	for _, line := range strings.Split(string(out), "\n") {
 		if strings.Contains(line, "incomplete") || line == "" {
 			continue
@@ -69,11 +70,18 @@ func main() {
 		if strings.HasPrefix(ip, "224.") || strings.HasPrefix(ip, "239.") || strings.HasSuffix(ip, ".255") {
 			continue
 		}
-		if seen[ip] {
+		if seenIP[ip] {
 			continue
 		}
-		seen[ip] = true
+		seenIP[ip] = true
 		mac := parseArpMAC(line)
+		// Skip if this MAC maps to a device name we already listed
+		if name, ok := devices[mac]; ok {
+			if seenDevice[name] {
+				continue
+			}
+			seenDevice[name] = true
+		}
 		entries = append(entries, entry{ip: ip, mac: mac})
 	}
 
