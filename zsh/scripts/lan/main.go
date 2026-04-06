@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"context"
 	"fmt"
 	"net"
 	"os"
@@ -13,33 +14,35 @@ import (
 )
 
 func main() {
-	ifaceName, ip := getDefaultInterface()
+	ifaceName, ip, mask := getDefaultInterface()
 	if ip == nil {
 		fmt.Println("No active network connection found.")
 		return
 	}
 	_ = ifaceName
 
-	mask := ip.DefaultMask()
 	network := ip.Mask(mask)
 	size := maskSize(mask)
 
-	// Blast UDP packets to all IPs to populate ARP table
+	// Blast UDP packets to all IPs to populate ARP table (skip for large subnets)
 	var wg sync.WaitGroup
-	for i := 1; i < size-1; i++ {
-		target := incrementIP(network, i)
-		wg.Add(1)
-		go func(t string) {
-			defer wg.Done()
-			conn, err := net.DialTimeout("udp4", t+":9", 30*time.Millisecond)
-			if err == nil {
-				conn.Write([]byte{0})
-				conn.Close()
-			}
-		}(target.String())
+	const maxScanSize = 1024 // /22 or smaller
+	if size <= maxScanSize {
+		for i := 1; i < size-1; i++ {
+			target := incrementIP(network, i)
+			wg.Add(1)
+			go func(t string) {
+				defer wg.Done()
+				conn, err := net.DialTimeout("udp4", t+":9", 30*time.Millisecond)
+				if err == nil {
+					conn.Write([]byte{0})
+					conn.Close()
+				}
+			}(target.String())
+		}
+		wg.Wait()
+		time.Sleep(100 * time.Millisecond)
 	}
-	wg.Wait()
-	time.Sleep(100 * time.Millisecond)
 
 	// Parse ARP table without reverse DNS (-n flag)
 	out, err := exec.Command("arp", "-an").Output()
@@ -85,7 +88,8 @@ func main() {
 		entries = append(entries, entry{ip: ip, mac: mac})
 	}
 
-	// Concurrent reverse DNS (only for entries without a device name)
+	// Concurrent reverse DNS with timeout (only for entries without a device name)
+	resolver := &net.Resolver{}
 	var mu sync.Mutex
 	for i := range entries {
 		if _, ok := devices[entries[i].mac]; ok {
@@ -94,7 +98,9 @@ func main() {
 		wg.Add(1)
 		go func(e *entry) {
 			defer wg.Done()
-			names, err := net.LookupAddr(e.ip)
+			ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+			defer cancel()
+			names, err := resolver.LookupAddr(ctx, e.ip)
 			mu.Lock()
 			defer mu.Unlock()
 			if err == nil && len(names) > 0 {
@@ -126,10 +132,10 @@ func main() {
 	}
 }
 
-func getDefaultInterface() (string, net.IP) {
+func getDefaultInterface() (string, net.IP, net.IPMask) {
 	out, err := exec.Command("route", "-n", "get", "default").Output()
 	if err != nil {
-		return "", nil
+		return "", nil, nil
 	}
 	var ifaceName string
 	for _, line := range strings.Split(string(out), "\n") {
@@ -140,24 +146,24 @@ func getDefaultInterface() (string, net.IP) {
 		}
 	}
 	if ifaceName == "" {
-		return "", nil
+		return "", nil, nil
 	}
 	iface, err := net.InterfaceByName(ifaceName)
 	if err != nil {
-		return ifaceName, nil
+		return ifaceName, nil, nil
 	}
 	addrs, err := iface.Addrs()
 	if err != nil {
-		return ifaceName, nil
+		return ifaceName, nil, nil
 	}
 	for _, addr := range addrs {
 		if ipnet, ok := addr.(*net.IPNet); ok {
 			if ipv4 := ipnet.IP.To4(); ipv4 != nil {
-				return ifaceName, ipv4
+				return ifaceName, ipv4, ipnet.Mask
 			}
 		}
 	}
-	return ifaceName, nil
+	return ifaceName, nil, nil
 }
 
 func parseArpIP(line string) string {
