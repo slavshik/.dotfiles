@@ -1,3 +1,9 @@
+# Claude Code: use lightweight shell config (skip p10k, autosuggestions, etc.)
+if [[ -n "$CLAUDECODE" ]]; then
+  source ~/.dotfiles/zsh/zshrc.agent.zsh
+  return
+fi
+
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 eval "$(zoxide init zsh)" #autojump replacement
 # eval "$(starship init zsh)"
