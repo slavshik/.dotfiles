@@ -184,6 +184,12 @@ jira-batch-transition() {
     "$_JIRA_CLI" batch-transition "$@"
 }
 
+# jira-jql <JQL> [maxResults] — run a raw JQL query
+jira-jql() {
+    _jira_require_profile || return 1
+    "$_JIRA_CLI" jql "$@"
+}
+
 # --- Completions ---
 
 _jira_branch_key() {

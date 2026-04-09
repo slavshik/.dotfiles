@@ -553,6 +553,37 @@ func cmdMR(args []string) {
 	}
 }
 
+func cmdJQL(args []string) {
+	if len(args) == 0 {
+		fatal("Usage: jira-cli jql <JQL> [maxResults]")
+	}
+	jql := args[0]
+	mx := "20"
+	if len(args) > 1 {
+		mx = args[1]
+	}
+	issues, err := searchIssues(jql, mx, searchFields)
+	if err != nil {
+		fatal("%v", err)
+	}
+	if len(issues) == 0 {
+		fmt.Println("No issues found")
+		return
+	}
+	for _, iss := range issues {
+		m := iss.(map[string]interface{})
+		key := jsonStr(m, "key")
+		f := m["fields"].(map[string]interface{})
+		pad := strings.Repeat(" ", max(0, 14-len(key)))
+		status := jsonStr(f, "status", "name")
+		assignee := jsonStr(f, "assignee", "displayName")
+		if assignee == "" {
+			assignee = "Unassigned"
+		}
+		fmt.Printf("%s%s%s%s[%s] %s  (%s)\n", cyan, key, reset, pad, status, jsonStr(f, "summary"), assignee)
+	}
+}
+
 func cmdOpen(args []string) {
 	if len(args) == 0 {
 		fatal("Usage: jira-cli open <ISSUE-KEY>")
@@ -639,6 +670,7 @@ Commands:
   transitions <KEY>                 List available transitions
   transition  <KEY> <id-or-name>    Transition issue
   batch-transition <from> <to>      Batch transition issues
+  jql      <JQL> [max]               Run a raw JQL query
   mr       <KEY> [--web]            Find GitLab MR by ticket key
   open     <KEY>                    Print browse URL`)
 	os.Exit(1)
@@ -669,6 +701,8 @@ func main() {
 		cmdTransition(os.Args[2:])
 	case "batch-transition":
 		cmdBatchTransition(os.Args[2:])
+	case "jql":
+		cmdJQL(os.Args[2:])
 	case "mr":
 		cmdMR(os.Args[2:])
 	case "open":

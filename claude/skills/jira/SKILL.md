@@ -166,6 +166,20 @@ zsh -i -c 'jira-search "drag and drop"' 2>/dev/null  # free-text search
 zsh -i -c 'jira-by-status "In Progress"' 2>/dev/null # my issues filtered by status
 ```
 
+### Raw JQL query
+
+```bash
+zsh -i -c 'jira-jql "project = OPQA AND reporter = currentUser() ORDER BY created DESC" 20' 2>/dev/null
+```
+
+- `jira-jql <JQL> [maxResults]` — runs an arbitrary JQL query (default 20 results)
+- Use this when built-in commands (`jira-my`, `jira-search`, `jira-by-status`) are not flexible enough
+- Common JQL examples:
+  - `project = PROJ AND reporter = currentUser()` — tickets created by me
+  - `project = PROJ AND status = "In Progress" AND assignee = currentUser()` — my in-progress work
+  - `project = PROJ AND created >= -7d` — tickets created in the last week
+  - `labels = frontend AND resolution = Unresolved` — open frontend tickets
+
 ### Find GitLab MR by ticket
 
 ```bash
