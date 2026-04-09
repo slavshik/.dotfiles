@@ -20,6 +20,7 @@ If no key is provided and it wasn't possible to infer one, ask the user.
 **Actions** can be requested via arguments or natural language:
 - `--comment "message"` or user says "add a comment" → use `jira-comment`
 - `--assign [user]` or user says "assign to me" → use `jira-assign`
+- `--unassign` or user says "unassign" → use `jira-unassign`
 - User says "move to In Progress" / "transition" → use status transition API
 - No action flag → default to fetching and displaying the ticket
 
@@ -146,6 +147,14 @@ zsh -i -c 'jira-assign MONDICE-385 jdoe' 2>/dev/null   # assign to specific user
 ```
 
 - `jira-assign <KEY> [username]` — assigns the ticket (defaults to self if no user given)
+
+### Unassign a ticket
+
+```bash
+zsh -i -c 'jira-unassign MONDICE-385' 2>/dev/null
+```
+
+- `jira-unassign <KEY>` — removes the assignee from the ticket
 
 ### Transition status
 

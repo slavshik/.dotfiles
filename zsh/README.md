@@ -21,6 +21,7 @@ Requires: `curl`, `jq`, `fzf` (for `jira-status`).
 | `jira-search <text>` | Free-text search |
 | `jira-comment <KEY> <msg>` | Add a comment |
 | `jira-assign <KEY> [user]` | Assign issue (defaults to self) |
+| `jira-unassign <KEY>` | Remove assignee from issue |
 | `jira-status <KEY>` | Transition status via fzf picker |
 | `jira-use [label]` | Switch Jira profile (or list all) |
 

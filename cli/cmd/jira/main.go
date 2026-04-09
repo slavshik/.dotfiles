@@ -416,6 +416,19 @@ func cmdAssign(args []string) {
 	fmt.Printf("Assigned %s to %s\n", key, user)
 }
 
+func cmdUnassign(args []string) {
+	if len(args) == 0 {
+		fatal("Usage: jira-cli unassign <ISSUE-KEY>")
+	}
+	key := strings.ToUpper(args[0])
+	payload := []byte(`{"name":null}`)
+	err := jiraPut(fmt.Sprintf("/issue/%s/assignee", key), payload)
+	if err != nil {
+		fatal("%v", err)
+	}
+	fmt.Printf("Unassigned %s\n", key)
+}
+
 func cmdTransitions(args []string) {
 	if len(args) == 0 {
 		fatal("Usage: jira-cli transitions <ISSUE-KEY>")
@@ -667,6 +680,7 @@ Commands:
   by-status <status> [max]          List my issues by status
   comment  <KEY> <message>          Add a comment
   assign   <KEY> [user]             Assign issue (default: self)
+  unassign <KEY>                    Unassign issue
   transitions <KEY>                 List available transitions
   transition  <KEY> <id-or-name>    Transition issue
   batch-transition <from> <to>      Batch transition issues
@@ -695,6 +709,8 @@ func main() {
 		cmdComment(os.Args[2:])
 	case "assign":
 		cmdAssign(os.Args[2:])
+	case "unassign":
+		cmdUnassign(os.Args[2:])
 	case "transitions":
 		cmdTransitions(os.Args[2:])
 	case "transition":

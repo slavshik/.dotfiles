@@ -28,6 +28,7 @@ Requires: `curl`, `jq`, `fzf` (for `jira-status`).
 | `jira-search <text>` | Free-text search |
 | `jira-comment <KEY> <msg>` | Add a comment |
 | `jira-assign <KEY> [user]` | Assign issue (defaults to self) |
+| `jira-unassign <KEY>` | Remove assignee from issue |
 | `jira-status <KEY>` | Transition status via fzf picker |
 | `jira-by-status <status> [N]` | List my issues filtered by status name |
 | `jira-transition <KEY> <status>` | Transition issue by status name (fuzzy match) |

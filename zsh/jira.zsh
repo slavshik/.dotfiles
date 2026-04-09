@@ -149,6 +149,12 @@ jira-assign() {
     "$_JIRA_CLI" assign "$@"
 }
 
+# jira-unassign <KEY> — remove assignee from issue
+jira-unassign() {
+    _jira_require_profile || return 1
+    "$_JIRA_CLI" unassign "$@"
+}
+
 # jira-status <KEY> — transition status via fzf
 jira-status() {
     _jira_require_profile || return 1
@@ -217,5 +223,5 @@ _jira_complete_profiles() {
     _describe 'jira profile' profiles
 }
 
-compdef _jira_complete_keys jira jira-detail jira-open jira-comment jira-assign jira-status jira-transition jira-mr
+compdef _jira_complete_keys jira jira-detail jira-open jira-comment jira-assign jira-jql jira-unassign jira-status jira-transition jira-mr
 compdef _jira_complete_profiles jira-use

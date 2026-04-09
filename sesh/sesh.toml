@@ -1,7 +1,8 @@
 [[session]]
 name = "⚙️ Dotfiles"
 path = "~/.dotfiles"
-startup_command = "nvim -c ':Telescope find_files'"
+startup_command = "lazygit"
+# startup_command = "nvim -c ':Telescope find_files'"
 
 [[session]]
 name = "🏠Home"
