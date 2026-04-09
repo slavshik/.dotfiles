@@ -38,6 +38,7 @@ dotlink .gitconfig ~/.gitconfig
 dotlink .gitignore_system ~/.gitignore
 dotlink .ideavimrc ~/.ideavimrc
 dotlink sesh/ ~/.config/sesh
+dotlink lsd/ ~/.config/lsd
 dotlink lazygit/config.yml ~/Library/Application\ Support/lazygit/config.yml
 dotlink lazygit/state.yml ~/Library/Application\ Support/lazygit/state.yml
 dotlink claude/skills ~/.claude/skills

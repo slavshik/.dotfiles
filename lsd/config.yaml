@@ -1,0 +1,7 @@
+# lsd configuration
+# https://github.com/lsd-rs/lsd#config-file-content
+
+icons:
+  when: always
+  theme: fancy
+  separator: " "
