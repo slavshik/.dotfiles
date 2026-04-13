@@ -3,7 +3,7 @@ for f in ~/.dotfiles/zsh/scripts/*.sh; do source "$f"; done
 
 # ssh into a LAN device picked via fzf
 function ss() {
-  local target=$(lan | fzf | cut -d' ' -f1)
+  local target=$(lan | fzf --ansi | sed $'s/\033\\[[0-9;]*m//g' | cut -d' ' -f1)
   [[ -n "$target" ]] && ssh "$target"
 }
 

@@ -4,6 +4,11 @@
 # Minimal completion support (needed by jira.zsh compdef)
 autoload -Uz compinit && compinit -C
 
+# Load shared shell helper scripts (lan, etc.)
+for f in ~/.dotfiles/zsh/scripts/*.sh; do
+  source "$f"
+done
+
 # PATH
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$PATH:$HOME/Library/Python/3.9/bin"

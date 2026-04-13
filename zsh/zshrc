@@ -1,5 +1,5 @@
-# Claude Code: use lightweight shell config (skip p10k, autosuggestions, etc.)
-if [[ -n "$CLAUDECODE" ]]; then
+# Agent shells: use lightweight shell config (skip p10k, autosuggestions, etc.)
+if [[ -n "$CLAUDECODE" || -n "$OPENCLAW" ]]; then
   source ~/.dotfiles/zsh/zshrc.agent.zsh
   return
 fi

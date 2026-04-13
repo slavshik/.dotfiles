@@ -112,19 +112,21 @@ func main() {
 	}
 	wg.Wait()
 
-	isTTY := isTerminal()
-	reset, dim, green, yellow := "", "", "", ""
-	if isTTY {
-		reset = "\033[0m"
-		dim = "\033[2m"
-		green = "\033[32m"
-		yellow = "\033[33m"
+	noColor := false
+	for _, a := range os.Args[1:] {
+		if a == "--no-color" {
+			noColor = true
+		}
+	}
+	reset, dim, green, yellow := "\033[0m", "\033[2m", "\033[32m", "\033[33m"
+	if noColor {
+		reset, dim, green, yellow = "", "", "", ""
 	}
 
 	for _, e := range entries {
 		deviceName, known := devices[e.mac]
 		if known {
-			fmt.Printf("%s%s%s %s# %s✔ %s%s\n", green, e.ip, reset, dim, green, deviceName, reset)
+			fmt.Printf("%s%s%s %s# %s %s✔ %s%s\n", green, e.ip, reset, dim, e.mac, green, deviceName, reset)
 		} else {
 			name := e.host
 			fmt.Printf("%s%s%s %s# %s %s%s\n", yellow, e.ip, reset, dim, e.mac, name, reset)
@@ -178,14 +180,6 @@ func parseArpIP(line string) string {
 func maskSize(mask net.IPMask) int {
 	ones, bits := mask.Size()
 	return 1 << uint(bits-ones)
-}
-
-func isTerminal() bool {
-	fi, err := os.Stdout.Stat()
-	if err != nil {
-		return false
-	}
-	return fi.Mode()&os.ModeCharDevice != 0
 }
 
 func parseArpMAC(line string) string {
