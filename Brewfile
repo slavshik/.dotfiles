@@ -44,6 +44,7 @@ brew "aichat"
 
 # Utilities
 brew "ical-buddy"
+brew "terminal-notifier"
 brew "joshmedeski/sesh/sesh"
 brew "yakitrak/yakitrak/obsidian-cli"
 
