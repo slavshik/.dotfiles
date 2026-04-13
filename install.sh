@@ -33,15 +33,18 @@ dotlink nvim/ ~/.config/nvim
 dotlink tmux/tmux.conf ~/.tmux.conf
 dotlink alacritty/ ~/.config/alacritty
 dotlink lf/ ~/.config/lf
+dotlink sesh/ ~/.config/sesh
+dotlink lsd/ ~/.config/lsd
 dotlink karabiner/ ~/.config/karabiner
 dotlink .gitconfig ~/.gitconfig
 dotlink .gitignore_system ~/.gitignore
 dotlink .ideavimrc ~/.ideavimrc
-dotlink sesh/ ~/.config/sesh
-dotlink lsd/ ~/.config/lsd
+# lazygit
 dotlink lazygit/config.yml ~/Library/Application\ Support/lazygit/config.yml
 dotlink lazygit/state.yml ~/Library/Application\ Support/lazygit/state.yml
+# claude
 dotlink claude/skills ~/.claude/skills
+dotlink claude/statusline-command.sh ~/.claude/statusline-command.sh
 
 echo ""
 echo "CLI links:"
