@@ -45,6 +45,7 @@ dotlink lazygit/state.yml ~/Library/Application\ Support/lazygit/state.yml
 # claude
 dotlink claude/skills ~/.claude/skills
 dotlink claude/statusline-command.sh ~/.claude/statusline-command.sh
+dotlink claude/settings.json ~/.claude/settings.json
 
 echo ""
 echo "CLI links:"

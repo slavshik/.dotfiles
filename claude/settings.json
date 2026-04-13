@@ -1,0 +1,50 @@
+{
+  "env": {
+    "CLAUDE_CODE_SHELL": "/bin/zsh",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "permissions": {
+      "allow": [
+          "Bash(git status)",
+          "Bash(git diff:*)",
+          "Bash(git log:*)",
+          "Bash(ls:*)",
+          "Read(~/**)",
+          "WebFetch(domain:docs.claude.com)",
+          "WebFetch(domain:github.com)"
+      ],
+      "deny": [
+          "Bash(rm -rf:*)",
+          "Bash(sudo:*)",
+          "Bash(curl * | sh)",
+          "Bash(curl * | bash)"
+      ]
+  },
+  "defaultMode": "default",
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/statusline-command.sh"
+  },
+  "enabledPlugins": {
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "atlassian@claude-plugins-official": false,
+    "swift-lsp@claude-plugins-official": true,
+    "codex@openai-codex": true
+  },
+  "extraKnownMarketplaces": {
+    "karpathy-skills": {
+      "source": {
+        "source": "github",
+        "repo": "forrestchang/andrej-karpathy-skills"
+      }
+    },
+    "openai-codex": {
+      "source": {
+        "source": "github",
+        "repo": "openai/codex-plugin-cc"
+      }
+    }
+  },
+  "voiceEnabled": true,
+  "skipDangerousModePermissionPrompt": true
+}
