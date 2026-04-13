@@ -18,7 +18,8 @@ vim.opt.hlsearch = false
 vim.opt.incsearch = true
 vim.opt.smartindent = true
 
-vim.opt.wrap = false
+vim.opt.wrap = true
+vim.opt.linebreak = true
 -- vim.opt.clipboard:append({ "unnamedplus" })
 
 -- Give more space for displaying messages.
