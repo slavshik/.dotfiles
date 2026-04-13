@@ -90,16 +90,67 @@ function _find_claude_scripts() {
     return 1
 }
 
-function runscript_save() {
+function runscript() {
+    local predefined="$1"
+    local entries=()
     local scripts_dir
-    if scripts_dir=$(_find_claude_scripts); then
-        local pick=$(find "$scripts_dir" -maxdepth 1 -type f -perm +111 -exec basename {} \; | fzf --height="40%" --prompt="script> ")
-        [[ -n "$pick" ]] && "$scripts_dir/$pick"
-    elif [[ -f "$1" ]]; then
-        ./$1
-    else
-        proj_run
+    scripts_dir=$(_find_claude_scripts 2>/dev/null)
+
+    if [[ -f "$predefined" ]]; then
+        local line
+        while IFS= read -r line || [[ -n "$line" ]]; do
+            [[ -z "${line//[[:space:]]/}" ]] && continue
+            [[ "${line#"${line%%[![:space:]]*}"}" == \#* ]] && continue
+            entries+=( $'\e[1;33m'"$line"$'\e[0m \e[90m(predefined)\e[0m\tPREDEFINED\t'"$line" )
+        done < "$predefined"
     fi
+
+    if [[ -n "$scripts_dir" ]]; then
+        local f
+        for f in "$scripts_dir"/*(N-.); do
+            [[ -x "$f" ]] && entries+=( $'\e[36m'"${f:t}"$'\e[0m \e[90m(claude)\e[0m\tCLAUDE\t'"$f" )
+        done
+    fi
+
+    if [[ -f package.json ]]; then
+        local n
+        for n in ${(f)"$(jq -r '.scripts // {} | keys[]' package.json 2>/dev/null)"}; do
+            [[ -n "$n" ]] && entries+=( $'\e[35m'"$n"$'\e[0m \e[90m(npm)\e[0m\tNPM\t'"$n" )
+        done
+    fi
+
+    if (( ${#entries[@]} == 0 )); then
+        echo "no run targets found"
+        return 1
+    fi
+
+    local pick
+    pick=$(printf '%s\n' "${entries[@]}" \
+        | fzf --ansi --height="40%" --with-nth=1 --delimiter=$'\t' --prompt="run> ")
+    [[ -z "$pick" ]] && return 0
+
+    local kind="${${pick#*$'\t'}%%$'\t'*}"
+    local payload="${pick##*$'\t'}"
+
+    case "$kind" in
+        PREDEFINED)
+            print -s "$payload"
+            eval "$payload"
+            ;;
+        CLAUDE) "$payload" ;;
+        NPM)
+            if [[ -f bun.lock ]]; then
+                print -s "bun run $payload"
+                bun run "$payload"
+            elif [[ -f yarn.lock ]]; then
+                print -s "yarn run $payload"
+                yarn run "$payload"
+            else
+                print -s "npm run $payload"
+                npm run "$payload"
+            fi
+            ;;
+    esac
 }
 function _run_s() {
     if [ -f "$1" ]; then
@@ -120,7 +171,7 @@ function dta() {
 function jj() {
     sesh connect $(sesh list | fzf)
 }
-alias _run="runscript_save .$(whoami)/run.sh"
+alias _run="runscript .$(whoami)/commands.txt"
 alias zshconfig="vim ~/.zshrc"
 alias python=python3
 alias j=z
