@@ -9,6 +9,9 @@ ok()   { echo -e "  ${GREEN}✔${NC} $1"; }
 fail() { echo -e "  ${RED}✘${NC} $1"; }
 
 function dotlink() {
+    if [ ! -e "$DOTFILES/$1" ]; then
+        return 0
+    fi
     if ln -sfn "$DOTFILES/$1" "$2" 2>/dev/null; then
         ok "link $2"
     else
@@ -43,9 +46,17 @@ dotlink .ideavimrc ~/.ideavimrc
 dotlink lazygit/config.yml ~/Library/Application\ Support/lazygit/config.yml
 dotlink lazygit/state.yml ~/Library/Application\ Support/lazygit/state.yml
 # claude
+echo ""
+echo "Claude:"
 dotlink claude/skills ~/.claude/skills
 dotlink claude/statusline-command.sh ~/.claude/statusline-command.sh
 dotlink claude/settings.json ~/.claude/settings.json
+dotlink claude/CLAUDE.md ~/.claude/CLAUDE.md
+dotlink claude/commands ~/.claude/commands
+dotlink claude/agents ~/.claude/agents
+dotlink claude/output-styles ~/.claude/output-styles
+dotlink claude/hooks ~/.claude/hooks
+dotlink claude/keybindings.json ~/.claude/keybindings.json
 
 echo ""
 echo "CLI links:"

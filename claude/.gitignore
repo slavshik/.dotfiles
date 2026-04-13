@@ -1,0 +1,21 @@
+# Defense in depth: never track Claude Code runtime state, even if someone
+# later inverts the symlink direction or symlinks the whole ~/.claude tree.
+sessions/
+projects/
+cache/
+telemetry/
+statsig/
+tasks/
+todos/
+shell-snapshots/
+file-history/
+backups/
+debug/
+downloads/
+paste-cache/
+plugins/
+chrome/
+session-env/
+history.jsonl
+*-cache.json
+settings.local.json
