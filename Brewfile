@@ -49,6 +49,7 @@ brew "joshmedeski/sesh/sesh"
 brew "yakitrak/yakitrak/obsidian-cli"
 
 # Casks
+cask "kitty"
 # cask "ngrok" # 403 For some reason
 
 # Go tools

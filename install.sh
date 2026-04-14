@@ -35,6 +35,8 @@ dotlink zsh/zshrc ~/.zshrc
 dotlink nvim/ ~/.config/nvim
 dotlink tmux/tmux.conf ~/.tmux.conf
 dotlink alacritty/ ~/.config/alacritty
+[ -d ~/.config/kitty ] && [ ! -L ~/.config/kitty ] && rmdir ~/.config/kitty 2>/dev/null || true
+dotlink kitty/ ~/.config/kitty
 dotlink lf/ ~/.config/lf
 dotlink sesh/ ~/.config/sesh
 dotlink lsd/ ~/.config/lsd
@@ -65,6 +67,16 @@ if ln -sf "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" ~/.lo
     ok "subl → ~/.local/bin/subl"
 else
     fail "subl → ~/.local/bin/subl"
+fi
+
+echo ""
+echo "Apps:"
+if [ -d "/Applications/kitty.app" ]; then
+    ok "kitty (already installed)"
+elif command -v brew >/dev/null 2>&1 && brew install --cask kitty >/dev/null 2>&1; then
+    ok "kitty"
+else
+    fail "kitty"
 fi
 
 echo ""
