@@ -19,3 +19,7 @@ cmd fzf_jump ${{
 }}
 
 map <c-f> :fzf_jump
+
+# Override quit to stash current dir as the ' mark, so '' jumps back next launch
+cmd q ${{ ~/.config/lf/mark-on-quit "$PWD"; lf -remote "send $id quit"; }}
+map q :q
