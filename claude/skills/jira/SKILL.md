@@ -6,200 +6,96 @@ tools: Bash, Read
 
 # Jira Ticket Helper
 
-View, comment on, assign, and transition Jira tickets.
+View, comment on, assign, unassign, transition, and search Jira tickets.
 
-## Input
+## Execution flow
 
-The ticket key is either:
-- Passed as an argument (e.g. `/jira ELA-123`)
-- Mentioned by the user in conversation
-- Inferred from git context when the user says "current ticket", "this ticket", "the jira issue", etc.
+1. Resolve ticket key.
+2. Resolve intent (view vs mutate).
+3. Run the matching helper command.
+4. Render concise, structured output.
 
-If no key is provided and it wasn't possible to infer one, ask the user.
+Use `zsh -i -c '...'` for all Jira helpers so dotfiles and auth are loaded automatically.
+All helpers auto-uppercase keys.
 
-**Actions** can be requested via arguments or natural language:
-- `--comment "message"` or user says "add a comment" → use `jira-comment`
-- `--assign [user]` or user says "assign to me" → use `jira-assign`
-- `--unassign` or user says "unassign" → use `jira-unassign`
-- User says "move to In Progress" / "transition" → use status transition API
-- No action flag → default to fetching and displaying the ticket
+`jira-status` (fzf) is interactive-only and should not be used from the Bash tool.
 
-## Inferring key from git context
+## Key resolution
 
-Use `_jira_branch_key` from dotfiles — it extracts a Jira key from the current branch name:
+Key sources, in order:
+- Explicit argument (for example `/jira ELA-123`)
+- Jira key mentioned in conversation
+- Git context inference when user says "current ticket", "this ticket", etc.
+
+Inference commands:
 
 ```bash
 key=$(zsh -i -c "_jira_branch_key" 2>/dev/null)
+[[ -z "$key" ]] && key=$(git log --oneline -10 2>/dev/null | grep -oE '[A-Z]+-[0-9]+' | head -1)
 ```
 
-If the branch yields nothing, fall back to recent commit messages:
+If still empty, ask the user for the key.
+If inferred, state which key was inferred before using it.
+For mutating actions on inferred keys (comment/assign/unassign/transition), explicitly state the inferred key before executing.
+
+## Intent → command map
+
+- Default view: `jira KEY` (quick summary)
+- Full detail view: `jira-detail KEY`
+- Raw JSON (for parsing): `_jira_fetch_full KEY`
+- Add comment: `jira-comment KEY MESSAGE`
+- Assign: `jira-assign KEY [username]` (no username = assign to self)
+- Unassign: `jira-unassign KEY`
+- Transition: `jira-transition KEY "target status"` (fuzzy status match)
+- My unresolved issues: `jira-my [limit]` (default 15)
+- Free-text search: `jira-search "text"`
+- My issues by status: `jira-by-status "In Progress"`
+- Raw JQL: `jira-jql "JQL..." [maxResults]` (default 20)
+- Find GitLab MR by ticket: `jira-mr KEY [--web]`
+- Batch transition my issues: `jira-batch-transition "From" "To"`
+
+## Retrieve and render
+
+Quick view:
 
 ```bash
-key=$(git log --oneline -10 2>/dev/null | grep -oE '[A-Z]+-[0-9]+' | head -1)
+zsh -i -c 'jira KEY' 2>/dev/null
 ```
 
-Inform the user which key was inferred before displaying the ticket.
+Full detail:
 
-## How to fetch
-
-**Quick view** (summary only):
 ```bash
-zsh -i -c 'jira MONDICE-385' 2>/dev/null
+zsh -i -c 'jira-detail KEY' 2>/dev/null
 ```
 
-**Full detail** (description, comments, attachments):
-```bash
-zsh -i -c 'jira-detail MONDICE-385' 2>/dev/null
-```
+Raw JSON + error handling:
 
-**Raw JSON** (when you need to parse specific fields with jq):
 ```bash
-res=$(zsh -i -c '_jira_fetch_full MONDICE-385' 2>/dev/null)
+res=$(zsh -i -c '_jira_fetch_full KEY' 2>/dev/null)
 err=$(echo "$res" | jq -r '.errorMessages[0] // empty' 2>/dev/null)
 [[ -n "$err" ]] && { echo "Error: $err"; exit 1; }
 ```
 
-- `_jira_fetch_full KEY` — returns raw JSON with all fields: summary, status, assignee, priority, issuetype, description, labels, components, comment, attachment, fixVersions, story points, sprint
-- `zsh -i` loads dotfiles automatically — no explicit sourcing needed
-- Keys are auto-uppercased by all helpers
+Render rules:
+- Show header: `KEY [IssueType] Summary`
+- Show key fields when present: status, priority, assignee, labels, sprint, story points
+- Description: parse from `.fields.description`; simplify Jira wiki markup for readability
+- If description includes "Acceptance Criteria" or "AC:", show that section separately
+- Comments: show last 3 from `.fields.comment.comments[]`
+- Skip missing/null fields; never print `null`
 
-## Output format
+## Attachments policy
 
-Display the ticket in a clean, structured way:
+Attachments live at `.fields.attachment[]` (`filename`, `mimeType`, `content`, `thumbnail`).
 
-```
-ELA-123  [Story] Short summary title
-─────────────────────────────────────────
-Status:    In Progress
-Priority:  Medium
-Assignee:  John Doe
-Labels:    frontend, urgent
-Sprint:    Sprint 42
-Story pts: 3
+- Always list attachment filenames at the end if any exist.
+- Download and render images only when:
+  - the user explicitly asks, or
+  - there are at most 3 images and ticket context is clearly UI/design-focused.
+- Non-image files (PDF/ZIP/etc.): list only, do not download by default.
 
-Description:
-  <rendered description text, stripping Jira wiki markup where possible>
-
-Acceptance Criteria:
-  <extract from description if it contains "Acceptance Criteria" section>
-
-Comments (last 3):
-  [2026-03-20 Jane Doe] Comment text here...
-  [2026-03-21 John Doe] Another comment...
-```
-
-## Processing tips
-
-- Parse with `jq`. Description is in `.fields.description` (plain text string in API v2).
-- Comments are in `.fields.comment.comments[]` — show the last 3.
-- If description contains "Acceptance Criteria" or "AC:" section, call it out separately.
-- Strip or simplify Jira wiki markup (`{code}`, `*bold*`, `h2.`, etc.) for readability.
-- If a field is null/missing, skip it rather than showing "null".
-- If the API returns an error (`errorMessages`), show it clearly and stop.
-
-## Attachments
-
-Attachments are in `.fields.attachment[]`. Each has:
-- `.filename` — original file name
-- `.mimeType` — e.g. `image/png`, `image/jpeg`, `application/pdf`
-- `.content` — direct download URL (requires auth)
-- `.thumbnail` — thumbnail URL for images
-
-**To display image attachments:**
-
-1. Filter for images (`mimeType` starts with `image/`):
-```bash
-images=$(echo "$res" | jq -r '.fields.attachment[] | select(.mimeType | startswith("image/")) | "\(.filename)\t\(.content)"')
-```
-
-2. For each image, download to a temp file and use the Read tool to display it:
-```bash
-tmpfile=$(mktemp /tmp/jira-attachment-XXXXXX.png)
-zsh -i -c "_jira_curl '$content_url' -o '$tmpfile'" 2>/dev/null
-# Then use Read tool on $tmpfile — Claude will render the image visually
-rm -f "$tmpfile"
-```
-
-**Non-image attachments** (PDFs, ZIPs, etc.): just list filename and size — don't download.
-
-**When to show attachments:**
-- Always list attachment filenames at the end of the ticket output (if any exist)
-- Download and display images only if the user asks, or if there are ≤3 images and the ticket has design/UI context
-
-## Actions
-
-The following dotfile helpers are available for mutating tickets. All use `zsh -i -c '...'` to auto-load dotfiles.
-
-### Add a comment
+Image extraction example:
 
 ```bash
-zsh -i -c 'jira-comment MONDICE-385 Landscape now fixed, MR updated.' 2>/dev/null
+echo "$res" | jq -r '.fields.attachment[]? | select(.mimeType | startswith("image/")) | "\(.filename)\t\(.content)"'
 ```
-
-- `jira-comment <KEY> <message>` — adds a comment to the ticket
-- Output: `Comment added (id: 12345)`
-
-### Assign a ticket
-
-```bash
-zsh -i -c 'jira-assign MONDICE-385' 2>/dev/null        # assign to self
-zsh -i -c 'jira-assign MONDICE-385 jdoe' 2>/dev/null   # assign to specific user
-```
-
-- `jira-assign <KEY> [username]` — assigns the ticket (defaults to self if no user given)
-
-### Unassign a ticket
-
-```bash
-zsh -i -c 'jira-unassign MONDICE-385' 2>/dev/null
-```
-
-- `jira-unassign <KEY>` — removes the assignee from the ticket
-
-### Transition status
-
-```bash
-zsh -i -c 'jira-transition MONDICE-385 "in progress"' 2>/dev/null
-```
-
-- `jira-transition <KEY> <status>` — fuzzy-matches the target status name against available transitions
-- Output: `MONDICE-385 → In Progress`
-- Note: `jira-status` (fzf picker) is interactive-only and won't work in Bash tool
-
-### Search and list
-
-```bash
-zsh -i -c 'jira-my' 2>/dev/null              # my unresolved issues (default 15)
-zsh -i -c 'jira-my 30' 2>/dev/null            # up to 30 results
-zsh -i -c 'jira-search "drag and drop"' 2>/dev/null  # free-text search
-zsh -i -c 'jira-by-status "In Progress"' 2>/dev/null # my issues filtered by status
-```
-
-### Raw JQL query
-
-```bash
-zsh -i -c 'jira-jql "project = OPQA AND reporter = currentUser() ORDER BY created DESC" 20' 2>/dev/null
-```
-
-- `jira-jql <JQL> [maxResults]` — runs an arbitrary JQL query (default 20 results)
-- Use this when built-in commands (`jira-my`, `jira-search`, `jira-by-status`) are not flexible enough
-- Common JQL examples:
-  - `project = PROJ AND reporter = currentUser()` — tickets created by me
-  - `project = PROJ AND status = "In Progress" AND assignee = currentUser()` — my in-progress work
-  - `project = PROJ AND created >= -7d` — tickets created in the last week
-  - `labels = frontend AND resolution = Unresolved` — open frontend tickets
-
-### Find GitLab MR by ticket
-
-```bash
-zsh -i -c 'jira-mr MONDICE-385' 2>/dev/null         # find MR
-zsh -i -c 'jira-mr MONDICE-385 --web' 2>/dev/null   # find and open in browser
-```
-
-### Batch transition
-
-```bash
-zsh -i -c 'jira-batch-transition "To Do" "In Progress"' 2>/dev/null
-```
-
-- Moves all of the user's issues from one status to another
