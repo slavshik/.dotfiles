@@ -39,6 +39,7 @@ bindings = [
     { key = "D", mods = "Command", chars = "\u0002d" },
     { key = "R", mods = "Command", chars = "_run\n" },
     { key = "F", mods = "Command|Shift", chars = " FF" },
+    { key = "O", mods = "Control|Alt", chars = " OI" }, # optimize imports (leader+OI -> nvim)
     { key = "I", mods = "Command", chars = " II" }, # npm_install script
     { key = "I", mods = "Command|Shift", chars = " ii" }, # yarnrun script
     { key = "K", mods = "Command", chars = "\u0002K" }, # session manager
