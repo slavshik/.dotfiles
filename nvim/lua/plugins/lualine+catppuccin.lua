@@ -10,7 +10,7 @@ return {
             colorscheme catppuccin-nvim
             hi normal guibg=None
             highlight iCursor guifg=None guibg=red
-            highlight Cursor guifg=white guibg=black
+            highlight Cursor guifg=black guibg=yellow
             highlight iCursor guifg=white guibg=red
             set guicursor=n-v-c:block-Cursor
             set guicursor+=i:block-iCursor
