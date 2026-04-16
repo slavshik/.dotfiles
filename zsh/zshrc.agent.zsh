@@ -35,4 +35,3 @@ ELA=~/.dotfiles/ela/index.zsh
 [ -f "$ELA" ] && source "$ELA"
 
 _jira_restore_profile
-source ~/.dotfiles/zsh/aliases.zsh
