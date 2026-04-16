@@ -19,7 +19,11 @@ func main() {
 		fmt.Println("No active network connection found.")
 		return
 	}
-	_ = ifaceName
+	localIP := ip.String()
+	localMAC := ""
+	if iface, err := net.InterfaceByName(ifaceName); err == nil {
+		localMAC = strings.ToLower(iface.HardwareAddr.String())
+	}
 
 	network := ip.Mask(mask)
 	size := maskSize(mask)
@@ -55,13 +59,24 @@ func main() {
 	devices := loadDevices()
 
 	type entry struct {
-		ip   string
-		mac  string
-		host string
+		ip      string
+		mac     string
+		host    string
+		count   int
+		isLocal bool
 	}
 	var entries []entry
 	seenIP := make(map[string]bool)
 	seenDevice := make(map[string]bool)
+	macToIdx := make(map[string]int)
+
+	// Seed with the local device so it's always listed (and dedupes ARP entry if present)
+	if localMAC != "" {
+		entries = append(entries, entry{ip: localIP, mac: localMAC, count: 1, isLocal: true})
+		seenIP[localIP] = true
+		macToIdx[localMAC] = 0
+	}
+
 	for _, line := range strings.Split(string(out), "\n") {
 		if strings.Contains(line, "incomplete") || line == "" {
 			continue
@@ -78,6 +93,11 @@ func main() {
 		}
 		seenIP[ip] = true
 		mac := parseArpMAC(line)
+		// Collapse duplicate MACs (common on proxy-ARP networks) and count them
+		if idx, ok := macToIdx[mac]; ok {
+			entries[idx].count++
+			continue
+		}
 		// Skip if this MAC maps to a device name we already listed
 		if name, ok := devices[mac]; ok {
 			if seenDevice[name] {
@@ -85,13 +105,17 @@ func main() {
 			}
 			seenDevice[name] = true
 		}
-		entries = append(entries, entry{ip: ip, mac: mac})
+		macToIdx[mac] = len(entries)
+		entries = append(entries, entry{ip: ip, mac: mac, count: 1})
 	}
 
 	// Concurrent reverse DNS with timeout (only for entries without a device name)
 	resolver := &net.Resolver{}
 	var mu sync.Mutex
 	for i := range entries {
+		if entries[i].isLocal {
+			continue
+		}
 		if _, ok := devices[entries[i].mac]; ok {
 			continue
 		}
@@ -118,18 +142,28 @@ func main() {
 			noColor = true
 		}
 	}
-	reset, dim, green, yellow := "\033[0m", "\033[2m", "\033[32m", "\033[33m"
+	reset, dim, green, yellow, cyan := "\033[0m", "\033[2m", "\033[32m", "\033[33m", "\033[36m"
 	if noColor {
-		reset, dim, green, yellow = "", "", "", ""
+		reset, dim, green, yellow, cyan = "", "", "", "", ""
 	}
 
 	for _, e := range entries {
+		suffix := ""
+		if e.count > 1 {
+			suffix += fmt.Sprintf(" %s(x%d)%s", dim, e.count, reset)
+		}
+		if e.isLocal {
+			suffix += fmt.Sprintf(" %s<-- this device%s", cyan, reset)
+		}
 		deviceName, known := devices[e.mac]
 		if known {
-			fmt.Printf("%s%s%s %s# %s %s✔ %s%s\n", green, e.ip, reset, dim, e.mac, green, deviceName, reset)
+			fmt.Printf("%s%s%s %s# %s %s✔ %s%s%s\n", green, e.ip, reset, dim, e.mac, green, deviceName, reset, suffix)
 		} else {
 			name := e.host
-			fmt.Printf("%s%s%s %s# %s %s%s\n", yellow, e.ip, reset, dim, e.mac, name, reset)
+			if name == "" {
+				name = "-"
+			}
+			fmt.Printf("%s%s%s %s# %s %s%s%s\n", yellow, e.ip, reset, dim, e.mac, name, reset, suffix)
 		}
 	}
 }
