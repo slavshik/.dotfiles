@@ -1,5 +1,5 @@
 # source scripts
-for f in ~/.dotfiles/zsh/scripts/*.sh; do source "$f"; done
+for f in ~/.dotfiles/zsh/scripts/*.(sh|zsh)(N); do source "$f"; done
 
 # ssh into a LAN device picked via fzf
 function ss() {

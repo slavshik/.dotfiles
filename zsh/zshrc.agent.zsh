@@ -5,7 +5,7 @@
 autoload -Uz compinit && compinit -C
 
 # Load shared shell helper scripts (lan, etc.)
-for f in ~/.dotfiles/zsh/scripts/*.sh; do
+for f in ~/.dotfiles/zsh/scripts/*.(sh|zsh)(N); do
   source "$f"
 done
 
@@ -17,12 +17,8 @@ export PATH="$PATH:$GOROOT/bin:$GOPATH/bin"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-# fnm (node version manager) — uncomment if needed
-# FNM_PATH="$HOME/Library/Application Support/fnm"
-# if [ -d "$FNM_PATH" ]; then
-#   export PATH="$FNM_PATH:$PATH"
-#   eval "$(fnm env --shell zsh)"
-# fi
+# source scripts
+for f in ~/.dotfiles/zsh/scripts/*.sh; do source "$f"; done
 
 # Jira & GitLab helpers
 source ~/.dotfiles/zsh/jira.zsh
