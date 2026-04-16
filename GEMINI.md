@@ -94,5 +94,6 @@ The configuration includes specialized helpers for the `evolution` and `ela` env
 - `~/.dotfiles`: Root of the configuration.
 - `~/.config/nvim`: Neovim configuration.
 - `~/.claude`: Claude-specific skills and configurations.
+- `.github/copilot-instructions.md`: Rules and architectural overview for AI assistants.
 - `~/Library/Application Support/lazygit`: Lazygit configuration.
 nfiguration.

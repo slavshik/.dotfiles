@@ -2,16 +2,21 @@
 
 ## Build, test, and lint commands
 
-- This repository does not define a centralized build, test, or lint suite, and there is no single-test workflow checked into the repo.
+- This repository does not define a centralized build, test, or lint suite.
 - Primary setup command: `./install.sh`
   - Symlinks repo-managed config into `~` and `~/.config/`
   - Also runs `./defaults_write.sh`
 - macOS keyboard repeat preferences only: `./defaults_write.sh`
 - `Brewfile` is reference-only here; do not assume `brew bundle` is part of the repo workflow unless the user explicitly asks for it.
+- Single-test command in this repo: **not applicable** (no first-party test suite in dotfiles itself).
+- If the optional `evolution/` submodule is present, it contributes Jest helpers for work repos:
+  - `jt` (run tests for current directory scope)
+  - `jtw` (same scope in watch mode)
 
 ## High-level architecture
 
 - This is a personal macOS dotfiles repository. The repo is the source of truth; `install.sh` wires files into their runtime locations with symlinks.
+- `zsh/zshrc` automatically switches to `zsh/zshrc.agent.zsh` when running inside agent environments (`CLAUDECODE`/`OPENCLAW`) to keep shells lightweight.
 - Shell configuration centers on `zsh/zshrc`. Load order matters:
   1. oh-my-zsh + powerlevel10k bootstrap
   2. shared shell integrations such as `lfcd.sh`
@@ -44,6 +49,7 @@
   - Jira behavior in `zsh/jira.zsh`
 - Preserve zsh load order when changing `zsh/zshrc`, especially that `zsh/jira.zsh` loads before `evolution/` and `ela/`, because those submodules extend the shared Jira profile registry.
 - `evolution/` and `ela/` are git submodules with private/company-specific overrides. Treat them as optional extensions of the base config rather than moving shared logic into them.
+- Prefer running shell helper functions via interactive zsh (`zsh -i -c '<command>'`) when invoking them from scripts/agents, so aliases/functions/profile setup are loaded.
 - When changing shortcuts, trace the full path before editing: many top-level shortcuts begin in `alacritty/keybindings.toml`, get expanded in zsh or tmux, and only then reach Neovim. Update the correct layer instead of duplicating the same binding in multiple places.
 - Add Neovim plugins as separate files under `nvim/lua/plugins/` using Lazy.nvim spec tables; do not collapse multiple plugins into one large file.
 - Neovim LSP configuration uses current server names such as `ts_ls`, `lua_ls`/`luals`, and `gopls`; keep additions aligned with the existing Lazy.nvim + Mason + `vim.lsp.enable(...)` pattern.

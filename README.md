@@ -6,6 +6,7 @@ A high-performance macOS development environment centered around Zsh, Neovim, an
 This repository includes specialized instructions for AI agents:
 - [CLAUDE.md](./CLAUDE.md) - Instructions and context for Claude Code.
 - [GEMINI.md](./GEMINI.md) - Instructions and context for Gemini CLI.
+- [.github/copilot-instructions.md](./.github/copilot-instructions.md) - Custom instructions for GitHub Copilot.
 
 ## ✨ Features
 - **Shell:** Zsh powered by [Oh My Zsh](https://ohmyz.sh/) and [Powerlevel10k](https://github.com/romkatv/powerlevel10k).
