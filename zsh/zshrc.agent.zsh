@@ -4,10 +4,8 @@
 # Minimal completion support (needed by jira.zsh compdef)
 autoload -Uz compinit && compinit -C
 
-# Load shared shell helper scripts (lan, etc.)
-for f in ~/.dotfiles/zsh/scripts/*.(sh|zsh)(N); do
-  source "$f"
-done
+# Load shared shell helper scripts
+for f in ~/.dotfiles/zsh/scripts/*.(sh|zsh)(N); do source "$f"; done
 
 # PATH
 export PATH="$HOME/.local/bin:$PATH"
@@ -16,13 +14,6 @@ export GOPATH=$HOME/.local/share/go/
 export PATH="$PATH:$GOROOT/bin:$GOPATH/bin"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
-
-# source scripts
-for f in ~/.dotfiles/zsh/scripts/*.sh; do source "$f"; done
-
-# Jira & GitLab helpers
-source ~/.dotfiles/zsh/jira.zsh
-source ~/.dotfiles/zsh/gitlab.zsh
 
 # Company profiles (registers jira profiles, test helpers)
 EVO=~/.dotfiles/evolution/index.zsh

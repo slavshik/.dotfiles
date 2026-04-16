@@ -31,16 +31,10 @@ LFCD=~/.dotfiles/lf/lfcd.sh
 if [ -f "$LFCD" ]; then
     source "$LFCD"
 fi
-source ~/.dotfiles/zsh/jira.zsh          # shared jira module (must load before company folders)
-source ~/.dotfiles/zsh/gitlab.zsh
 
-EVO=~/.dotfiles/evolution/index.zsh
-[ -f "$EVO" ] && source "$EVO"
+# Load shared shell helper scripts
+for f in ~/.dotfiles/zsh/scripts/*.(sh|zsh)(N); do source "$f"; done
 
-ELA=~/.dotfiles/ela/index.zsh
-[ -f "$ELA" ] && source "$ELA"
-
-_jira_restore_profile
 source ~/.dotfiles/zsh/aliases.zsh
 source ~/.dotfiles/zsh/keybindings.zsh
 
@@ -89,3 +83,11 @@ export PATH="$HOME/.local/bin:$PATH"
 if [[ -f "$HOME/.openclaw/completions/openclaw.zsh" ]]; then
   source "$HOME/.openclaw/completions/openclaw.zsh"
 fi
+
+# Company profiles (registers jira profiles, test helpers)
+EVO=~/.dotfiles/evolution/index.zsh
+[ -f "$EVO" ] && source "$EVO"
+ELA=~/.dotfiles/ela/index.zsh
+[ -f "$ELA" ] && source "$ELA"
+
+_jira_restore_profile
