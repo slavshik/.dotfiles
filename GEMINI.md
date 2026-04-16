@@ -88,7 +88,7 @@ The configuration includes specialized helpers for the `evolution` and `ela` env
 - **Editor:** Neovim is the primary editor (`v` alias).
 - **Keybindings:** Vim-style keybindings are enabled in the shell (`bindkey -v`).
 - **Architecture:** Keep logic modular (e.g., `zsh/jira.zsh`, `zsh/gitlab.zsh`, `nvim/lua/plugins/`).
-- **Tools:** Prefer `zsh -i -c 'command'` when invoking shell functions from external scripts or AI agents to ensure environment variables and aliases are loaded.
+- **Shell Commands:** ALWAYS use `GEMINI_AGENT=1 zsh -i -c '...'` for shell commands to ensure the correct agentic environment is loaded and all aliases (like `gp` for `git push`) are available.
 
 ## Important Paths
 - `~/.dotfiles`: Root of the configuration.
