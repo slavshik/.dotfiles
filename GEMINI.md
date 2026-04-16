@@ -9,9 +9,10 @@ A high-performance macOS development environment centered around Zsh, Neovim, an
 - **Editor:** Neovim (`nvim`)
 - **Terminal:** Alacritty
 - **Multiplexer:** Tmux (`tpm`, `tmuxifier`, `sesh`)
-- **Key Tools:** `fzf`, `lsd`, `lf`, `zoxide`, `gh`, `glab`, `jq`, `yq`, `bun`
+- **Key Tools:** `lazygit` (fork: `slavshik/lazygit`), `lf` (fork: `slavshik/lf`), `fzf`, `lsd`, `zoxide`, `gh`, `glab`, `jq`, `yq`, `bun`
 
 ## Installation
+
 
 Run the main installation script to symlink configurations and clone dependencies:
 
@@ -65,6 +66,7 @@ Helpers built on top of `glab` and `fzf`:
 - `route_ai_commit.sh`: Routing logic for AI commit generation.
 
 ## Navigation & UI
+- **Git Interface:** `lazygit` (`lg` alias) is the primary driver for Git operations.
 - **File Manager:** `lf` with `lfcd` for synced directory changing.
 - **Directory Jumping:** `j` (alias for `zoxide`).
 - **Listing:** `l` / `ll` (alias for `lsd` with git status).
@@ -93,3 +95,4 @@ The configuration includes specialized helpers for the `evolution` and `ela` env
 - `~/.config/nvim`: Neovim configuration.
 - `~/.claude`: Claude-specific skills and configurations.
 - `~/Library/Application Support/lazygit`: Lazygit configuration.
+nfiguration.

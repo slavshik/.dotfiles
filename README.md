@@ -13,7 +13,7 @@ This repository includes specialized instructions for AI agents:
 - **Terminal:** [Alacritty](https://alacritty.org/) for speed and simplicity.
 - **Multiplexer:** [Tmux](https://github.com/tmux/tmux) with [TPM](https://github.com/tmux-plugins/tpm) and [sesh](https://github.com/joshmedeski/sesh).
 - **Integrations:** Built-in helpers for **Jira**, **GitLab**, and **AI-assisted commits**.
-- **Tools:** `fzf`, `lsd`, `lf`, `zoxide`, `gh`, `glab`, `jq`, `yq`, `bun`, `fnm`.
+- **Tools:** [lazygit](https://github.com/slavshik/lazygit) (#1 tool), [lf](https://github.com/slavshik/lf), `fzf`, `lsd`, `zoxide`, `gh`, `glab`, `jq`, `yq`, `bun`, `fnm`.
 
 ## 📸 Screenshots
 <img alt="vim" src="https://user-images.githubusercontent.com/621317/207847223-8c16c455-aa5f-4fa7-b347-88c0be094f61.png">
