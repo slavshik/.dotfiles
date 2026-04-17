@@ -12,12 +12,15 @@ vim.diagnostic.config({
     },
 })
 
-vim.lsp.enable({
-    "ts_ls",
-    "eslint",
-    "luals",
-    "gopls",
-})
+local function enable_if_installed(server, bin)
+    if vim.fn.executable(bin) == 1 then
+        vim.lsp.enable(server)
+    end
+end
+
+vim.lsp.enable({ "luals", "gopls" })
+enable_if_installed("ts_ls", "typescript-language-server")
+enable_if_installed("eslint", "vscode-eslint-language-server")
 
 -- ESLint fix on save (matches WebStorm: **/*.{js,ts,jsx,tsx,html,vue})
 vim.api.nvim_create_autocmd("BufWritePre", {

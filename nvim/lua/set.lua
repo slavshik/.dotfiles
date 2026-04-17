@@ -18,8 +18,16 @@ vim.opt.hlsearch = false
 vim.opt.incsearch = true
 vim.opt.smartindent = true
 
-vim.opt.wrap = true
-vim.opt.linebreak = true
+vim.opt.wrap = false
+vim.opt.linebreak = false
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "markdown",
+    callback = function()
+        vim.opt_local.wrap = true
+        vim.opt_local.linebreak = true
+    end,
+})
 -- vim.opt.clipboard:append({ "unnamedplus" })
 
 -- Give more space for displaying messages.

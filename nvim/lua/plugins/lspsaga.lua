@@ -17,6 +17,17 @@ return {
             extend_gitsigns = true,
         },
     },
+    config = function(_, opts)
+        require("lspsaga").setup(opts)
+        -- Guard against deleted augroup IDs (lspsaga outline bug)
+        local ok, outline = pcall(require, "lspsaga.symbol.outline")
+        if ok and outline.clean_ctx then
+            local orig = outline.clean_ctx
+            outline.clean_ctx = function(...)
+                pcall(orig, ...)
+            end
+        end
+    end,
     init = function()
         vim.keymap.set("n", ">", function()
             vim.cmd([[Lspsaga code_action]])

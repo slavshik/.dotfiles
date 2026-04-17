@@ -1,4 +1,5 @@
 require("set")
+require("cocos-creator")
 require("remap")
 require("russian")
 require("config.lazy")
