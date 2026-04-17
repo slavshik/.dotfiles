@@ -1,26 +1,28 @@
 {
   "env": {
     "CLAUDE_CODE_SHELL": "/bin/zsh",
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "CLAUDE_CODE_EFFORT_LEVEL": "max",
+    "CLAUDE_CODE_DISABLE_BACKGROUND_TASKS": "1",
+    "CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING": "1"
   },
   "permissions": {
-      "allow": [
-          "Bash(git status)",
-          "Bash(git diff:*)",
-          "Bash(git log:*)",
-          "Bash(ls:*)",
-          "Read(~/**)",
-          "WebFetch(domain:docs.claude.com)",
-          "WebFetch(domain:github.com)"
-      ],
-      "deny": [
-          "Bash(rm -rf:*)",
-          "Bash(sudo:*)",
-          "Bash(curl * | sh)",
-          "Bash(curl * | bash)"
-      ]
+    "allow": [
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(ls:*)",
+      "Read(~/**)",
+      "WebFetch(domain:docs.claude.com)",
+      "WebFetch(domain:github.com)"
+    ],
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Bash(sudo:*)",
+      "Bash(curl * | sh)",
+      "Bash(curl * | bash)"
+    ]
   },
-  "defaultMode": "default",
   "statusLine": {
     "type": "command",
     "command": "bash ~/.claude/statusline-command.sh"
@@ -29,7 +31,9 @@
     "rust-analyzer-lsp@claude-plugins-official": true,
     "atlassian@claude-plugins-official": false,
     "swift-lsp@claude-plugins-official": true,
-    "codex@openai-codex": true
+    "codex@openai-codex": true,
+    "gopls-lsp@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "karpathy-skills": {
@@ -45,20 +49,8 @@
       }
     }
   },
-  "voiceEnabled": true,
   "skipDangerousModePermissionPrompt": true,
-  "hooks": {
-    "Notification": [
-      {
-        "matcher": "permission_prompt|idle_prompt",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash ~/.claude/hooks/notification-desktop.sh",
-            "timeout": 5
-          }
-        ]
-      }
-    ]
-  }
+  "voiceEnabled": true,
+  "defaultMode": "default",
+  "model": "sonnet"
 }
