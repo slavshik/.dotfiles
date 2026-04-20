@@ -1,3 +1,5 @@
+[[ -f "$HOME/.env" ]] && source "$HOME/.env"
+
 # Agent shells: use lightweight shell config (skip p10k, autosuggestions, etc.)
 if [[ -n "$CLAUDECODE" || -n "$OPENCLAW" || -n "$GEMINI_AGENT" ]]; then
   source ~/.dotfiles/zsh/zshrc.agent.zsh
