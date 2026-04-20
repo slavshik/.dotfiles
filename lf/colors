@@ -43,10 +43,10 @@
 # file types (with matching order)
 ln      01;36   # LINK
 or      31;01   # ORPHAN
-tw      34      # STICKY_OTHER_WRITABLE
-ow      34      # OTHER_WRITABLE
-st      01;34   # STICKY
-di      01;33   # DIR
+tw      38;2;137;180;250         # STICKY_OTHER_WRITABLE
+ow      38;2;137;180;250         # OTHER_WRITABLE
+st      01;38;2;137;180;250      # STICKY
+di      01;38;2;137;180;250      # DIR (catppuccin mocha blue #89b4fa)
 pi      33      # FIFO
 so      01;35   # SOCK
 bd      33;01   # BLK
