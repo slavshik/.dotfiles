@@ -62,8 +62,7 @@ Helpers built on top of `glab` and `fzf`:
 - `gl-pipes`: View and open recent CI pipelines.
 
 ### AI-Assisted Commits
-- `aicommit.sh`: Uses AI to generate meaningful commit messages based on staged changes.
-- `route_ai_commit.sh`: Routing logic for AI commit generation.
+- `aicommit-suggest.sh`: Emits 3 AI-generated commit message suggestions (via `aichat`) for the staged diff, one per line. Invoked by Lazygit's `Ctrl-J` custom command as a streaming `menuFromCommand` prompt. Routes to `evolution/aicommit-suggest.sh` if that file exists and the repo is on evolution.
 
 ## Navigation & UI
 - **Git Interface:** `lazygit` (`lg` alias) is the primary driver for Git operations.

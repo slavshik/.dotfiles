@@ -50,7 +50,16 @@ customCommands:
     output: "terminal"
   - key: "<c-j>"
     context: "files,localBranches"
-    loadingText: "Loading..."
-    command: ~/.dotfiles/route_ai_commit.sh
     description: "Generate commit message from AI"
-    output: terminal
+    loadingText: "Committing..."
+    prompts:
+      - type: menuFromCommand
+        title: "Pick an AI-suggested commit message"
+        command: "sh -c '$HOME/.dotfiles/aicommit-suggest.sh'"
+        filter: '^(?P<msg>\S.*)$'
+        valueFormat: '{{ .msg }}'
+        labelFormat: '{{ .msg }}'
+      - type: input
+        title: "Edit commit message"
+        initialValue: "{{ index .PromptResponses 0 }}"
+    command: "git commit -m {{ index .PromptResponses 1 | quote }}"

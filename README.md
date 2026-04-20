@@ -44,4 +44,4 @@ This script will symlink all configurations to their respective locations in `~/
 - `gl-pipes`: View and open recent CI pipelines.
 
 ### AI-Assisted Commits
-Use `aicommit.sh` to generate commit messages based on your staged changes using AI.
+In Lazygit, press `Ctrl-J` on the files/branches view. Lazygit streams AI-generated commit suggestions from `aicommit-suggest.sh` into a native menu; pick one, optionally edit, and commit.

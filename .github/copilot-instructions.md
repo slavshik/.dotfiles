@@ -38,7 +38,7 @@
   - LSP enablement is split across `lua/config/lsp.lua` and plugin specs such as `mason.lua`, `mason-lspconfig.lua`, and `nvim-lspconfig.lua`
 - tmux is composed from `tmux/tmux.conf` plus sourced files `tmux/statusline.conf` and `tmux/plugins.conf`. It is tightly integrated with `sesh`, with the session picker bound on `prefix + K`.
 - `lf/lfcd.sh` is sourced by `zsh/zshrc` so `lf` can change the parent shell directory on exit.
-- AI-assisted commit flow is wired through `route_ai_commit.sh` and `aicommit.sh`; Lazygit maps `Ctrl-J` to that helper.
+- AI-assisted commit flow: Lazygit's `Ctrl-J` custom command runs `aicommit-suggest.sh` and streams its 3-line output into a native `menuFromCommand` dropdown; the selected message is piped through an edit prompt to `git commit -m`.
 
 ## Key conventions
 

@@ -35,7 +35,7 @@ Company-specific dotfiles are kept as submodules (`evolution/`, `ela/`). These a
 ## Key Conventions
 
 - **Commit messages** follow conventional commits: `type(scope): description` (feat, fix, docs, style, refactor, perf, test, chore, build, ci)
-- **AI commit helper**: `aicommit.sh` uses `aichat` to suggest commit messages from staged diff; `route_ai_commit.sh` routes to company-specific version
+- **AI commit helper**: `aicommit-suggest.sh` emits 3 AI-generated commit messages to stdout (via `aichat`); Lazygit's `Ctrl-J` custom command consumes them as a streaming `menuFromCommand` dropdown. Routes to `evolution/aicommit-suggest.sh` if present and repo is on evolution
 - **Neovim plugins**: Each plugin gets its own file in `nvim/lua/plugins/`. Use Lazy.nvim spec format
 - **Shell keybindings**: Defined in `zsh/keybindings.zsh` using `bindkey -s`. Vim mode is enabled (`bindkey -v`)
 - **fnm** is used for Node.js version management (not nvm)
