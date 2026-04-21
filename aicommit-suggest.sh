@@ -15,28 +15,19 @@ if [ -z "$DIFF" ]; then
     exit 1
 fi
 
-aichat "Please suggest 3 commit messages, given the following diff:
+SYSTEM="You are a commit message generator. Output exactly 3 Conventional Commits messages, one per line. No numbering, no bullets, no markdown, no quotes, no preamble."
 
+aichat --prompt "$SYSTEM" "# Task
+Suggest 3 distinct commit messages for the staged diff.
+
+# Rules
+- Format: <type>(optional scope): <description>
+- Types: feat, fix, docs, style, refactor, perf, test, chore, build, ci
+- Imperative mood, no trailing period
+- Keep each line <= 72 characters
+
+# Diff
 \`\`\`diff
 ${DIFF}
-\`\`\`
-
-**Criteria:**
-
-\`\`\`
-<type>(optional scope): <description>
-\`\`\`
-
- - \`<type>\`: This defines the nature of the commit and is typically one of these:
-     - feat: A new feature
-     - fix: A bug fix
-     - docs: Documentation-only changes
-     - style: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc.)
-     - refactor: A code change that neither fixes a bug nor adds a feature
-     - perf: A code change that improves performance
-     - test: Adding missing tests or correcting existing tests
-     - chore: Changes to the build process or auxiliary tools and libraries such as documentation generation
-     - build: Changes that affect the build system or external dependencies
-     - ci: Changes to CI configuration files and scripts
-
-Output exactly 3 commit messages, one per line, with no numbering, no bullets, no blank lines, and no extra commentary." 2>/dev/null
+\`\`\`" 2>/dev/null \
+    | grep -E '^[a-z]+(\(.+\))?!?: .+'
