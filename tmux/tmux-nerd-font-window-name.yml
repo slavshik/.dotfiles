@@ -1,17 +1,8 @@
+# Only override show-name and custom icons; everything else inherits from
+# the plugin's defaults.yml (full nerd-font glyph list).
 config:
-  fallback-icon: "❓"
-  multi-pane-icon: "🪟"
   show-name: false
 
 icons:
-  btop: "📈"
-  bun: "🥟"
-  docker: "🐳"
-  fish: "🐠"
-  fx: "📄"
-  nvim: "📝"
-  ollama: "🦙"
-  overmind: "👀"
-  stripe-mock: "💳"
-  stripe: "💳"
-  yazi: "📂"
+  claude: ""   # nf-fa-robot  (also catches version-normalized names)
+  copilot: ""  # nf-oct-copilot

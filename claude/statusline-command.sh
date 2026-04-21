@@ -43,7 +43,7 @@ else
 fi
 
 # Assemble
-printf "$(c $col_user)%s@%s${reset} ${sep}${reset} $(c $col_path)%s${reset}%s ${sep}${reset} $(c $col_model)%s${reset}" \
+printf "$(c $col_user)%s@%s${reset} $(c $col_path)%s${reset}%s ${sep}${reset} $(c $col_model)%s${reset}" \
     "$user" "$host" "$short_dir" "$branch_str" "$model"
 
 if [ -n "$ctx_str" ]; then

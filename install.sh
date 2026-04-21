@@ -34,6 +34,8 @@ echo "Symlinks:"
 dotlink zsh/zshrc ~/.zshrc
 dotlink nvim/ ~/.config/nvim
 dotlink tmux/tmux.conf ~/.tmux.conf
+mkdir -p ~/.config/tmux
+dotlink tmux/tmux-nerd-font-window-name.yml ~/.config/tmux/tmux-nerd-font-window-name.yml
 dotlink alacritty/ ~/.config/alacritty
 dotlink lf/ ~/.config/lf
 dotlink sesh/ ~/.config/sesh
