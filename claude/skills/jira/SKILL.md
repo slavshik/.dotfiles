@@ -84,6 +84,10 @@ Render rules:
 - Comments: show last 3 from `.fields.comment.comments[]`
 - Skip missing/null fields; never print `null`
 
+## Wiki handoff
+
+If the ticket description or comments reference a Confluence page (URL or bare page ID) and the `wiki` skill is available in the system, invoke it to fetch the linked content and fold the relevant parts into the answer. Skip silently if the skill is not present.
+
 ## Attachments policy
 
 Attachments live at `.fields.attachment[]` (`filename`, `mimeType`, `content`, `thumbnail`).
