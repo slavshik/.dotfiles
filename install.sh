@@ -31,6 +31,7 @@ function clone_if_missing() {
 }
 
 echo "Symlinks:"
+dotlink .env ~/.zshenv
 dotlink zsh/zshrc ~/.zshrc
 dotlink nvim/ ~/.config/nvim
 dotlink tmux/tmux.conf ~/.tmux.conf
