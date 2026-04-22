@@ -320,7 +320,7 @@ func cmdMy(args []string) {
 		max = args[0]
 	}
 
-	jql := "assignee=currentUser() AND resolution=Unresolved ORDER BY updated DESC"
+	jql := "assignee=currentUser() AND (resolution=Unresolved OR statusCategory != Done) ORDER BY updated DESC"
 	issues, err := searchIssues(jql, max, listFields)
 	if err != nil {
 		fatal("%v", err)
