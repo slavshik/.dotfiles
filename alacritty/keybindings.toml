@@ -14,7 +14,7 @@ bindings = [
     { key = "Slash", mods = "Command", chars = "gcc" }, # comment line 
     { key = "Slash", mods = "Command|Alt", chars = "gb" }, # comment out block
 
-    { key = "|", mods="Command|Shift", chars = "\u0002w" }, # tmux all sessions view
+    { key = "|", mods="Command|Shift", chars = "\u0002s" }, # tmux all sessions view
     { key = "{", mods="Command|Shift", chars = "\u0002p" }, # tmux previous session
     { key = "}", mods="Command|Shift", chars = "\u0002n" }, # tmux next session
     { key = "LBracket", mods = "Command", chars = "\u0002\u001B[D" }, # tmux left pane
