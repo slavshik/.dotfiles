@@ -4,8 +4,10 @@ return {
     lazy = false,
     branch = "main",
     config = function()
+        vim.filetype.add({ extension = { jsonl = 'json' } })
+
         local langs = {
-            'c', 'lua', 'vim', 'vimdoc', 'query', 'javascript', 'html', 'typescript', 'tsx'
+            'c', 'lua', 'vim', 'vimdoc', 'query', 'javascript', 'html', 'typescript', 'tsx', 'json'
         }
         -- Install parsers
         require('nvim-treesitter').install(langs)
