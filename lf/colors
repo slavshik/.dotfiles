@@ -56,11 +56,6 @@ sg      01;32   # SETGID
 ex      01;32   # EXEC
 fi      49;68      # FILE
 
-# dotfiles and dotfolders (pale/italic gruvbox Comment gray)
-hd      3;38;2;146;131;116    # hidden dir
-hf      3;38;2;146;131;116    # hidden file
-
-# archives or compressed (dircolors defaults)
 *.tar   01;31
 *.tgz   01;31
 *.arc   01;31

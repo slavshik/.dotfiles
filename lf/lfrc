@@ -1,5 +1,6 @@
 set icons
 set shell sh
+set hiddenfmt "\033[3;38;2;146;131;116m"
 map <C-c> cmd exit
 map . $(open -R $fx)
 map o $(qlmanage -p $fx >> /dev/null)
