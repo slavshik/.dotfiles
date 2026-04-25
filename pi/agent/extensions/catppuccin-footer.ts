@@ -29,22 +29,22 @@ function reset(text: string): string {
 }
 
 function modelChip(modelId: string): string {
-  return reset(
+  return (
     fg(CATPPUCCIN.mauve, "") +
       bg(CATPPUCCIN.mauve, fg(CATPPUCCIN.base, bold(" AI "))) +
-      bg(CATPPUCCIN.lavender, fg(CATPPUCCIN.mauve, "")) +
+      fg(CATPPUCCIN.mauve, "") +
       bg(CATPPUCCIN.lavender, fg(CATPPUCCIN.base, bold(` ${modelId} `))) +
-      fg(CATPPUCCIN.lavender, ""),
+      fg(CATPPUCCIN.lavender, "")
   );
 }
 
 function branchChip(branch: string): string {
-  return reset(
+  return (
     fg(CATPPUCCIN.green, "") +
       bg(CATPPUCCIN.green, fg(CATPPUCCIN.base, bold("  "))) +
-      bg(CATPPUCCIN.teal, fg(CATPPUCCIN.green, "")) +
+      fg(CATPPUCCIN.green, "") +
       bg(CATPPUCCIN.teal, fg(CATPPUCCIN.base, bold(` ${branch} `))) +
-      fg(CATPPUCCIN.teal, ""),
+      fg(CATPPUCCIN.teal, "")
   );
 }
 
