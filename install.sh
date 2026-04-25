@@ -67,6 +67,7 @@ echo ""
 echo "Pi:"
 dotlink pi/agent/settings.json ~/.pi/agent/settings.json
 dotlink pi/agent/extensions ~/.pi/agent/extensions
+dotlink pi/agent/themes ~/.pi/agent/themes
 
 echo ""
 echo "CLI links:"
