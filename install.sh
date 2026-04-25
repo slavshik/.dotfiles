@@ -61,6 +61,13 @@ dotlink claude/output-styles ~/.claude/output-styles
 dotlink claude/hooks ~/.claude/hooks
 dotlink claude/keybindings.json ~/.claude/keybindings.json
 
+# pi
+mkdir -p ~/.pi/agent
+echo ""
+echo "Pi:"
+dotlink pi/agent/settings.json ~/.pi/agent/settings.json
+dotlink pi/agent/extensions ~/.pi/agent/extensions
+
 echo ""
 echo "CLI links:"
 mkdir -p ~/.local/bin
