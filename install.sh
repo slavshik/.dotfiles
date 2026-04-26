@@ -53,7 +53,6 @@ echo ""
 echo "Claude:"
 dotlink claude/skills ~/.claude/skills
 dotlink claude/statusline-command.sh ~/.claude/statusline-command.sh
-dotlink claude/settings.json ~/.claude/settings.json
 dotlink claude/CLAUDE.md ~/.claude/CLAUDE.md
 dotlink claude/commands ~/.claude/commands
 dotlink claude/agents ~/.claude/agents
