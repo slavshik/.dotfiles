@@ -79,6 +79,16 @@ else
     fail "subl → ~/.local/bin/subl"
 fi
 
+if command -v go >/dev/null 2>&1; then
+    if make -C "$DOTFILES/cli" install >/dev/null 2>&1; then
+        ok "jira-cli/wiki-cli → ~/.local/bin"
+    else
+        fail "jira-cli/wiki-cli → ~/.local/bin"
+    fi
+else
+    fail "jira-cli/wiki-cli → ~/.local/bin (go not installed)"
+fi
+
 echo ""
 echo "macOS defaults:"
 if ./defaults_write.sh >/dev/null 2>&1; then

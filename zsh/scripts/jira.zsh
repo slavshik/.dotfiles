@@ -100,19 +100,48 @@ _jira_require_profile() {
 
 # --- Commands (delegated to Go binary) ---
 
-_JIRA_CLI="${0:h:h}/cli/cmd/jira/jira-cli"
-[[ -x "$HOME/.local/bin/jira-cli" ]] && _JIRA_CLI="$HOME/.local/bin/jira-cli"
+typeset -gr _JIRA_SCRIPT_PATH="${${(%):-%N}:A}"
+typeset -gr _JIRA_REPO_ROOT="${_JIRA_SCRIPT_PATH:h:h:h}"
+typeset -gr _JIRA_REPO_CLI="${_JIRA_REPO_ROOT}/cli/cmd/jira/jira-cli"
+
+if [[ -n "$JIRA_CLI" && -x "$JIRA_CLI" ]]; then
+    _JIRA_CLI="$JIRA_CLI"
+elif [[ -x "$HOME/.local/bin/jira-cli" ]]; then
+    _JIRA_CLI="$HOME/.local/bin/jira-cli"
+elif (( $+commands[jira-cli] )); then
+    _JIRA_CLI="${commands[jira-cli]}"
+else
+    _JIRA_CLI="$_JIRA_REPO_CLI"
+fi
+
+_jira_require_cli() {
+    [[ -x "$_JIRA_CLI" ]] && return 0
+    if (( $+commands[jira-cli] )); then
+        _JIRA_CLI="${commands[jira-cli]}"
+        return 0
+    fi
+    echo "jira-cli not found. Tried:"
+    echo "  $_JIRA_CLI"
+    [[ "$_JIRA_CLI" != "$HOME/.local/bin/jira-cli" ]] && echo "  $HOME/.local/bin/jira-cli"
+    [[ "$_JIRA_CLI" != "$_JIRA_REPO_CLI" ]] && echo "  $_JIRA_REPO_CLI"
+    echo "Install it with: make -C ~/.dotfiles/cli install"
+    return 1
+}
+
+_jira_cli() {
+    _jira_require_profile || return 1
+    _jira_require_cli || return 1
+    "$_JIRA_CLI" "$@"
+}
 
 # jira <KEY> — view issue summary
 jira() {
-    _jira_require_profile || return 1
-    "$_JIRA_CLI" view "$@"
+    _jira_cli view "$@"
 }
 
 # jira-detail <KEY> — full issue view
 jira-detail() {
-    _jira_require_profile || return 1
-    "$_JIRA_CLI" detail "$@"
+    _jira_cli detail "$@"
 }
 
 # jira-open <KEY> — open issue in browser
@@ -125,39 +154,35 @@ jira-open() {
 
 # jira-my [N] — list my unresolved issues
 jira-my() {
-    _jira_require_profile || return 1
-    "$_JIRA_CLI" my "$@"
+    _jira_cli my "$@"
 }
 
 alias jir='jira-my | fzf --ansi --bind "ctrl-o:become(open $JIRA_HOST/browse/{1})"'
 
 # jira-search <text> — free-text search
 jira-search() {
-    _jira_require_profile || return 1
-    "$_JIRA_CLI" search "$@"
+    _jira_cli search "$@"
 }
 
 # jira-comment <KEY> <msg> — add a comment
 jira-comment() {
-    _jira_require_profile || return 1
-    "$_JIRA_CLI" comment "$@"
+    _jira_cli comment "$@"
 }
 
 # jira-assign <KEY> [user] — assign issue (defaults to self)
 jira-assign() {
-    _jira_require_profile || return 1
-    "$_JIRA_CLI" assign "$@"
+    _jira_cli assign "$@"
 }
 
 # jira-unassign <KEY> — remove assignee from issue
 jira-unassign() {
-    _jira_require_profile || return 1
-    "$_JIRA_CLI" unassign "$@"
+    _jira_cli unassign "$@"
 }
 
 # jira-status <KEY> — transition status via fzf
 jira-status() {
     _jira_require_profile || return 1
+    _jira_require_cli || return 1
     local key="${1:u}"
     [[ -z "$key" ]] && { echo "Usage: jira-status <ISSUE-KEY>"; return 1; }
     local choice=$("$_JIRA_CLI" transitions "$key" | fzf --prompt="Transition $key > " --with-nth=2..)
@@ -168,32 +193,27 @@ jira-status() {
 
 # jira-by-status <status> [N] — list my issues by status name
 jira-by-status() {
-    _jira_require_profile || return 1
-    "$_JIRA_CLI" by-status "$@"
+    _jira_cli by-status "$@"
 }
 
 # jira-transition <KEY> <status> — transition issue to status by name (fuzzy match)
 jira-transition() {
-    _jira_require_profile || return 1
-    "$_JIRA_CLI" transition "$@"
+    _jira_cli transition "$@"
 }
 
 # jira-mr <KEY> [--web] — find GitLab MR by ticket key
 jira-mr() {
-    _jira_require_profile || return 1
-    "$_JIRA_CLI" mr "$@"
+    _jira_cli mr "$@"
 }
 
 # jira-batch-transition <from-status> <to-status> — move all my issues between statuses
 jira-batch-transition() {
-    _jira_require_profile || return 1
-    "$_JIRA_CLI" batch-transition "$@"
+    _jira_cli batch-transition "$@"
 }
 
 # jira-jql <JQL> [maxResults] — run a raw JQL query
 jira-jql() {
-    _jira_require_profile || return 1
-    "$_JIRA_CLI" jql "$@"
+    _jira_cli jql "$@"
 }
 
 # --- Completions ---

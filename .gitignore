@@ -8,3 +8,6 @@ karabiner/automatic_backups/
 # my custom scripts 
 .slavshik/
 .env
+/claude/settings.json
+/pi/agent/settings.json
+/pi/agent/settings.json
