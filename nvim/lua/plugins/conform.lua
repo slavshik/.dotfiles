@@ -23,7 +23,7 @@ return {
             html = { "prettierd", "prettier", stop_after_first = true },
             json = { "prettierd", "prettier", stop_after_first = true },
             jsonc = { "prettierd", "prettier", stop_after_first = true },
-            yaml = { "prettierd", "prettier", stop_after_first = true },
+            yaml = { "yamlfmt" },
         },
         format_on_save = function(bufnr)
             if vim.bo[bufnr].filetype == "markdown" then

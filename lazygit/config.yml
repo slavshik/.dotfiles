@@ -2,23 +2,31 @@ os:
   editPreset: "nvim"
 git:
   skipHookPrefixes: ["fixup!", "squash!"]
-  branchLogCmd: "git log --color=always --pretty=format:\"%C(yellow)%h 📅 %C(green)%cd %C(reset)%s %C(cyan)%cE\" --date=short {{branchName}} --"
+  branchLogCmd: 'git log --color=always --pretty=format:"%C(yellow)%h 📅 %C(green)%cd %C(reset)%s %C(cyan)%cE" --date=short {{branchName}} --'
   commitPrefixes:
     js-clients: # This is repository folder name
       - pattern: "^([A-Z]+\\-[0-9]+).*"
-        replace: '$1 '
+        replace: "$1 "
     js-dealermodules: # This is repository folder name
       - pattern: "^([A-Z]+\\-[0-9]+).*"
-        replace: '$1 '
+        replace: "$1 "
   pagers:
     - colorArg: always
       pager: delta --dark --paging=never
 services:
-  'gitlab.evolution.com': gitlab:gitlab.evolution.com
-  'gitlab.evolutiongaming.com': gitlab:gitlab.evolution.com
-  'gitlab.gosystem.io': gitlab:gitlab.gosystem.io
+  "gitlab.evolution.com": gitlab:gitlab.evolution.com
+  "gitlab.evolutiongaming.com": gitlab:gitlab.evolution.com
+  "gitlab.gosystem.io": gitlab:gitlab.gosystem.io
 gui:
   nerdFontsVersion: "3"
+  spinner:
+    frames:
+      - "" #
+      - "" #
+      - "" #
+      - "" #
+      - "" #
+      - "" #
   # Override .tsx icon: default lazygit uses U+ED46 which is missing in MesloLGL Nerd Font.
   # Using U+E7BA instead (same as lf config).
   customIcons:
@@ -42,7 +50,7 @@ gui:
   mainBranches: [master, main]
   theme:
     activeBorderColor:
-      - '#ff9900'
+      - "#ff9900"
       - bold
     inactiveBorderColor:
       - black
@@ -63,8 +71,8 @@ customCommands:
         title: "Pick an AI-suggested commit message"
         command: "sh -c '$HOME/.dotfiles/aicommit-suggest.sh'"
         filter: '^(?P<msg>\S.*)$'
-        valueFormat: '{{ .msg }}'
-        labelFormat: '{{ .msg }}'
+        valueFormat: "{{ .msg }}"
+        labelFormat: "{{ .msg }}"
       - type: input
         title: "Edit commit message"
         initialValue: "{{ index .PromptResponses 0 }}"
