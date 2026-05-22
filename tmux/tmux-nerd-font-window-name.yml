@@ -4,5 +4,6 @@ config:
   show-name: false
 
 icons:
-  claude: ""   # nf-fa-robot  (also catches version-normalized names)
-  copilot: ""  # nf-oct-copilot
+  claude: "" # U+F069
+  copilot: "" # U+F4B8
+  pi: "π" # U+03C0 pi symbol
