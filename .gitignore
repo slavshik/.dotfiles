@@ -4,6 +4,7 @@
 nvim/plugin/packer_compiled.lua
 lazygit/state.yml
 karabiner/automatic_backups/
+zsh/scripts/lan/lan-bin
 # my custom scripts 
 .slavshik/
 .env

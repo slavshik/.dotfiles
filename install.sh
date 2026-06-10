@@ -85,8 +85,14 @@ if command -v go >/dev/null 2>&1; then
     else
         fail "jira-cli/wiki-cli → ~/.local/bin"
     fi
+    if (cd "$DOTFILES/zsh/scripts/lan" && go build -o lan-bin .) >/dev/null 2>&1; then
+        ok "lan-bin (zsh/scripts/lan)"
+    else
+        fail "lan-bin (zsh/scripts/lan)"
+    fi
 else
     fail "jira-cli/wiki-cli → ~/.local/bin (go not installed)"
+    fail "lan-bin (go not installed)"
 fi
 
 echo ""
