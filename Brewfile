@@ -43,6 +43,7 @@ brew "http-server"
 brew "aichat"
 
 # Utilities
+brew "btop"
 brew "ical-buddy"
 brew "terminal-notifier"
 brew "joshmedeski/sesh/sesh"
