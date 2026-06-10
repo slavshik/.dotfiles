@@ -51,9 +51,8 @@ alias gloga='git log --oneline --decorate --graph --all'
 
 # PATH
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="$PATH:$HOME/Library/Python/3.9/bin"
 export GOPATH=$HOME/.local/share/go/
-export PATH="$PATH:$GOROOT/bin:$GOPATH/bin"
+export PATH="$PATH:$GOPATH/bin"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 

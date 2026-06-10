@@ -188,7 +188,7 @@ alias webstorm="open -a 'WebStorm' --args '$1' >/dev/null 2>&1"
 # helpme [filter] — list custom commands from dotfiles
 helpme() {
     local filter="${1:-}"
-    local files=(~/.dotfiles/zsh/jira.zsh ~/.dotfiles/zsh/gitlab.zsh ~/.dotfiles/zsh/aliases.zsh)
+    local files=(~/.dotfiles/zsh/scripts/*.zsh(N) ~/.dotfiles/zsh/aliases.zsh)
     for f in $files; do
         [[ -f "$f" ]] || continue
         local label="${${f:t}%.zsh}"
