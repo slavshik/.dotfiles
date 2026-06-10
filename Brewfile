@@ -60,3 +60,6 @@ cargo "wasm-pack"
 
 # Python (uv)
 uv "mflux"
+
+# Bun (bun install -g)
+bun "ccusage"

@@ -49,3 +49,14 @@ printf "$(c $col_user)%s@%s${reset} $(c $col_path)%s${reset}%s ${sep}${reset} $(
 if [ -n "$ctx_str" ]; then
     printf " ${sep}${reset} %s" "$ctx_str"
 fi
+
+# ccusage: session/today cost + burn rate (model and context segments
+# dropped — already shown above; bun global bin may be missing from PATH)
+CCUSAGE_BIN=$(command -v ccusage || echo "$HOME/.bun/bin/ccusage")
+if [ -x "$CCUSAGE_BIN" ]; then
+    usage=$(echo "$input" | "$CCUSAGE_BIN" statusline 2>/dev/null \
+        | awk -F'|' '{out=""; for(i=1;i<=NF;i++) if(index($i,"session")>0 || index($i,"/hr")>0){gsub(/^[ \t]+|[ \t]+$/,"",$i); out=out (out=="" ? "" : " | ") $i}; print out}')
+    if [ -n "$usage" ]; then
+        printf " ${sep}${reset} %s" "$usage"
+    fi
+fi
