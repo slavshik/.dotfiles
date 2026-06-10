@@ -16,12 +16,28 @@
 [delta]
     navigate = true
     light = true
+    side-by-side = true
 [merge]
     conflictstyle = diff3
 [diff]
     colorMoved = default
-
-[delta]
-    side-by-side = true
+    algorithm = histogram
+[init]
+    defaultBranch = main
+[column]
+    ui = auto
+[branch]
+    sort = -committerdate
+[fetch]
+    prune = true
+[rebase]
+    autoSquash = true
+    autoStash = true
+    updateRefs = true
+[rerere]
+    enabled = true
+[commit]
+    verbose = true
 [push]
 	autoSetupRemote = true
+    useForceIfIncludes = true
