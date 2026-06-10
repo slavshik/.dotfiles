@@ -113,5 +113,7 @@ clone_if_missing https://github.com/romkatv/powerlevel10k.git \
     "${ZSH_CUSTOM}/themes/powerlevel10k" "powerlevel10k"
 clone_if_missing https://github.com/zsh-users/zsh-autosuggestions \
     "${ZSH_CUSTOM}/plugins/zsh-autosuggestions" "zsh-autosuggestions"
+clone_if_missing https://github.com/Aloxaf/fzf-tab \
+    "${ZSH_CUSTOM}/plugins/fzf-tab" "fzf-tab"
 clone_if_missing https://github.com/tmux-plugins/tpm \
     ~/.tmux/plugins/tpm "tpm (tmux plugin manager)"

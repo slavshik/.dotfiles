@@ -19,10 +19,17 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 
 fpath=(~/.zsh/completions $fpath)
 plugins=(
-    git 
+    git
+    fzf-tab # must load before widget-wrapping plugins (autosuggestions)
     zsh-autosuggestions
 )
 source $ZSH/oh-my-zsh.sh
+
+# fzf-tab: group headers + tmux popup, matching the rest of the fzf workflow
+zstyle ':completion:*:descriptions' format '[%d]'
+if [[ -n "$TMUX" ]]; then
+  zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+fi
 
 export GOPATH=$HOME/.local/share/go/
 export PATH="$PATH:$GOPATH/bin"
