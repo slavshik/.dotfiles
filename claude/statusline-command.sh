@@ -3,7 +3,7 @@ input=$(cat)
 
 # ANSI 256-color helpers
 c()  { printf "\033[38;5;%sm" "$1"; }  # foreground color
-dim= ; reset="\033[0m"
+reset="\033[0m"
 sep=$(printf "\033[38;5;238m\033[0m")  # dark-gray separator
 
 # Segment colors
