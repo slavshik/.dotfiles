@@ -2,7 +2,6 @@
 .idea/
 .lsp/
 nvim/plugin/packer_compiled.lua
-nvim/lazy-lock.json
 lazygit/state.yml
 karabiner/automatic_backups/
 # my custom scripts 
