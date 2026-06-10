@@ -20,6 +20,7 @@ brew "wget"
 brew "jq"
 brew "yq"
 brew "direnv"
+brew "just"
 
 # Dev
 brew "fnm"

@@ -87,19 +87,28 @@ function _find_claude_scripts() {
     return 1
 }
 
+# runscript — fzf-pick a run target: just recipes (project + .$(whoami)/justfile), .claude/scripts, npm scripts
 function runscript() {
-    local predefined="$1"
     local entries=()
     local scripts_dir
     scripts_dir=$(_find_claude_scripts 2>/dev/null)
+    local personal=".$(whoami)/justfile"
 
-    if [[ -f "$predefined" ]]; then
-        local line
-        while IFS= read -r line || [[ -n "$line" ]]; do
-            [[ -z "${line//[[:space:]]/}" ]] && continue
-            [[ "${line#"${line%%[![:space:]]*}"}" == \#* ]] && continue
-            entries+=( $'\e[1;33m'"$line"$'\e[0m \e[90m(predefined)\e[0m\tPREDEFINED\t'"$line" )
-        done < "$predefined"
+    if command -v just >/dev/null 2>&1; then
+        local r names
+        # project justfile (just searches upward from cwd)
+        if names=$(just --summary 2>/dev/null); then
+            for r in ${(z)names}; do
+                entries+=( $'\e[1;33m'"$r"$'\e[0m \e[90m(just)\e[0m\tJUST\t'"$r" )
+            done
+        fi
+        # personal untracked justfile
+        if [[ -f "$personal" ]]; then
+            names=$(just --justfile "$personal" --summary 2>/dev/null)
+            for r in ${(z)names}; do
+                entries+=( $'\e[32m'"$r"$'\e[0m \e[90m(my)\e[0m\tMYJUST\t'"$r" )
+            done
+        fi
     fi
 
     if [[ -n "$scripts_dir" ]]; then
@@ -117,7 +126,7 @@ function runscript() {
     fi
 
     if (( ${#entries[@]} == 0 )); then
-        echo "no run targets found"
+        echo "no run targets found (no justfile, .claude/scripts or package.json)"
         return 1
     fi
 
@@ -130,9 +139,13 @@ function runscript() {
     local payload="${pick##*$'\t'}"
 
     case "$kind" in
-        PREDEFINED)
-            print -s "$payload"
-            eval "$payload"
+        JUST)
+            print -s "just $payload"
+            just "$payload"
+            ;;
+        MYJUST)
+            print -s "just --justfile $personal --working-directory . $payload"
+            just --justfile "$personal" --working-directory . "$payload"
             ;;
         CLAUDE) "$payload" ;;
         NPM)
@@ -168,7 +181,7 @@ function dta() {
 function jj() {
     sesh connect $(sesh list | fzf)
 }
-alias _run="runscript .$(whoami)/commands.txt"
+alias _run="runscript"
 alias zshconfig="vim ~/.zshrc"
 alias python=python3
 alias j=z
