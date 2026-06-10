@@ -1,6 +1,3 @@
-require('mini.snippets').setup({})
-require('mini.completion').setup({})
-
 vim.diagnostic.config({
     signs = {
         text = {
@@ -18,7 +15,7 @@ local function enable_if_installed(server, bin)
     end
 end
 
-vim.lsp.enable({ "luals", "gopls" })
+vim.lsp.enable({ "lua_ls", "gopls" })
 enable_if_installed("ts_ls", "typescript-language-server")
 enable_if_installed("eslint", "vscode-eslint-language-server")
 
