@@ -8,7 +8,7 @@ tools: Bash, Read
 
 Read and search Confluence pages.
 
-Use `zsh -i -c '...'` for all wiki helpers so dotfiles and `EVO_WIKI_PAT` auth are loaded automatically.
+Use `zsh -i -c '...'` for all wiki helpers so dotfiles and `WIKI_PAT` auth are loaded automatically.
 
 ## Trigger
 
@@ -43,7 +43,7 @@ For search results, render each entry as:
 
 ## Auth and errors
 
-- `EVO_WIKI_PAT not set`: tell the user to source evolution dotfiles. Do not set tokens yourself.
+- `WIKI_PAT not set`: tell the user to source their company dotfiles. Do not set tokens yourself.
 - `HTTP 404`: page is deleted, moved, or inaccessible with current token. State that and stop (no ID guessing).
 
 ## Jira handoff

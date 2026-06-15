@@ -1,5 +1,5 @@
 # Confluence wiki helpers
-# Auth via EVO_WIKI_PAT from company .secure.zsh
+# Auth via WIKI_PAT from company .secure.zsh
 
 export WIKI_HOST="https://wiki.evolution.com"
 

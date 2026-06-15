@@ -24,9 +24,9 @@ func wikiHost() string {
 }
 
 func wikiToken() string {
-	t := os.Getenv("EVO_WIKI_PAT")
+	t := os.Getenv("WIKI_PAT")
 	if t == "" {
-		fatal("EVO_WIKI_PAT not set")
+		fatal("WIKI_PAT not set")
 	}
 	return t
 }
