@@ -25,7 +25,11 @@ If a ticket links to 4+ pages, ask which pages to fetch first.
 - View a page: `wiki <URL-or-pageID>`
 - Search: `wiki-search "query"` (up to 10 results)
 
-`wiki` accepts both full URLs and raw page IDs.
+`wiki` accepts a raw page ID or any Confluence URL:
+- Modern: `/spaces/<KEY>/pages/<ID>/...`
+- Legacy: `/display/<SPACE>/<Title>` (resolved to an ID via the API) and `/pages/viewpage.action?pageId=<ID>`
+
+When a full URL is given, its host is used for the request (falling back to `WIKI_HOST` for bare IDs).
 
 ## Output rules
 

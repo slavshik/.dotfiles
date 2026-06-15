@@ -6,6 +6,7 @@ import (
 	"html"
 	"io"
 	"net/http"
+	"net/url"
 	"os"
 	"regexp"
 	"strings"
@@ -194,11 +195,10 @@ func cmdView(args []string) {
 	if len(args) == 0 {
 		fatal("Usage: wiki-cli view <page-id-or-url>")
 	}
-	pageID := extractPageID(args[0])
-	host := wikiHost()
+	host, pageID := resolvePage(args[0])
 
-	url := fmt.Sprintf("%s/rest/api/content/%s?expand=body.storage,space,version,ancestors", host, pageID)
-	body, err := wikiGet(url)
+	apiURL := fmt.Sprintf("%s/rest/api/content/%s?expand=body.storage,space,version,ancestors", host, pageID)
+	body, err := wikiGet(apiURL)
 	if err != nil {
 		fatal("%v", err)
 	}
@@ -295,21 +295,104 @@ func cmdSearch(args []string) {
 
 // --- Helpers ---
 
-var rePageID = regexp.MustCompile(`/pages/(\d+)`)
+// pageRef is what we can statically extract from a page id or URL, before any
+// network call. host is the scheme://host taken from the URL (empty if the
+// input had none); pageID is set when directly available; space+title are set
+// for legacy /display/ URLs that must be resolved to an id via the API.
+type pageRef struct {
+	host   string
+	pageID string
+	space  string
+	title  string
+}
 
-func extractPageID(input string) string {
-	// Raw numeric ID
-	matched, _ := regexp.MatchString(`^\d+$`, input)
-	if matched {
-		return input
+func parsePageRef(input string) (pageRef, error) {
+	input = strings.TrimSpace(input)
+
+	// Bare numeric id
+	if reNumericID.MatchString(input) {
+		return pageRef{pageID: input}, nil
 	}
-	// Extract from URL
-	m := rePageID.FindStringSubmatch(input)
-	if m != nil {
-		return m[1]
+
+	u, err := url.Parse(input)
+	if err != nil {
+		return pageRef{}, fmt.Errorf("invalid URL: %v", err)
 	}
-	fatal("Could not extract page ID from: %s", input)
-	return ""
+
+	var ref pageRef
+	if u.Host != "" {
+		scheme := u.Scheme
+		if scheme == "" {
+			scheme = "https"
+		}
+		ref.host = scheme + "://" + u.Host
+	}
+
+	// Modern /spaces/<KEY>/pages/<id>/... and legacy /pages/<id>
+	if m := rePageID.FindStringSubmatch(u.Path); m != nil {
+		ref.pageID = m[1]
+		return ref, nil
+	}
+
+	// Legacy /pages/viewpage.action?pageId=<id>
+	if id := u.Query().Get("pageId"); id != "" {
+		ref.pageID = id
+		return ref, nil
+	}
+
+	// Legacy /display/<SPACE>/<Title> — title has spaces encoded as '+',
+	// resolved to an id via the API later.
+	if m := reDisplay.FindStringSubmatch(u.Path); m != nil {
+		ref.space = m[1]
+		ref.title = strings.ReplaceAll(m[2], "+", " ")
+		return ref, nil
+	}
+
+	return pageRef{}, fmt.Errorf("could not extract page reference from: %s", input)
+}
+
+var (
+	rePageID    = regexp.MustCompile(`/pages/(\d+)`)
+	reDisplay   = regexp.MustCompile(`^/display/([^/]+)/(.+)$`)
+	reNumericID = regexp.MustCompile(`^\d+$`)
+)
+
+// resolvePage turns a page id or URL into the host and numeric page id to fetch.
+// For legacy /display/<SPACE>/<Title> URLs it resolves the title to an id via the API.
+func resolvePage(input string) (host, pageID string) {
+	ref, err := parsePageRef(input)
+	if err != nil {
+		fatal("%v", err)
+	}
+	host = ref.host
+	if host == "" {
+		host = wikiHost()
+	}
+	if ref.pageID != "" {
+		return host, ref.pageID
+	}
+	return host, resolveByTitle(host, ref.space, ref.title)
+}
+
+// resolveByTitle looks up a page id by space key + exact title.
+func resolveByTitle(host, space, title string) string {
+	q := url.Values{}
+	q.Set("spaceKey", space)
+	q.Set("title", title)
+	q.Set("limit", "1")
+	body, err := wikiGet(host + "/rest/api/content?" + q.Encode())
+	if err != nil {
+		fatal("%v", err)
+	}
+	var data map[string]interface{}
+	if err := json.Unmarshal(body, &data); err != nil {
+		fatal("JSON parse error: %v", err)
+	}
+	results := jsonArr(data, "results")
+	if len(results) == 0 {
+		fatal("No page titled %q found in space %s", title, space)
+	}
+	return jsonStr(results[0], "id")
 }
 
 func fatal(format string, args ...interface{}) {

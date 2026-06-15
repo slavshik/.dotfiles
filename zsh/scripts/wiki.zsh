@@ -1,7 +1,9 @@
 # Confluence wiki helpers
 # Auth via WIKI_PAT from company .secure.zsh
 
-export WIKI_HOST="https://wiki.evolution.com"
+# Default host; company .secure.zsh (e.g. ela) may override. Non-clobbering so it won't stomp company config.
+: "${WIKI_HOST:=https://wiki.evolution.com}"
+export WIKI_HOST
 
 typeset -gr _WIKI_SCRIPT_PATH="${${(%):-%N}:A}"
 typeset -gr _WIKI_REPO_ROOT="${_WIKI_SCRIPT_PATH:h:h:h}"
