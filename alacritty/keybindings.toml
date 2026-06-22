@@ -5,9 +5,11 @@ bindings = [
     { key = "W", mods = "Command", chars = "\u0002W" }, # !CLOSE TAB/vim/Terminal/etc
     { key = "N", mods = "Command|Shift", chars = "\u0002S" }, # new tmux session
     { key = "T", mods = "Command", chars = "\u0002c" }, # new tmux tab
-    { key = "K", mods = "Command|Shift", chars = " K" }, # open lazygit
+    { key = "G", mods = "Command", chars = " K" }, # open lazygit
     { key = "H", mods = "Command|Shift", chars = "\u0002H" }, # resize tmux pane left
     { key = "L", mods = "Command|Shift", chars = "\u0002L" }, # resize tmux pane right
+    { key = "J", mods = "Command|Shift", chars = "\u0002j" }, # resize tmux pane down
+    { key = "K", mods = "Command|Shift", chars = "\u0002k" }, # resize tmux pane up
     { key = "Z", mods = "Command", chars = "\u001Bu" }, # undo in vim (u)
     { key = "Z", mods = "Command|Shift", chars = "\u001B\u0012"}, # redo in vim (^R)
 
@@ -21,7 +23,8 @@ bindings = [
     { key = "RBracket", mods = "Command", chars = "\u0002\u001B[C" }, # tmux right pane
     { key = "LBracket", mods = "Command|Alt|Shift", chars = "\u0002)" }, # tmux next session
     { key = "RBracket", mods = "Command|Alt|Shift", chars = "\u0002(" }, # tmux previous session
-    { key = "T", mods = "Command|Shift", chars = "\u0002%" }, # tmux open new pane (vertical)
+    { key = "T", mods = "Command|Shift", chars = "\u0002%" }, # tmux open new pane (vertical, left/right)
+    { key = "S", mods = "Command|Shift", chars = "\u0002\"" }, # tmux split pane (vertical, top/bottom)
     { key = "!", mods = "Command|Shift", chars = " !@f" }, # open file in Finder
 
     { key = "LBracket", mods = "Command|Shift|Alt", chars = "\u0002\u001B[1;6D" },
