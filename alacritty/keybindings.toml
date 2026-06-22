@@ -10,7 +10,7 @@ bindings = [
     { key = "L", mods = "Command|Shift", chars = "\u0002L" }, # resize tmux pane right
     { key = "J", mods = "Command|Shift", chars = "\u0002j" }, # resize tmux pane down
     { key = "K", mods = "Command|Shift", chars = "\u0002k" }, # resize tmux pane up
-    { key = "H", mods = "Command", chars = "\u0002\u001B[D" }, # nav left  (tmux pane / nvim split)
+    { key = "H", mods = "Command", chars = "\u0002\u001B[D" }, # nav left  (tmux pane / nvim split) — ⌘H freed from macOS "Hide" via defaults_write.sh
     { key = "J", mods = "Command", chars = "\u0002\u001B[B" }, # nav down  (tmux pane / nvim split)
     { key = "K", mods = "Command", chars = "\u0002\u001B[A" }, # nav up    (tmux pane / nvim split)
     { key = "L", mods = "Command", chars = "\u0002\u001B[C" }, # nav right (tmux pane / nvim split)
@@ -51,8 +51,10 @@ bindings = [
 
     { key = ".", mods = "Command", chars = "\u0002." }, # move window right (prefix + .)
     { key = ",", mods = "Command", chars = "\u0002," }, # move window left (prefix + ,)
-    { key = "Comma", mods = "Command|Alt", chars = "\u0002<" }, # move active tmux pane left
-    { key = "Period", mods = "Command|Alt", chars = "\u0002>" }, # move active tmux pane right
+    { key = "H", mods = "Command|Alt", chars = "\u0002\u001B[1;2D" }, # swap pane left
+    { key = "J", mods = "Command|Alt", chars = "\u0002\u001B[1;2B" }, # swap pane down
+    { key = "K", mods = "Command|Alt", chars = "\u0002\u001B[1;2A" }, # swap pane up
+    { key = "L", mods = "Command|Alt", chars = "\u0002\u001B[1;2C" }, # swap pane right
 
     # -------------------------------------------------------------
     # 
