@@ -2,8 +2,7 @@ local move_line_down = ":m '>+1<CR>gv=gv"
 local move_line_up = ":m '<-2<CR>gv=gv"
 vim.keymap.set("v", "<C-k>", move_line_up)
 vim.keymap.set("v", "<C-j>", move_line_down)
-vim.keymap.set("n", "<C-j>", "V" .. move_line_down .. "<esc>")
-vim.keymap.set("n", "<C-k>", "V" .. move_line_up .. "<esc>")
+-- normal-mode <C-j>/<C-k> now navigate splits (smart-splits.nvim); line-move stays visual-only
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
