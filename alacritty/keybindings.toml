@@ -10,6 +10,10 @@ bindings = [
     { key = "L", mods = "Command|Shift", chars = "\u0002L" }, # resize tmux pane right
     { key = "J", mods = "Command|Shift", chars = "\u0002j" }, # resize tmux pane down
     { key = "K", mods = "Command|Shift", chars = "\u0002k" }, # resize tmux pane up
+    { key = "H", mods = "Command", chars = "\u0002\u001B[D" }, # nav left  (tmux pane / nvim split)
+    { key = "J", mods = "Command", chars = "\u0002\u001B[B" }, # nav down  (tmux pane / nvim split)
+    { key = "K", mods = "Command", chars = "\u0002\u001B[A" }, # nav up    (tmux pane / nvim split)
+    { key = "L", mods = "Command", chars = "\u0002\u001B[C" }, # nav right (tmux pane / nvim split)
     { key = "Z", mods = "Command", chars = "\u001Bu" }, # undo in vim (u)
     { key = "Z", mods = "Command|Shift", chars = "\u001B\u0012"}, # redo in vim (^R)
 
@@ -45,7 +49,7 @@ bindings = [
     { key = "O", mods = "Control|Alt", chars = " OI" }, # optimize imports (leader+OI -> nvim)
     { key = "I", mods = "Command", chars = " II" }, # npm_install script
     { key = "I", mods = "Command|Shift", chars = " ii" }, # yarnrun script
-    { key = "K", mods = "Command", chars = "\u0002K" }, # session manager
+    { key = "K", mods = "Command|Control", chars = "\u0002K" }, # session manager (sesh) — moved off CMD+K
 
     { key = ".", mods = "Command", chars = "\u0002." }, # move window right (prefix + .)
     { key = ",", mods = "Command", chars = "\u0002," }, # move window left (prefix + ,)
