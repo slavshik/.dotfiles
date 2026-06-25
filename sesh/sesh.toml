@@ -15,18 +15,18 @@ path = "~/Documents/Ela"
 
 [[session]]
 name = "🪴Evo"
-path = "~/Documents/EVO/js-clients/"
+path = "~/Documents/EVO/js-clients"
 startup_script = "~/.config/sesh/scripts/evo"
 
 [[session]]
 name = "🐶Diesel"
-path = "~/Documents/Diesel/"
+path = "~/Documents/Diesel"
 
 [[session]]
 name = "💻Dev"
-path = "~/Documents/dev/"
+path = "~/Documents/dev"
 startup_command = "l"
 
 [[session]]
 name = "🖥 Desktop"
-path = "~/Desktop/"
+path = "~/Desktop"
