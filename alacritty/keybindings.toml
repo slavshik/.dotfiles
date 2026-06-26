@@ -21,16 +21,13 @@ bindings = [
     { key = "Slash", mods = "Command|Alt", chars = "gb" }, # comment out block
 
     { key = "|", mods="Command|Shift", chars = "\u0002s" }, # tmux all sessions view
-    { key = "{", mods="Command|Shift", chars = "\u0002p" }, # tmux previous session
-    { key = "}", mods="Command|Shift", chars = "\u0002n" }, # tmux next session
-    { key = "LBracket", mods = "Command|Alt|Shift", chars = "\u0002)" }, # tmux next session
-    { key = "RBracket", mods = "Command|Alt|Shift", chars = "\u0002(" }, # tmux previous session
+    { key = "LBracket", mods = "Command", chars = "\u0002p" }, # CMD+[ -> previous tab (tmux window)
+    { key = "RBracket", mods = "Command", chars = "\u0002n" }, # CMD+] -> next tab (tmux window)
+    { key = "{", mods="Command|Shift", chars = "\u0002(" }, # CMD+Shift+[ -> previous session (switch-client -p)
+    { key = "}", mods="Command|Shift", chars = "\u0002)" }, # CMD+Shift+] -> next session (switch-client -n)
     { key = "T", mods = "Command|Shift", chars = "\u0002%" }, # tmux open new pane (vertical, left/right)
     { key = "S", mods = "Command|Shift", chars = "\u0002\"" }, # tmux split pane (vertical, top/bottom)
     { key = "!", mods = "Command|Shift", chars = " !@f" }, # open file in Finder
-
-    { key = "LBracket", mods = "Command|Shift|Alt", chars = "\u0002\u001B[1;6D" },
-    { key = "RBracket", mods = "Command|Shift|Alt", chars = "\u0002\u001B[1;6C" },
 
     { key = "E", mods = "Command", chars = " e" },
     { key = "E", mods = "Command|Shift", chars = "\u0002e" },
