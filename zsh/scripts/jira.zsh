@@ -1,5 +1,5 @@
 # Multi-instance Jira CLI
-# Requires: curl, jq, fzf (for jira-status)
+# Requires: jq, fzf (for jira-status)
 #
 # Usage:
 #   Company index.zsh calls: jira-register <label> <host> <pat_env_var> [auth_type]
