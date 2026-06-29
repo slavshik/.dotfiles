@@ -38,13 +38,20 @@ If still empty, ask the user for the key.
 If inferred, state which key was inferred before using it.
 For mutating actions on inferred keys (comment/assign/unassign/transition), explicitly state the inferred key before executing.
 
+## NEVER use raw curl
+
+**All Jira operations must go through the shell helpers below.** Do NOT fall back to constructing curl commands manually — it leaks credentials, bypasses auth abstraction, and exposes private data in terminal output. If a helper is missing, say so and propose adding it to `~/.dotfiles/zsh/scripts/jira.zsh`.
+
 ## Intent → command map
 
 - Default view: `jira KEY` (quick summary)
 - Full detail view: `jira-detail KEY`
-- Raw JSON (for parsing): `_jira_fetch_full KEY`
+- Raw JSON (for field access): `_jira_fetch_full KEY [fields]` — wraps `jira-cli fetch`; pipe to `jq` for specific fields
+- Raw JSON via Go binary: `jira-cli fetch KEY [fields]`
+- Get reporter username: `jira-reporter KEY`
 - Add comment: `jira-comment KEY MESSAGE`
 - Assign: `jira-assign KEY [username]` (no username = assign to self)
+- Assign to reporter (1 or N keys): `jira-assign-to-reporter KEY [KEY...]` — parallel for N keys
 - Unassign: `jira-unassign KEY`
 - Transition: `jira-transition KEY "target status"` (fuzzy status match)
 - My unresolved issues: `jira-my [limit]` (default 15)
@@ -71,9 +78,15 @@ zsh -i -c 'jira-detail KEY' 2>/dev/null
 Raw JSON + error handling:
 
 ```bash
-res=$(zsh -i -c '_jira_fetch_full KEY' 2>/dev/null)
-err=$(echo "$res" | jq -r '.errorMessages[0] // empty' 2>/dev/null)
-[[ -n "$err" ]] && { echo "Error: $err"; exit 1; }
+# Get reporter of a ticket
+reporter=$(zsh -i -c 'jira-reporter ESS-1234' 2>/dev/null)
+
+# Get any field via raw JSON
+res=$(zsh -i -c '_jira_fetch_full ESS-1234 reporter,assignee' 2>/dev/null)
+echo "$res" | jq -r '.fields.reporter.name'
+
+# Reassign multiple tickets to their reporters in parallel
+zsh -i -c 'jira-assign-to-reporter ESS-1 ESS-2 ESS-3 ESS-4' 2>/dev/null
 ```
 
 Render rules:
