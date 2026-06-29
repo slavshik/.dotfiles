@@ -202,7 +202,7 @@ const (
 // --- Issue fields ---
 
 const viewFields = "summary,status,priority,issuetype,assignee"
-const detailFields = "summary,status,assignee,priority,issuetype,description,labels,components,comment,attachment,fixVersions,customfield_10016,customfield_10014"
+const detailFields = "summary,status,assignee,reporter,priority,issuetype,description,labels,components,comment,attachment,fixVersions,customfield_10016,customfield_10014"
 const listFields = "summary,status,priority,issuetype"
 const searchFields = "summary,status,assignee,issuetype"
 
@@ -249,6 +249,9 @@ func cmdDetail(args []string) {
 		assignee = a
 	}
 	fmt.Printf("Assignee:  %s\n", assignee)
+	if r := jsonStr(f, "reporter", "displayName"); r != "" {
+		fmt.Printf("Reporter:  %s\n", r)
+	}
 
 	if labels := jsonArr(f, "labels"); len(labels) > 0 {
 		strs := make([]string, len(labels))
@@ -446,14 +449,11 @@ func cmdTransitions(args []string) {
 	}
 }
 
-func cmdTransition(args []string) {
-	if len(args) < 2 {
-		fatal("Usage: jira-cli transition <ISSUE-KEY> <id-or-name>")
-	}
-	key := strings.ToUpper(args[0])
-	target := args[1]
+// transitionIssue transitions key to target (name or numeric ID).
+// Returns "KEY \u2192 StatusName" on success, error with available transitions on name mismatch.
+func transitionIssue(key, target string) (string, error) {
+	key = strings.ToUpper(key)
 
-	// If target looks like a number, use it directly as transition ID
 	isID := true
 	for _, c := range target {
 		if c < '0' || c > '9' {
@@ -464,13 +464,11 @@ func cmdTransition(args []string) {
 
 	var tid, tname string
 	if isID {
-		tid = target
-		tname = target
+		tid, tname = target, target
 	} else {
-		// Fetch transitions and fuzzy match by name
 		body, err := jiraGet(fmt.Sprintf("/issue/%s/transitions", key))
 		if err != nil {
-			fatal("%v", err)
+			return "", err
 		}
 		var result map[string]interface{}
 		json.Unmarshal(body, &result)
@@ -485,11 +483,12 @@ func cmdTransition(args []string) {
 			}
 		}
 		if tid == "" {
-			fmt.Fprintf(os.Stderr, "No transition matching %q for %s. Available:\n", target, key)
+			var names []string
 			for _, t := range transitions {
-				fmt.Fprintf(os.Stderr, "  %s\n", jsonStr(t, "name"))
+				names = append(names, jsonStr(t, "name"))
 			}
-			os.Exit(1)
+			return "", fmt.Errorf("no transition matching %q for %s\n  available: %s",
+				target, key, strings.Join(names, ", "))
 		}
 	}
 
@@ -498,9 +497,21 @@ func cmdTransition(args []string) {
 	})
 	_, err := jiraPost(fmt.Sprintf("/issue/%s/transitions", key), payload)
 	if err != nil {
-		fatal("%v", err)
+		return "", err
 	}
-	fmt.Printf("%s \u2192 %s\n", key, tname)
+	return fmt.Sprintf("%s \u2192 %s", key, tname), nil
+}
+
+func cmdTransition(args []string) {
+	if len(args) < 2 {
+		fatal("Usage: jira-cli transition <ISSUE-KEY> <id-or-name>")
+	}
+	msg, err := transitionIssue(args[0], args[1])
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "Error:", err)
+		os.Exit(1)
+	}
+	fmt.Println(msg)
 }
 
 func cmdBatchTransition(args []string) {
@@ -517,11 +528,14 @@ func cmdBatchTransition(args []string) {
 		fmt.Printf("No issues with status %q\n", from)
 		return
 	}
-	fmt.Printf("Transitioning %d issue(s) from %q \u2192 %q:\n", len(issues), from, to)
-	for _, iss := range issues {
-		key := jsonStr(iss, "key")
-		cmdTransition([]string{key, to})
+	keys := make([]string, len(issues))
+	for i, iss := range issues {
+		keys[i] = jsonStr(iss, "key")
 	}
+	fmt.Printf("Transitioning %d issue(s) from %q \u2192 %q:\n", len(keys), from, to)
+	runParallel(keys, func(key string) (string, error) {
+		return transitionIssue(key, to)
+	})
 }
 
 func cmdMR(args []string) {
@@ -665,6 +679,34 @@ func writeCache(path string, issues []interface{}) {
 func fatal(format string, args ...interface{}) {
 	fmt.Fprintf(os.Stderr, "Error: "+format+"\n", args...)
 	os.Exit(1)
+}
+
+// --- Parallel execution ---
+
+type parallelResult struct {
+	key string
+	msg string
+	err error
+}
+
+// runParallel spawns one goroutine per key, prints results to stdout as they complete.
+// Errors go to stderr. fn receives the key and returns a display string or an error.
+func runParallel(keys []string, fn func(key string) (string, error)) {
+	ch := make(chan parallelResult, len(keys))
+	for _, k := range keys {
+		go func() {
+			msg, err := fn(k)
+			ch <- parallelResult{key: k, msg: msg, err: err}
+		}()
+	}
+	for range keys {
+		r := <-ch
+		if r.err != nil {
+			fmt.Fprintf(os.Stderr, "%s: %v\n", r.key, r.err)
+		} else {
+			fmt.Println(r.msg)
+		}
+	}
 }
 
 // --- Main ---
