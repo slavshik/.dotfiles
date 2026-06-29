@@ -656,6 +656,43 @@ func cmdReporter(args []string) {
 	fmt.Println(name)
 }
 
+func assignOneToReporter(key string) (string, error) {
+	key = strings.ToUpper(key)
+	data, err := fetchIssue(key, "reporter")
+	if err != nil {
+		return "", fmt.Errorf("fetch: %w", err)
+	}
+	f := data["fields"].(map[string]interface{})
+	reporter := jsonStr(f, "reporter", "name")
+	if reporter == "" {
+		return "", fmt.Errorf("no reporter found")
+	}
+	payload, _ := json.Marshal(map[string]string{"name": reporter})
+	if err := jiraPut(fmt.Sprintf("/issue/%s/assignee", key), payload); err != nil {
+		return "", fmt.Errorf("assign: %w", err)
+	}
+	return fmt.Sprintf("Assigned %s to %s", key, reporter), nil
+}
+
+func cmdAssignToReporter(args []string) {
+	if len(args) == 0 {
+		fatal("Usage: jira-cli assign-to-reporter <KEY> [KEY...]")
+	}
+	keys := make([]string, len(args))
+	for i, k := range args {
+		keys[i] = strings.ToUpper(k)
+	}
+	if len(keys) == 1 {
+		msg, err := assignOneToReporter(keys[0])
+		if err != nil {
+			fatal("%v", err)
+		}
+		fmt.Println(msg)
+		return
+	}
+	runParallel(keys, assignOneToReporter)
+}
+
 // --- Shared helpers ---
 
 func fetchIssue(key, fields string) (map[string]interface{}, error) {
@@ -767,7 +804,8 @@ Commands:
   mr       <KEY> [--web]            Find GitLab MR by ticket key
   open     <KEY>                    Print browse URL
   fetch    <KEY> [fields]            Raw JSON (default: *all fields)
-  reporter <KEY>                     Print reporter username`)
+  reporter <KEY>                     Print reporter username
+  assign-to-reporter <KEY> [KEY...]  Reassign to reporter (parallel for N keys)`)
 	os.Exit(1)
 }
 
@@ -808,6 +846,8 @@ func main() {
 		cmdFetch(os.Args[2:])
 	case "reporter":
 		cmdReporter(os.Args[2:])
+	case "assign-to-reporter":
+		cmdAssignToReporter(os.Args[2:])
 	default:
 		fmt.Fprintf(os.Stderr, "Unknown command: %s\n", os.Args[1])
 		usage()
