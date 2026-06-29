@@ -216,6 +216,21 @@ jira-jql() {
     _jira_cli jql "$@"
 }
 
+# _jira_fetch_full <KEY> [fields] — raw JSON for a ticket (delegates to Go binary)
+_jira_fetch_full() {
+    _jira_cli fetch "$@"
+}
+
+# jira-reporter <KEY> — print reporter username
+jira-reporter() {
+    _jira_cli reporter "$@"
+}
+
+# jira-assign-to-reporter <KEY> [KEY...] — reassign to reporter (parallel for N keys)
+jira-assign-to-reporter() {
+    _jira_cli assign-to-reporter "$@"
+}
+
 # --- Completions ---
 
 _jira_branch_key() {
