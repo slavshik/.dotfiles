@@ -619,6 +619,26 @@ func cmdOpen(args []string) {
 	fmt.Printf("%s/browse/%s\n", jiraHost(), key)
 }
 
+func cmdFetch(args []string) {
+	if len(args) == 0 {
+		fatal("Usage: jira-cli fetch <ISSUE-KEY> [fields]")
+	}
+	key := strings.ToUpper(args[0])
+	fields := "*all"
+	if len(args) > 1 {
+		fields = args[1]
+	}
+	path := fmt.Sprintf("/issue/%s?fields=%s", key, url.QueryEscape(fields))
+	body, err := jiraGet(path)
+	if err != nil {
+		fatal("%v", err)
+	}
+	var v interface{}
+	json.Unmarshal(body, &v)
+	out, _ := json.MarshalIndent(v, "", "  ")
+	fmt.Println(string(out))
+}
+
 // --- Shared helpers ---
 
 func fetchIssue(key, fields string) (map[string]interface{}, error) {
@@ -728,7 +748,8 @@ Commands:
   batch-transition <from> <to>      Batch transition issues
   jql      <JQL> [max]               Run a raw JQL query
   mr       <KEY> [--web]            Find GitLab MR by ticket key
-  open     <KEY>                    Print browse URL`)
+  open     <KEY>                    Print browse URL
+  fetch    <KEY> [fields]            Raw JSON (default: *all fields)`)
 	os.Exit(1)
 }
 
@@ -765,6 +786,8 @@ func main() {
 		cmdMR(os.Args[2:])
 	case "open":
 		cmdOpen(os.Args[2:])
+	case "fetch":
+		cmdFetch(os.Args[2:])
 	default:
 		fmt.Fprintf(os.Stderr, "Unknown command: %s\n", os.Args[1])
 		usage()
