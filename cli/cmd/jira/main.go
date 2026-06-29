@@ -639,6 +639,23 @@ func cmdFetch(args []string) {
 	fmt.Println(string(out))
 }
 
+func cmdReporter(args []string) {
+	if len(args) == 0 {
+		fatal("Usage: jira-cli reporter <ISSUE-KEY>")
+	}
+	key := strings.ToUpper(args[0])
+	data, err := fetchIssue(key, "reporter")
+	if err != nil {
+		fatal("%v", err)
+	}
+	f := data["fields"].(map[string]interface{})
+	name := jsonStr(f, "reporter", "name")
+	if name == "" {
+		fatal("No reporter found for %s", key)
+	}
+	fmt.Println(name)
+}
+
 // --- Shared helpers ---
 
 func fetchIssue(key, fields string) (map[string]interface{}, error) {
@@ -749,7 +766,8 @@ Commands:
   jql      <JQL> [max]               Run a raw JQL query
   mr       <KEY> [--web]            Find GitLab MR by ticket key
   open     <KEY>                    Print browse URL
-  fetch    <KEY> [fields]            Raw JSON (default: *all fields)`)
+  fetch    <KEY> [fields]            Raw JSON (default: *all fields)
+  reporter <KEY>                     Print reporter username`)
 	os.Exit(1)
 }
 
@@ -788,6 +806,8 @@ func main() {
 		cmdOpen(os.Args[2:])
 	case "fetch":
 		cmdFetch(os.Args[2:])
+	case "reporter":
+		cmdReporter(os.Args[2:])
 	default:
 		fmt.Fprintf(os.Stderr, "Unknown command: %s\n", os.Args[1])
 		usage()
