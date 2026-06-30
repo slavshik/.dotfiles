@@ -120,4 +120,56 @@ bindings = [
     { key = "Key7", mods = "Command", chars = "\u00027" },
     { key = "Key8", mods = "Command", chars = "\u00028" },
     { key = "Key9", mods = "Command", chars = "\u00029" },
+
+    # ╔══ RUSSIAN LAYOUT SECTION ═════════════════════════════════════════════════╗
+    # ║  Alacritty 0.13+ matches `key` by logical character (layout-dependent).   ║
+    # ║  In Russian layout physical keys send Cyrillic: H->р J->о K->л L->д       ║
+    # ║  Each EN binding above has a RU duplicate here with identical `chars`.     ║
+    # ║  Key map: s->ы w->ц n->т t->е g->п h->р j->о k->л l->д z->я              ║
+    # ║           e->у d->в r->к b->и o->щ m->ь p->з f->а i->ш .->ю ,->б         ║
+    # ║  ADD / CHANGE / REMOVE an EN binding above -> update its RU pair here.     ║
+    # ╚════════════════════════════════════════════════════════════════════════════╝
+    { key = "ы", mods = "Command", chars = "\u001B:w\n" }, # save command
+    { key = "ц", mods = "Command", chars = "\u0002W" }, # !CLOSE TAB/vim/Terminal/etc
+    { key = "т", mods = "Command|Shift", chars = "\u0002S" }, # new tmux session
+    { key = "е", mods = "Command", chars = "\u0002c" }, # new tmux tab
+    { key = "п", mods = "Command", chars = " K" }, # open lazygit
+    { key = "р", mods = "Command|Shift", chars = "\u0002H" }, # resize tmux pane left
+    { key = "д", mods = "Command|Shift", chars = "\u0002L" }, # resize tmux pane right
+    { key = "о", mods = "Command|Shift", chars = "\u0002j" }, # resize tmux pane down
+    { key = "л", mods = "Command|Shift", chars = "\u0002k" }, # resize tmux pane up
+    { key = "р", mods = "Command", chars = "\u0002\u001B[D" }, # nav left  (tmux pane / nvim split) — ⌘H freed from macOS "Hide" via defaults_write.sh
+    { key = "о", mods = "Command", chars = "\u0002\u001B[B" }, # nav down  (tmux pane / nvim split)
+    { key = "л", mods = "Command", chars = "\u0002\u001B[A" }, # nav up    (tmux pane / nvim split)
+    { key = "д", mods = "Command", chars = "\u0002\u001B[C" }, # nav right (tmux pane / nvim split)
+    { key = "о", mods = "Control", chars = "\u001B[106;5u" },  # RU: J
+    { key = "л", mods = "Control", chars = "\u001B[107;5u" },  # RU: K
+    { key = "я", mods = "Command", chars = "\u001Bu" }, # undo in vim (u)
+    { key = "я", mods = "Command|Shift", chars = "\u001B\u0012"}, # redo in vim (^R)
+    { key = "е", mods = "Command|Shift", chars = "\u0002%" }, # tmux open new pane (vertical, left/right)
+    { key = "ы", mods = "Command|Shift", chars = "\u0002\"" }, # tmux split pane (vertical, top/bottom)
+    { key = "у", mods = "Command", chars = " e" },  # RU: E
+    { key = "у", mods = "Command|Shift", chars = "\u0002e" },  # RU: E
+    { key = "ь", mods = "Command|Shift", chars = " MM" },  # RU: M
+    { key = "и", mods = "Command", chars = "gd" },  # RU: B
+    { key = "з", mods = "Command|Shift", chars = " T" },  # RU: P
+    { key = "щ", mods = "Command", chars = " o" },  # RU: O
+    { key = "щ", mods = "Command|Shift", chars = " lf" }, # open lf browser
+    { key = "в", mods = "Command", chars = "\u0002d" },  # RU: D
+    { key = "к", mods = "Command", chars = "_run\n" },  # RU: R
+    { key = "а", mods = "Command|Shift", chars = " FF" },  # RU: F
+    { key = "щ", mods = "Control|Alt", chars = " OI" }, # optimize imports (leader+OI -> nvim)
+    { key = "ш", mods = "Command", chars = " II" }, # npm_install script
+    { key = "ш", mods = "Command|Shift", chars = " ii" }, # yarnrun script
+    { key = "л", mods = "Command|Control", chars = "\u0002K" }, # session manager (sesh) — moved off CMD+K
+    { key = "ю", mods = "Command", chars = "\u0002." }, # move window right (prefix + .)
+    { key = "б", mods = "Command", chars = "\u0002," }, # move window left (prefix + ,)
+    { key = "р", mods = "Command|Alt", chars = "\u0002\u001B[1;2D" }, # swap pane left
+    { key = "о", mods = "Command|Alt", chars = "\u0002\u001B[1;2B" }, # swap pane down
+    { key = "л", mods = "Command|Alt", chars = "\u0002\u001B[1;2A" }, # swap pane up
+    { key = "д", mods = "Command|Alt", chars = "\u0002\u001B[1;2C" }, # swap pane right
+    { key = "х", mods = "Command", chars = "\u0002p" }, # CMD+[ -> previous tab (tmux window)  # RU: [
+    { key = "ъ", mods = "Command", chars = "\u0002n" }, # CMD+] -> next tab (tmux window)  # RU: ]
+    { key = "Х", mods="Command|Shift", chars = "\u0002(" }, # CMD+Shift+[ -> previous session (switch-client -p)
+    { key = "Ъ", mods="Command|Shift", chars = "\u0002)" }, # CMD+Shift+] -> next session (switch-client -n)
 ]
