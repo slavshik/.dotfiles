@@ -46,4 +46,12 @@ This script will symlink all configurations to their respective locations in `~/
 - `gl-pipes`: View and open recent CI pipelines.
 
 ### AI-Assisted Commits
-In Lazygit, press `Ctrl-J` on the files/branches view. Lazygit streams AI-generated commit suggestions from `aicommit-suggest.sh` into a native menu; pick one, optionally edit, and commit.
+In Lazygit, press `Ctrl-J` on the files or branches view. Lazygit drops into a full-screen `fzf` picker (`aicommit-pick.sh`) that streams AI-generated Conventional Commits suggestions from `aicommit-suggest.sh`: each appears the instant its request returns, with a live spinner while the rest arrive. Pick one (`enter`), tweak it at the `edit>` prompt, and it commits; `esc`/`ctrl-c` cancels.
+
+Suggestions come from parallel OpenAI-compatible requests: **Cerebras** (`gpt-oss-120b`, fast and free) when `CEREBRAS_API_KEY` is set, falling back to a **local Ollama** instance otherwise. Requires `fzf`, `jq`, and `curl`.
+
+**Setup:**
+- Cerebras (recommended): get a free key at https://cloud.cerebras.ai, then add `export CEREBRAS_API_KEY=csk-...` to your shell secrets.
+- Local fallback (Ollama, e.g. on a Mac mini): `ollama pull qwen2.5-coder:14b` and serve it on the LAN. Point the helper at it with `export OLLAMA_HOST=<host>` (uses `http://<host>:11434/v1`); for a tunnel or reverse proxy set the full base instead, e.g. `export AICOMMIT_OLLAMA_BASE=https://your.ngrok.app/v1`. ngrok hosts (`*.ngrok.app`, `*.ngrok.io`) given via `OLLAMA_HOST` are auto-detected as `https://.../v1`.
+
+Tunables (env vars): `AICOMMIT_N` (number of suggestions, default 3), `AICOMMIT_CEREBRAS_MODEL` (default `gpt-oss-120b`), `AICOMMIT_OLLAMA_MODEL` (default `qwen2.5-coder:14b`). On evolution repos it routes to `evolution/aicommit-suggest.sh` when present.
