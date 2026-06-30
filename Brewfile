@@ -63,3 +63,10 @@ uv "mflux"
 
 # Bun (bun install -g)
 bun "ccusage"
+
+# Linters & git-hook tools
+brew "shellcheck"
+brew "shfmt"
+brew "gitleaks"
+brew "stylua"
+brew "luacheck"

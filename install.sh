@@ -115,6 +115,15 @@ fi
 ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
 
 echo ""
+echo "Git hooks:"
+if git -C "$DOTFILES" config core.hooksPath git-hooks; then
+    ok "core.hooksPath → git-hooks"
+else
+    fail "core.hooksPath"
+fi
+chmod +x "$DOTFILES/git-hooks/pre-commit"
+
+echo ""
 echo "Git clones:"
 clone_if_missing https://github.com/jimeh/tmuxifier.git \
     ~/.tmuxifier "tmuxifier"
