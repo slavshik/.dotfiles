@@ -64,6 +64,16 @@ customCommands:
     output: "terminal"
   - key: "<c-j>"
     context: "files,localBranches"
-    description: "AI commit message (streaming picker)"
-    output: terminal
-    command: "bash $HOME/.dotfiles/aicommit-pick.sh"
+    description: "AI commit message"
+    loadingText: "Generating commit messages..."
+    prompts:
+      - type: menuFromCommand
+        title: "Pick an AI-suggested commit message"
+        command: "bash $HOME/.dotfiles/aicommit-suggest.sh"
+        filter: '^(?P<msg>\S.*)$'
+        valueFormat: "{{ .msg }}"
+        labelFormat: "{{ .msg }}"
+      - type: input
+        title: "Edit commit message"
+        initialValue: "{{ index .PromptResponses 0 }}"
+    command: "git commit -m {{ index .PromptResponses 1 | quote }}"

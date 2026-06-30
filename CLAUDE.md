@@ -35,7 +35,7 @@ Company-specific dotfiles are kept as submodules (`evolution/`, `ela/`). These a
 ## Key Conventions
 
 - **Commit messages** follow conventional commits: `type(scope): description` (feat, fix, docs, style, refactor, perf, test, chore, build, ci)
-- **AI commit helper**: `aicommit-suggest.sh` streams N (default 3) Conventional Commits messages to stdout, one per line, by firing parallel OpenAI-compatible requests (Cerebras `gpt-oss-120b` via `CEREBRAS_API_KEY`, local Ollama fallback via `OLLAMA_HOST`/`AICOMMIT_OLLAMA_BASE`); each line is emitted as its request returns. Lazygit's `Ctrl-J` runs `aicommit-pick.sh` (`output: terminal`), an `fzf` streaming picker that shows suggestions one-by-one then edits and commits. Routes to `evolution/aicommit-suggest.sh` if present and repo is on evolution
+- **AI commit helper**: `aicommit-suggest.sh` emits N (default 3) Conventional Commits messages to stdout, one per line, by firing parallel OpenAI-compatible requests (Cerebras `gpt-oss-120b` via `CEREBRAS_API_KEY`, local Ollama fallback via `OLLAMA_HOST`/`AICOMMIT_OLLAMA_BASE`). Lazygit's `Ctrl-J` feeds them into a native `menuFromCommand` popup (snappy now that generation is sub-second), then an edit prompt and commit. `aicommit-pick.sh` is an optional standalone `fzf` streaming picker (`output: terminal`) for a one-by-one reveal. Routes to `evolution/aicommit-suggest.sh` if present and repo is on evolution
 - **Neovim plugins**: Each plugin gets its own file in `nvim/lua/plugins/`. Use Lazy.nvim spec format
 - **Shell keybindings**: Defined in `zsh/keybindings.zsh` using `bindkey -s`. Vim mode is enabled (`bindkey -v`)
 - **fnm** is used for Node.js version management (not nvm)

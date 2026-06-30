@@ -46,7 +46,7 @@ This script will symlink all configurations to their respective locations in `~/
 - `gl-pipes`: View and open recent CI pipelines.
 
 ### AI-Assisted Commits
-In Lazygit, press `Ctrl-J` on the files or branches view. Lazygit drops into a full-screen `fzf` picker (`aicommit-pick.sh`) that streams AI-generated Conventional Commits suggestions from `aicommit-suggest.sh`: each appears the instant its request returns, with a live spinner while the rest arrive. Pick one (`enter`), tweak it at the `edit>` prompt, and it commits; `esc`/`ctrl-c` cancels.
+In Lazygit, press `Ctrl-J` on the files or branches view. After a brief "Generating..." spinner (~0.5s), lazygit shows a **native popup menu** of AI-generated Conventional Commits suggestions from `aicommit-suggest.sh`; pick one, tweak it in the edit prompt, and it commits. (`aicommit-pick.sh` is an optional standalone full-screen `fzf` picker that streams the suggestions one-by-one as they arrive — run it directly or bind it to a key if you prefer that style.)
 
 Suggestions come from parallel OpenAI-compatible requests: **Cerebras** (`gpt-oss-120b`, fast and free) when `CEREBRAS_API_KEY` is set, falling back to a **local Ollama** instance otherwise. Requires `fzf`, `jq`, and `curl`.
 
