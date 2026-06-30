@@ -8,10 +8,8 @@ return {
 	config = function()
 		local ss = require("smart-splits")
 		ss.setup({})
-		-- Navigate (Tab still cycles windows inside nvim)
+		-- Navigate (Tab still cycles windows inside nvim; C-j/C-k reserved for line-move)
 		vim.keymap.set("n", "<C-h>", ss.move_cursor_left, { desc = "Go to left split/pane" })
-		vim.keymap.set("n", "<C-j>", ss.move_cursor_down, { desc = "Go to below split/pane" })
-		vim.keymap.set("n", "<C-k>", ss.move_cursor_up, { desc = "Go to above split/pane" })
 		vim.keymap.set("n", "<C-l>", ss.move_cursor_right, { desc = "Go to right split/pane" })
 		-- Resize (Alt+hjkl) — works on nvim splits and crosses into tmux panes
 		vim.keymap.set("n", "<A-h>", ss.resize_left, { desc = "Resize split left" })

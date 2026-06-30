@@ -14,6 +14,10 @@ bindings = [
     { key = "J", mods = "Command", chars = "\u0002\u001B[B" }, # nav down  (tmux pane / nvim split)
     { key = "K", mods = "Command", chars = "\u0002\u001B[A" }, # nav up    (tmux pane / nvim split)
     { key = "L", mods = "Command", chars = "\u0002\u001B[C" }, # nav right (tmux pane / nvim split)
+    # C-j/C-k normally send 0x0A — indistinguishable from Enter in nvim.
+    # CSI-u lets nvim bind <C-j>/<C-k> (smart-splits split navigation).
+    { key = "J", mods = "Control", chars = "\u001B[106;5u" },
+    { key = "K", mods = "Control", chars = "\u001B[107;5u" },
     { key = "Z", mods = "Command", chars = "\u001Bu" }, # undo in vim (u)
     { key = "Z", mods = "Command|Shift", chars = "\u001B\u0012"}, # redo in vim (^R)
 
