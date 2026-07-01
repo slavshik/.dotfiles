@@ -21,7 +21,7 @@ Homebrew packages are tracked in `Brewfile` (flat list, no `brew bundle` integra
 - **zsh/scripts/jira.zsh** — Multi-profile Jira CLI (shared across company configs). Company submodules call `jira-register` to add profiles; `_jira_restore_profile` auto-activates on shell start
 - **zsh/aliases.zsh** — Shell aliases and utility functions (`proj_run`, `proj_install`, `glone`, etc.)
 - **nvim/** — Neovim config using Lazy.nvim. Entry point: `init.lua` → `lua/{set,remap,russian}.lua` + `lua/config/{lazy,lsp}.lua`. Plugins live in `lua/plugins/` as individual files
-- **tmux/** — tmux config with TPM plugins, sesh session manager (prefix+K), vim-tmux-navigator
+- **tmux/** — tmux config with TPM plugins, sesh session manager (prefix+K), vim-tmux-navigator. Sub-configs sourced from `tmux.conf` in order: `navigation.conf` (EN bindings) → `navigation-ru.conf` (RU mirror) → `plugins.conf` → `statusline.conf`
 - **alacritty/** — Terminal emulator config (TOML format)
 - **lazygit/** — Lazygit config
 - **lf/** — lf file manager config with `lfcd.sh` for directory-changing integration
@@ -40,3 +40,4 @@ Company-specific dotfiles are kept as submodules (`evolution/`, `ela/`). These a
 - **Shell keybindings**: Defined in `zsh/keybindings.zsh` using `bindkey -s`. Vim mode is enabled (`bindkey -v`)
 - **fnm** is used for Node.js version management (not nvm)
 - **delta** is the git pager (side-by-side diffs)
+- **Russian layout pairing**: `tmux/navigation.conf` (EN) and `tmux/navigation-ru.conf` (RU) are a matched pair — every letter/Alt binding in navigation.conf has a Cyrillic equivalent in navigation-ru.conf using the same command. **When editing either file, update the other.** Key map: `,`→`б` `.`→`ю` `h`→`р` `j`→`о` `k`→`л` `l`→`д` (uppercase = Shift equivalent)

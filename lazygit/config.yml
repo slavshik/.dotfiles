@@ -1,5 +1,6 @@
 os:
   editPreset: "nvim"
+promptToReturnFromSubprocess: false
 git:
   skipHookPrefixes: ["fixup!", "squash!"]
   branchLogCmd: 'git log --color=always --pretty=format:"%C(yellow)%h 📅 %C(green)%cd %C(reset)%s %C(cyan)%cE" --date=short {{branchName}} --'
@@ -69,7 +70,7 @@ customCommands:
     prompts:
       - type: menuFromCommand
         title: "Pick an AI-suggested commit message"
-        command: "bash $HOME/.dotfiles/aicommit-suggest.sh"
+        command: "sh -c '$HOME/.dotfiles/aicommit-suggest.sh'"
         filter: '^(?P<msg>\S.*)$'
         valueFormat: "{{ .msg }}"
         labelFormat: "{{ .msg }}"

@@ -55,11 +55,14 @@ payload() {
           messages: [{role: "system", content: $sys}, {role: "user", content: $user}]} + $extra'
 }
 
-# Extract the first valid Conventional Commits line, capped at 72 chars, with
-# any wrapping quotes/backticks/trailing whitespace trimmed.
+# Extract the first valid Conventional Commits line, capped at 72 chars. Trims
+# wrapping quotes/backticks/trailing space, and drops an embedded second prefix
+# (some models occasionally repeat the whole message on one line).
 clean() {
     grep -oiE '(feat|fix|docs|style|refactor|perf|test|chore|build|ci)(\([^)]+\))?!?: .+' \
-        | head -n1 | cut -c1-72 | sed -E "s/[\"\`'[:space:]]+\$//"
+        | head -n1 \
+        | awk 'match($0,/[^[:space:]](feat|fix|docs|style|refactor|perf|test|chore|build|ci)(\([^)]+\))?!?: /){$0=substr($0,1,RSTART)} {print}' \
+        | cut -c1-72 | sed -E "s/[\"\`'[:space:]]+\$//"
 }
 
 # Generate one message: try Cerebras, fall back to local Ollama. $1=style hint.
@@ -79,12 +82,19 @@ gen_one() {
             -d "$(payload "$OLLAMA_MODEL" "$1")" \
             | jq -r '.choices[0].message.content // empty' | clean)
     fi
-    # Single atomic write (< PIPE_BUF) so parallel lines never interleave.
     [ -n "$out" ] && printf '%s\n' "$out"
 }
 
+# Run the calls in parallel but capture each job's stdout to its own file, so
+# concurrent writes can never interleave into one garbled line. stderr is
+# dropped so it can't leak into lazygit's menu (menuFromCommand reads both).
+tmpd=$(mktemp -d)
+trap 'rm -rf "$tmpd"' EXIT
 for i in $(seq 0 $((N - 1))); do
-    gen_one "${STYLES[$((i % ${#STYLES[@]}))]}" &
+    gen_one "${STYLES[$((i % ${#STYLES[@]}))]}" > "$tmpd/out.$i" 2>/dev/null &
 done
 wait
+
+# Emit collected suggestions, dropping blanks and exact duplicates.
+cat "$tmpd"/out.* 2>/dev/null | awk 'NF && !seen[$0]++'
 exit 0
