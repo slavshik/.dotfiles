@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Shared helpers for git hooks (sourced, not executed). Targets bash 3.2.
+# shellcheck disable=SC2034  # HOOK_FAILED is read by the sourcing hook (pre-commit: exit "$HOOK_FAILED")
 
 if [ -t 2 ]; then
   _C_YEL=$'\033[33m'; _C_RED=$'\033[31m'; _C_GRN=$'\033[32m'; _C_RST=$'\033[0m'
