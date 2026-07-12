@@ -1,0 +1,10 @@
+# ~/.profile — Linux/Synology only (linked by install.sh, skipped on macOS).
+# DSM manages /etc/passwd (no chsh, resets on update), so the login shell stays
+# /bin/sh; exec zsh from here instead. Interactive logins only — scp and
+# `ssh host cmd` sessions must stay in sh.
+ZSH_BIN=/opt/bin/zsh
+[ -x "$ZSH_BIN" ] || ZSH_BIN="$(command -v zsh 2>/dev/null)"
+if [ -n "$ZSH_BIN" ] && [ -x "$ZSH_BIN" ] && [ -t 1 ] && [ -z "$ZSH_VERSION" ]; then
+    export SHELL="$ZSH_BIN"
+    exec "$ZSH_BIN" -l
+fi

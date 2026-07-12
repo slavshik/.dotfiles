@@ -25,6 +25,29 @@ function dotlink() {
     fi
 }
 
+# Go-based CLI tools: keep a full working clone in $GO_TOOLS_SRC (so it can be
+# hacked on / contributed to), then build+install from it. Binaries land in
+# $GOPATH/bin = ~/.local/share/go/bin, already on PATH via zshrc.
+# To rebuild after local changes: cd $GO_TOOLS_SRC/<tool> && go install .
+GO_TOOLS_SRC="$HOME/src"
+function go_clone_install() {
+    local cmd="$1" repo="$2"
+    local dest="$GO_TOOLS_SRC/$cmd"
+    if [ ! -d "$dest" ]; then
+        if ! GIT_TERMINAL_PROMPT=0 git clone --quiet "$repo" "$dest" 2>/dev/null; then
+            fail "$cmd (clone $repo)"
+            return
+        fi
+    fi
+    if command -v "$cmd" >/dev/null 2>&1; then
+        ok "$cmd (installed; src in $dest)"
+    elif (cd "$dest" && go install .) >/dev/null 2>&1; then
+        ok "$cmd ← built from $dest"
+    else
+        fail "$cmd (go install in $dest)"
+    fi
+}
+
 function clone_if_missing() {
     local repo="$1" dest="$2" label="$3"
     if [ -d "$dest" ]; then
@@ -52,6 +75,10 @@ dotlink lsd/ ~/.config/lsd
 dotlink .gitconfig ~/.gitconfig
 dotlink .gitignore_system ~/.gitignore
 dotlink .ideavimrc ~/.ideavimrc
+# Linux/Synology: no chsh — ~/.profile execs zsh on interactive login
+if [ "$IS_MACOS" = 0 ]; then
+    dotlink zsh/profile ~/.profile
+fi
 # lazygit (macOS keeps config in ~/Library, Linux follows XDG)
 if [ "$IS_MACOS" = 1 ]; then
     dotlink karabiner/ ~/.config/karabiner
@@ -126,6 +153,19 @@ if [ "$IS_MACOS" = 1 ]; then
     else
         fail "defaults_write.sh"
     fi
+fi
+
+# Linux: no brew, so build Go-based tools from source (macOS gets them via Brewfile)
+if [ "$IS_MACOS" = 0 ] && command -v go >/dev/null 2>&1; then
+    echo ""
+    echo "Go tools:"
+    export GOPATH="${GOPATH:-$HOME/.local/share/go}"
+    export PATH="$GOPATH/bin:$PATH"
+    mkdir -p "$GO_TOOLS_SRC"
+    go_clone_install fzf     https://github.com/junegunn/fzf
+    go_clone_install sesh    https://github.com/joshmedeski/sesh
+    go_clone_install lazygit https://github.com/jesseduffield/lazygit
+    go_clone_install lf      https://github.com/gokcehan/lf
 fi
 
 ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
