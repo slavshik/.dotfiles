@@ -1,6 +1,12 @@
 #!/bin/bash
 DOTFILES=~/.dotfiles
 
+# OS guard: macOS vs generic Linux (Synology, etc.)
+case "$(uname -s)" in
+    Darwin) IS_MACOS=1 ;;
+    *)      IS_MACOS=0 ;;
+esac
+
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
@@ -16,6 +22,29 @@ function dotlink() {
         ok "link $2"
     else
         fail "link $2"
+    fi
+}
+
+# Go-based CLI tools: keep a full working clone in $GO_TOOLS_SRC (so it can be
+# hacked on / contributed to), then build+install from it. Binaries land in
+# $GOPATH/bin = ~/.local/share/go/bin, already on PATH via zshrc.
+# To rebuild after local changes: cd $GO_TOOLS_SRC/<tool> && go install .
+GO_TOOLS_SRC="$HOME/src"
+function go_clone_install() {
+    local cmd="$1" repo="$2"
+    local dest="$GO_TOOLS_SRC/$cmd"
+    if [ ! -d "$dest" ]; then
+        if ! GIT_TERMINAL_PROMPT=0 git clone --quiet "$repo" "$dest" 2>/dev/null; then
+            fail "$cmd (clone $repo)"
+            return
+        fi
+    fi
+    if command -v "$cmd" >/dev/null 2>&1; then
+        ok "$cmd (installed; src in $dest)"
+    elif (cd "$dest" && go install .) >/dev/null 2>&1; then
+        ok "$cmd ← built from $dest"
+    else
+        fail "$cmd (go install in $dest)"
     fi
 }
 
@@ -43,13 +72,23 @@ dotlink alacritty/ ~/.config/alacritty
 dotlink lf/ ~/.config/lf
 dotlink sesh/ ~/.config/sesh
 dotlink lsd/ ~/.config/lsd
-dotlink karabiner/ ~/.config/karabiner
 dotlink .gitconfig ~/.gitconfig
 dotlink .gitignore_system ~/.gitignore
 dotlink .ideavimrc ~/.ideavimrc
-# lazygit
-dotlink lazygit/config.yml ~/Library/Application\ Support/lazygit/config.yml
-dotlink lazygit/state.yml ~/Library/Application\ Support/lazygit/state.yml
+# Linux/Synology: no chsh — ~/.profile execs zsh on interactive login
+if [ "$IS_MACOS" = 0 ]; then
+    dotlink zsh/profile ~/.profile
+fi
+# lazygit (macOS keeps config in ~/Library, Linux follows XDG)
+if [ "$IS_MACOS" = 1 ]; then
+    dotlink karabiner/ ~/.config/karabiner
+    dotlink lazygit/config.yml ~/Library/Application\ Support/lazygit/config.yml
+    dotlink lazygit/state.yml ~/Library/Application\ Support/lazygit/state.yml
+else
+    mkdir -p ~/.config/lazygit
+    dotlink lazygit/config.yml ~/.config/lazygit/config.yml
+    dotlink lazygit/state.yml ~/.config/lazygit/state.yml
+fi
 # claude
 echo ""
 echo "Claude:"
@@ -75,10 +114,12 @@ dotlink pi/agent/prompts ~/.pi/agent/prompts
 echo ""
 echo "CLI links:"
 mkdir -p ~/.local/bin
-if ln -sf "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" ~/.local/bin/subl 2>/dev/null; then
-    ok "subl → ~/.local/bin/subl"
-else
-    fail "subl → ~/.local/bin/subl"
+if [ "$IS_MACOS" = 1 ]; then
+    if ln -sf "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" ~/.local/bin/subl 2>/dev/null; then
+        ok "subl → ~/.local/bin/subl"
+    else
+        fail "subl → ~/.local/bin/subl"
+    fi
 fi
 
 if command -v go >/dev/null 2>&1; then
@@ -104,12 +145,27 @@ else
     fail "lan-bin (go not installed)"
 fi
 
-echo ""
-echo "macOS defaults:"
-if ./defaults_write.sh >/dev/null 2>&1; then
-    ok "defaults_write.sh"
-else
-    fail "defaults_write.sh"
+if [ "$IS_MACOS" = 1 ]; then
+    echo ""
+    echo "macOS defaults:"
+    if ./defaults_write.sh >/dev/null 2>&1; then
+        ok "defaults_write.sh"
+    else
+        fail "defaults_write.sh"
+    fi
+fi
+
+# Linux: no brew, so build Go-based tools from source (macOS gets them via Brewfile)
+if [ "$IS_MACOS" = 0 ] && command -v go >/dev/null 2>&1; then
+    echo ""
+    echo "Go tools:"
+    export GOPATH="${GOPATH:-$HOME/.local/share/go}"
+    export PATH="$GOPATH/bin:$PATH"
+    mkdir -p "$GO_TOOLS_SRC"
+    go_clone_install fzf     https://github.com/junegunn/fzf
+    go_clone_install sesh    https://github.com/joshmedeski/sesh
+    go_clone_install lazygit https://github.com/jesseduffield/lazygit
+    go_clone_install lf      https://github.com/gokcehan/lf
 fi
 
 ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
@@ -125,6 +181,8 @@ chmod +x "$DOTFILES/git-hooks/pre-commit"
 
 echo ""
 echo "Git clones:"
+clone_if_missing https://github.com/ohmyzsh/ohmyzsh.git \
+    ~/.oh-my-zsh "oh-my-zsh"
 clone_if_missing https://github.com/jimeh/tmuxifier.git \
     ~/.tmuxifier "tmuxifier"
 clone_if_missing https://github.com/romkatv/powerlevel10k.git \
@@ -133,5 +191,7 @@ clone_if_missing https://github.com/zsh-users/zsh-autosuggestions \
     "${ZSH_CUSTOM}/plugins/zsh-autosuggestions" "zsh-autosuggestions"
 clone_if_missing https://github.com/Aloxaf/fzf-tab \
     "${ZSH_CUSTOM}/plugins/fzf-tab" "fzf-tab"
+clone_if_missing https://github.com/zsh-users/zsh-syntax-highlighting \
+    "${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting" "zsh-syntax-highlighting"
 clone_if_missing https://github.com/tmux-plugins/tpm \
     ~/.tmux/plugins/tpm "tpm (tmux plugin manager)"

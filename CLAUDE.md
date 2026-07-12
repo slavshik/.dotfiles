@@ -4,7 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Personal dotfiles for macOS. Configs are symlinked from `~/.dotfiles/` to their expected locations via `install.sh`.
+Personal dotfiles, primarily for macOS but also usable on generic Linux (e.g. Synology NAS with Entware). Configs are symlinked from `~/.dotfiles/` to their expected locations via `install.sh`.
+
+**OS guard convention**: `install.sh` sets `IS_MACOS` from `uname -s`; `zsh/zshrc` sets `IS_MACOS` from `$OSTYPE`. macOS-only steps (karabiner, subl, `defaults_write.sh`, `~/Library/…` paths) are gated on it; Linux uses XDG paths instead (e.g. lazygit → `~/.config/lazygit`, fnm → `~/.local/share/fnm`). Optional tools (zoxide, tmuxifier, fnm, syntax highlighting) are guarded with `command -v`/path checks so a missing tool never breaks shell startup.
 
 ## Installation
 
