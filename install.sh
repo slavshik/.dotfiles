@@ -68,6 +68,10 @@ mkdir -p ~/.config/tmux
 dotlink tmux/tmux-nerd-font-window-name.yml ~/.config/tmux/tmux-nerd-font-window-name.yml
 mkdir -p ~/.tmux
 dotlink tmux/pane-format.sh ~/.tmux/pane-format.sh
+# herdr (replaced tmux as the multiplexer). Link config.toml only -
+# ~/.config/herdr also holds runtime state (sockets, logs, session.json).
+mkdir -p ~/.config/herdr
+dotlink herdr/config.toml ~/.config/herdr/config.toml
 dotlink alacritty/ ~/.config/alacritty
 dotlink lf/ ~/.config/lf
 dotlink sesh/ ~/.config/sesh
