@@ -16,6 +16,14 @@
 onboarding = false
 
 [keys]
+# --- close pane (CMD+W) --------------------------------------------------
+# Deliberate divergence from herdr's defaults: tmux already binds prefix+W to a
+# vim-aware close (:q inside vim, else kill-pane), so keeping CMD+W on
+# prefix+shift+w makes one chord work in both multiplexers. That means
+# rename_workspace has to vacate -> prefix+shift+s ("space").
+close_pane       = "prefix+shift+w"
+rename_workspace = "prefix+shift+s"
+
 # --- resize (CMD+Shift+H/J/K/L) ------------------------------------------
 # Unset by default; herdr otherwise only offers modal resize (prefix+r).
 # Capitals matter: prefix+h/j/k/l are focus_pane_* and must stay free.

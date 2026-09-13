@@ -4,7 +4,7 @@
 [keyboard]
 bindings = [
     { key = "S", mods = "Command", chars = "\u001B:w\n" }, # save command
-    { key = "W", mods = "Command", chars = "\u0002x" }, # close pane (herdr close_pane)
+    { key = "W", mods = "Command", chars = "\u0002W" }, # close pane (herdr + tmux, vim-aware in tmux)
     { key = "N", mods = "Command|Shift", chars = "\u0002N" }, # new herdr workspace
     { key = "T", mods = "Command", chars = "\u0002c" }, # new herdr tab
     { key = "G", mods = "Command", chars = " K" }, # open lazygit
@@ -132,7 +132,7 @@ bindings = [
     # ║  ADD / CHANGE / REMOVE an EN binding above -> update its RU pair here.     ║
     # ╚════════════════════════════════════════════════════════════════════════════╝
     { key = "ы", mods = "Command", chars = "\u001B:w\n" }, # save command
-    { key = "ц", mods = "Command", chars = "\u0002x" }, # close pane (herdr close_pane)
+    { key = "ц", mods = "Command", chars = "\u0002W" }, # close pane (herdr + tmux, vim-aware in tmux)
     { key = "т", mods = "Command|Shift", chars = "\u0002N" }, # new herdr workspace
     { key = "е", mods = "Command", chars = "\u0002c" }, # new herdr tab
     { key = "п", mods = "Command", chars = " K" }, # open lazygit
