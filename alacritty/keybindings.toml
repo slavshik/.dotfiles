@@ -1,19 +1,21 @@
-# \u0002 - ctrl+b (tmux prefix)
+# \u0002 = ctrl+b = herdr prefix (same byte as the old tmux prefix).
+# herdr defaults are the source of truth; this file only maps CMD keys onto
+# herdr's prefix chords. See herdr/config.toml for the contract.
 [keyboard]
 bindings = [
     { key = "S", mods = "Command", chars = "\u001B:w\n" }, # save command
-    { key = "W", mods = "Command", chars = "\u0002W" }, # !CLOSE TAB/vim/Terminal/etc
-    { key = "N", mods = "Command|Shift", chars = "\u0002S" }, # new tmux session
-    { key = "T", mods = "Command", chars = "\u0002c" }, # new tmux tab
+    { key = "W", mods = "Command", chars = "\u0002W" }, # close pane (herdr + tmux, vim-aware in tmux)
+    { key = "N", mods = "Command|Shift", chars = "\u0002N" }, # new herdr workspace
+    { key = "T", mods = "Command", chars = "\u0002c" }, # new herdr tab
     { key = "G", mods = "Command", chars = " K" }, # open lazygit
-    { key = "H", mods = "Command|Shift", chars = "\u0002H" }, # resize tmux pane left
-    { key = "L", mods = "Command|Shift", chars = "\u0002L" }, # resize tmux pane right
-    { key = "J", mods = "Command|Shift", chars = "\u0002j" }, # resize tmux pane down
-    { key = "K", mods = "Command|Shift", chars = "\u0002k" }, # resize tmux pane up
-    { key = "H", mods = "Command", chars = "\u0002\u001B[D" }, # nav left  (tmux pane / nvim split) — ⌘H freed from macOS "Hide" via defaults_write.sh
-    { key = "J", mods = "Command", chars = "\u0002\u001B[B" }, # nav down  (tmux pane / nvim split)
-    { key = "K", mods = "Command", chars = "\u0002\u001B[A" }, # nav up    (tmux pane / nvim split)
-    { key = "L", mods = "Command", chars = "\u0002\u001B[C" }, # nav right (tmux pane / nvim split)
+    { key = "H", mods = "Command|Shift", chars = "\u0002H" }, # resize herdr pane left
+    { key = "L", mods = "Command|Shift", chars = "\u0002L" }, # resize herdr pane right
+    { key = "J", mods = "Command|Shift", chars = "\u0002J" }, # resize herdr pane down
+    { key = "K", mods = "Command|Shift", chars = "\u0002K" }, # resize herdr pane up
+    { key = "H", mods = "Command", chars = "\u0002h" }, # nav left  (herdr pane; does NOT hand off to nvim splits) — ⌘H freed from macOS "Hide" via defaults_write.sh
+    { key = "J", mods = "Command", chars = "\u0002j" }, # nav down  (herdr pane; does NOT hand off to nvim splits)
+    { key = "K", mods = "Command", chars = "\u0002k" }, # nav up    (herdr pane; does NOT hand off to nvim splits)
+    { key = "L", mods = "Command", chars = "\u0002l" }, # nav right (herdr pane; does NOT hand off to nvim splits)
     # C-j/C-k normally send 0x0A — indistinguishable from Enter in nvim.
     # CSI-u lets nvim bind <C-j>/<C-k> (smart-splits split navigation).
     { key = "J", mods = "Control", chars = "\u001B[106;5u" },
@@ -24,17 +26,17 @@ bindings = [
     { key = "Slash", mods = "Command", chars = "gcc" }, # comment line 
     { key = "Slash", mods = "Command|Alt", chars = "gb" }, # comment out block
 
-    { key = "|", mods="Command|Shift", chars = "\u0002s" }, # tmux all sessions view
-    { key = "LBracket", mods = "Command", chars = "\u0002p" }, # CMD+[ -> previous tab (tmux window)
-    { key = "RBracket", mods = "Command", chars = "\u0002n" }, # CMD+] -> next tab (tmux window)
-    { key = "{", mods="Command|Shift", chars = "\u0002(" }, # CMD+Shift+[ -> previous session (switch-client -p)
-    { key = "}", mods="Command|Shift", chars = "\u0002)" }, # CMD+Shift+] -> next session (switch-client -n)
-    { key = "T", mods = "Command|Shift", chars = "\u0002%" }, # tmux open new pane (vertical, left/right)
-    { key = "S", mods = "Command|Shift", chars = "\u0002\"" }, # tmux split pane (vertical, top/bottom)
+    { key = "|", mods="Command|Shift", chars = "\u0002w" }, # herdr workspace picker
+    { key = "LBracket", mods = "Command", chars = "\u0002p" }, # CMD+[ -> previous tab (herdr tab)
+    { key = "RBracket", mods = "Command", chars = "\u0002n" }, # CMD+] -> next tab (herdr tab)
+    { key = "{", mods="Command|Shift", chars = "\u0002(" }, # CMD+Shift+[ -> previous workspace
+    { key = "}", mods="Command|Shift", chars = "\u0002)" }, # CMD+Shift+] -> next workspace
+    { key = "T", mods = "Command|Shift", chars = "\u0002v" }, # split pane vertical (left/right)
+    { key = "S", mods = "Command|Shift", chars = "\u0002-" }, # split pane horizontal (top/bottom)
     { key = "!", mods = "Command|Shift", chars = " !@f" }, # open file in Finder
 
     { key = "E", mods = "Command", chars = " e" },
-    { key = "E", mods = "Command|Shift", chars = "\u0002e" },
+    # NO HERDR EQUIVALENT (tmux break-pane; prefix+e is edit_scrollback): { key = "E", mods = "Command|Shift", chars = "\u0002e" },
     { key = "M", mods = "Command|Shift", chars = " MM" },
     { key = "B", mods = "Command", chars = "gd" },
     { key = "P", mods = "Command|Shift", chars = " T" },
@@ -42,20 +44,20 @@ bindings = [
     { key = "O", mods = "Command|Shift", chars = " lf" }, # open lf browser
     { key = "Return", mods = "Alt", chars = ">" },
     { key = "Return", mods = "Alt|Shift", chars = "<" },
-    { key = "D", mods = "Command", chars = "\u0002d" },
+    { key = "D", mods = "Command", chars = "\u0002q" },
     { key = "R", mods = "Command", chars = "_run\n" },
     { key = "F", mods = "Command|Shift", chars = " FF" },
     { key = "O", mods = "Control|Alt", chars = " OI" }, # optimize imports (leader+OI -> nvim)
     { key = "I", mods = "Command", chars = " II" }, # npm_install script
     { key = "I", mods = "Command|Shift", chars = " ii" }, # yarnrun script
-    { key = "K", mods = "Command|Control", chars = "\u0002K" }, # session manager (sesh) — moved off CMD+K
+    { key = "K", mods = "Command|Control", chars = "\u0002g" }, # herdr goto (sesh was tmux-only and no longer applies)
 
-    { key = ".", mods = "Command", chars = "\u0002." }, # move window right (prefix + .)
-    { key = ",", mods = "Command", chars = "\u0002," }, # move window left (prefix + ,)
-    { key = "H", mods = "Command|Alt", chars = "\u0002\u001B[1;2D" }, # swap pane left
-    { key = "J", mods = "Command|Alt", chars = "\u0002\u001B[1;2B" }, # swap pane down
-    { key = "K", mods = "Command|Alt", chars = "\u0002\u001B[1;2A" }, # swap pane up
-    { key = "L", mods = "Command|Alt", chars = "\u0002\u001B[1;2C" }, # swap pane right
+    { key = ".", mods = "Command", chars = "\u0002." }, # move tab right
+    { key = ",", mods = "Command", chars = "\u0002," }, # move tab left
+    # NO HERDR EQUIVALENT (tmux swap-pane): { key = "H", mods = "Command|Alt", chars = "\u0002\u001B[1;2D" }, # swap pane left
+    # NO HERDR EQUIVALENT (tmux swap-pane): { key = "J", mods = "Command|Alt", chars = "\u0002\u001B[1;2B" }, # swap pane down
+    # NO HERDR EQUIVALENT (tmux swap-pane): { key = "K", mods = "Command|Alt", chars = "\u0002\u001B[1;2A" }, # swap pane up
+    # NO HERDR EQUIVALENT (tmux swap-pane): { key = "L", mods = "Command|Alt", chars = "\u0002\u001B[1;2C" }, # swap pane right
 
     # -------------------------------------------------------------
     # 
@@ -110,7 +112,7 @@ bindings = [
     { key = "F11", mods = "Super", chars = "\u001B[23;3~" },
     { key = "F12", mods = "Super", chars = " ds" }, # lsp_document_symbols (leader+ds)
     # ----------------------------------------------------
-    # -------- tabs in tmux -----------------------------
+    # -------- tabs in herdr ----------------------------
     { key = "Key1", mods = "Command", chars = "\u00021" },
     { key = "Key2", mods = "Command", chars = "\u00022" },
     { key = "Key3", mods = "Command", chars = "\u00023" },
@@ -130,46 +132,46 @@ bindings = [
     # ║  ADD / CHANGE / REMOVE an EN binding above -> update its RU pair here.     ║
     # ╚════════════════════════════════════════════════════════════════════════════╝
     { key = "ы", mods = "Command", chars = "\u001B:w\n" }, # save command
-    { key = "ц", mods = "Command", chars = "\u0002W" }, # !CLOSE TAB/vim/Terminal/etc
-    { key = "т", mods = "Command|Shift", chars = "\u0002S" }, # new tmux session
-    { key = "е", mods = "Command", chars = "\u0002c" }, # new tmux tab
+    { key = "ц", mods = "Command", chars = "\u0002W" }, # close pane (herdr + tmux, vim-aware in tmux)
+    { key = "т", mods = "Command|Shift", chars = "\u0002N" }, # new herdr workspace
+    { key = "е", mods = "Command", chars = "\u0002c" }, # new herdr tab
     { key = "п", mods = "Command", chars = " K" }, # open lazygit
-    { key = "р", mods = "Command|Shift", chars = "\u0002H" }, # resize tmux pane left
-    { key = "д", mods = "Command|Shift", chars = "\u0002L" }, # resize tmux pane right
-    { key = "о", mods = "Command|Shift", chars = "\u0002j" }, # resize tmux pane down
-    { key = "л", mods = "Command|Shift", chars = "\u0002k" }, # resize tmux pane up
-    { key = "р", mods = "Command", chars = "\u0002\u001B[D" }, # nav left  (tmux pane / nvim split) — ⌘H freed from macOS "Hide" via defaults_write.sh
-    { key = "о", mods = "Command", chars = "\u0002\u001B[B" }, # nav down  (tmux pane / nvim split)
-    { key = "л", mods = "Command", chars = "\u0002\u001B[A" }, # nav up    (tmux pane / nvim split)
-    { key = "д", mods = "Command", chars = "\u0002\u001B[C" }, # nav right (tmux pane / nvim split)
+    { key = "р", mods = "Command|Shift", chars = "\u0002H" }, # resize herdr pane left
+    { key = "д", mods = "Command|Shift", chars = "\u0002L" }, # resize herdr pane right
+    { key = "о", mods = "Command|Shift", chars = "\u0002J" }, # resize herdr pane down
+    { key = "л", mods = "Command|Shift", chars = "\u0002K" }, # resize herdr pane up
+    { key = "р", mods = "Command", chars = "\u0002h" }, # nav left  (herdr pane; does NOT hand off to nvim splits) — ⌘H freed from macOS "Hide" via defaults_write.sh
+    { key = "о", mods = "Command", chars = "\u0002j" }, # nav down  (herdr pane; does NOT hand off to nvim splits)
+    { key = "л", mods = "Command", chars = "\u0002k" }, # nav up    (herdr pane; does NOT hand off to nvim splits)
+    { key = "д", mods = "Command", chars = "\u0002l" }, # nav right (herdr pane; does NOT hand off to nvim splits)
     { key = "о", mods = "Control", chars = "\u001B[106;5u" },  # RU: J
     { key = "л", mods = "Control", chars = "\u001B[107;5u" },  # RU: K
     { key = "я", mods = "Command", chars = "\u001Bu" }, # undo in vim (u)
     { key = "я", mods = "Command|Shift", chars = "\u001B\u0012"}, # redo in vim (^R)
-    { key = "е", mods = "Command|Shift", chars = "\u0002%" }, # tmux open new pane (vertical, left/right)
-    { key = "ы", mods = "Command|Shift", chars = "\u0002\"" }, # tmux split pane (vertical, top/bottom)
+    { key = "е", mods = "Command|Shift", chars = "\u0002v" }, # split pane vertical (left/right)
+    { key = "ы", mods = "Command|Shift", chars = "\u0002-" }, # split pane horizontal (top/bottom)
     { key = "у", mods = "Command", chars = " e" },  # RU: E
-    { key = "у", mods = "Command|Shift", chars = "\u0002e" },  # RU: E
+    # NO HERDR EQUIVALENT (tmux break-pane; prefix+e is edit_scrollback): { key = "у", mods = "Command|Shift", chars = "\u0002e" },  # RU: E
     { key = "ь", mods = "Command|Shift", chars = " MM" },  # RU: M
     { key = "и", mods = "Command", chars = "gd" },  # RU: B
     { key = "з", mods = "Command|Shift", chars = " T" },  # RU: P
     { key = "щ", mods = "Command", chars = " o" },  # RU: O
     { key = "щ", mods = "Command|Shift", chars = " lf" }, # open lf browser
-    { key = "в", mods = "Command", chars = "\u0002d" },  # RU: D
+    { key = "в", mods = "Command", chars = "\u0002q" },  # RU: D
     { key = "к", mods = "Command", chars = "_run\n" },  # RU: R
     { key = "а", mods = "Command|Shift", chars = " FF" },  # RU: F
     { key = "щ", mods = "Control|Alt", chars = " OI" }, # optimize imports (leader+OI -> nvim)
     { key = "ш", mods = "Command", chars = " II" }, # npm_install script
     { key = "ш", mods = "Command|Shift", chars = " ii" }, # yarnrun script
-    { key = "л", mods = "Command|Control", chars = "\u0002K" }, # session manager (sesh) — moved off CMD+K
-    { key = "ю", mods = "Command", chars = "\u0002." }, # move window right (prefix + .)
-    { key = "б", mods = "Command", chars = "\u0002," }, # move window left (prefix + ,)
-    { key = "р", mods = "Command|Alt", chars = "\u0002\u001B[1;2D" }, # swap pane left
-    { key = "о", mods = "Command|Alt", chars = "\u0002\u001B[1;2B" }, # swap pane down
-    { key = "л", mods = "Command|Alt", chars = "\u0002\u001B[1;2A" }, # swap pane up
-    { key = "д", mods = "Command|Alt", chars = "\u0002\u001B[1;2C" }, # swap pane right
-    { key = "х", mods = "Command", chars = "\u0002p" }, # CMD+[ -> previous tab (tmux window)  # RU: [
-    { key = "ъ", mods = "Command", chars = "\u0002n" }, # CMD+] -> next tab (tmux window)  # RU: ]
-    { key = "Х", mods="Command|Shift", chars = "\u0002(" }, # CMD+Shift+[ -> previous session (switch-client -p)
-    { key = "Ъ", mods="Command|Shift", chars = "\u0002)" }, # CMD+Shift+] -> next session (switch-client -n)
+    { key = "л", mods = "Command|Control", chars = "\u0002g" }, # herdr goto (sesh was tmux-only and no longer applies)
+    { key = "ю", mods = "Command", chars = "\u0002." }, # move tab right
+    { key = "б", mods = "Command", chars = "\u0002," }, # move tab left
+    # NO HERDR EQUIVALENT (tmux swap-pane): { key = "р", mods = "Command|Alt", chars = "\u0002\u001B[1;2D" }, # swap pane left
+    # NO HERDR EQUIVALENT (tmux swap-pane): { key = "о", mods = "Command|Alt", chars = "\u0002\u001B[1;2B" }, # swap pane down
+    # NO HERDR EQUIVALENT (tmux swap-pane): { key = "л", mods = "Command|Alt", chars = "\u0002\u001B[1;2A" }, # swap pane up
+    # NO HERDR EQUIVALENT (tmux swap-pane): { key = "д", mods = "Command|Alt", chars = "\u0002\u001B[1;2C" }, # swap pane right
+    { key = "х", mods = "Command", chars = "\u0002p" }, # CMD+[ -> previous tab (herdr tab)  # RU: [
+    { key = "ъ", mods = "Command", chars = "\u0002n" }, # CMD+] -> next tab (herdr tab)  # RU: ]
+    { key = "Х", mods="Command|Shift", chars = "\u0002(" }, # CMD+Shift+[ -> previous workspace
+    { key = "Ъ", mods="Command|Shift", chars = "\u0002)" }, # CMD+Shift+] -> next workspace
 ]

@@ -1,0 +1,55 @@
+# herdr — terminal workspace manager (replaced tmux)
+# Symlinked to ~/.config/herdr/config.toml by install.sh
+#
+# KEYBINDING CONTRACT
+# -------------------
+# Prefix is ctrl+b (0x02), the same byte as the old tmux prefix, so Alacritty's
+# `chars` bindings in alacritty/keybindings.toml keep working.
+#
+# Source of truth = herdr's own defaults. alacritty/keybindings.toml is only a
+# CMD-key -> prefix-chord translator on top of them. That keeps the same chords
+# working bare on iPad/Blink, where CMD-key remapping isn't in the dotfiles.
+#
+# Only actions herdr leaves UNSET by default are declared here; everything else
+# is deliberately left at its default. Run `herdr config check` after editing.
+
+onboarding = false
+
+[keys]
+# --- close pane (CMD+W) --------------------------------------------------
+# Deliberate divergence from herdr's defaults: tmux already binds prefix+W to a
+# vim-aware close (:q inside vim, else kill-pane), so keeping CMD+W on
+# prefix+shift+w makes one chord work in both multiplexers. That means
+# rename_workspace has to vacate -> prefix+shift+s ("space").
+close_pane       = "prefix+shift+w"
+rename_workspace = "prefix+shift+s"
+
+# --- resize (CMD+Shift+H/J/K/L) ------------------------------------------
+# Unset by default; herdr otherwise only offers modal resize (prefix+r).
+# Capitals matter: prefix+h/j/k/l are focus_pane_* and must stay free.
+resize_pane_left  = "prefix+shift+h"
+resize_pane_down  = "prefix+shift+j"
+resize_pane_up    = "prefix+shift+k"
+resize_pane_right = "prefix+shift+l"
+
+# --- move current tab within the tab bar (CMD+, / CMD+.) -----------------
+# Replaces tmux `swap-window -t -1/+1`.
+move_tab_previous = "prefix+comma"
+move_tab_next     = "prefix+period"
+
+# --- workspace cycling (CMD+Shift+[ / CMD+Shift+]) -----------------------
+# Workspaces are herdr's analogue of tmux sessions; replaces switch-client -p/-n.
+previous_workspace = "prefix+("
+next_workspace     = "prefix+)"
+
+# --- indexed workspace jump (bare chord: prefix+shift+1..9) --------------
+# Analogue of tmux's session list. Optional — drop if you don't want it.
+switch_workspace = "prefix+shift+1..9"
+
+[ui]
+show_agent_labels_on_pane_borders = true
+status_indicators = "symbols"
+
+[theme]
+name = "catppuccin"
+auto_switch = false

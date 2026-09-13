@@ -23,7 +23,8 @@ Homebrew packages are tracked in `Brewfile` (flat list, no `brew bundle` integra
 - **zsh/scripts/jira.zsh** — Multi-profile Jira CLI (shared across company configs). Company submodules call `jira-register` to add profiles; `_jira_restore_profile` auto-activates on shell start
 - **zsh/aliases.zsh** — Shell aliases and utility functions (`proj_run`, `proj_install`, `glone`, etc.)
 - **nvim/** — Neovim config using Lazy.nvim. Entry point: `init.lua` → `lua/{set,remap,russian}.lua` + `lua/config/{lazy,lsp}.lua`. Plugins live in `lua/plugins/` as individual files
-- **tmux/** — tmux config with TPM plugins, sesh session manager (prefix+K), vim-tmux-navigator. Sub-configs sourced from `tmux.conf` in order: `navigation.conf` (EN bindings) → `navigation-ru.conf` (RU mirror) → `plugins.conf` → `statusline.conf`
+- **herdr/** — `config.toml` for herdr, the terminal workspace manager that replaced tmux. Prefix is `ctrl+b` — the same byte as the old tmux prefix, so Alacritty's `chars` bindings carry over. **herdr's own defaults are the source of truth**; only actions herdr leaves unset by default are declared. Validate with `herdr config check` (it reports invalid keys and which action wins a collision) and apply to a running server with `herdr server reload-config`. Only `config.toml` is symlinked — `~/.config/herdr` also holds runtime state (sockets, logs, `session.json`).
+- **tmux/** — legacy tmux config, kept as a fallback. Sub-configs sourced from `tmux.conf`: `plugins.conf` → `statusline.conf`
 - **alacritty/** — Terminal emulator config (TOML format)
 - **lazygit/** — Lazygit config
 - **lf/** — lf file manager config with `lfcd.sh` for directory-changing integration
@@ -38,8 +39,9 @@ Company-specific dotfiles are kept as submodules (`evolution/`, `ela/`). These a
 
 - **Commit messages** follow conventional commits: `type(scope): description` (feat, fix, docs, style, refactor, perf, test, chore, build, ci)
 - **AI commit helper**: `aicommit-suggest.sh` emits N (default 3) Conventional Commits messages to stdout, one per line, by firing parallel OpenAI-compatible requests (Cerebras `gpt-oss-120b` via `CEREBRAS_API_KEY`, local Ollama fallback via `OLLAMA_HOST`/`AICOMMIT_OLLAMA_BASE`). Lazygit's `Ctrl-J` feeds them into a native `menuFromCommand` popup (snappy now that generation is sub-second), then an edit prompt and commit. `aicommit-pick.sh` is an optional standalone `fzf` streaming picker (`output: terminal`) for a one-by-one reveal. Routes to `evolution/aicommit-suggest.sh` if present and repo is on evolution
+- **Alacritty ↔ herdr contract**: `alacritty/keybindings.toml` is only a CMD-key → prefix-chord translator; it must not invent chords herdr does not bind. After changing a `chars` payload, confirm the chord exists in `herdr/config.toml` or in `herdr --default-config`. Keeping herdr at its defaults is deliberate: the same chords then work bare over SSH from iPad/Blink, where CMD-key remapping isn't in the dotfiles.
 - **Neovim plugins**: Each plugin gets its own file in `nvim/lua/plugins/`. Use Lazy.nvim spec format
 - **Shell keybindings**: Defined in `zsh/keybindings.zsh` using `bindkey -s`. Vim mode is enabled (`bindkey -v`)
 - **fnm** is used for Node.js version management (not nvm)
 - **delta** is the git pager (side-by-side diffs)
-- **Russian layout pairing**: `tmux/navigation.conf` (EN) and `tmux/navigation-ru.conf` (RU) are a matched pair — every letter/Alt binding in navigation.conf has a Cyrillic equivalent in navigation-ru.conf using the same command. **When editing either file, update the other.** Key map: `,`→`б` `.`→`ю` `h`→`р` `j`→`о` `k`→`л` `l`→`д` (uppercase = Shift equivalent)
+- **Russian layout pairing**: `alacritty/keybindings.toml` carries an EN block and a Cyrillic mirror at the bottom of the same `bindings` array — every letter binding in the EN block has a RU duplicate with an identical `chars` payload. **When editing either block, update the other.** Key map: `,`→`б` `.`→`ю` `h`→`р` `j`→`о` `k`→`л` `l`→`д` (uppercase = Shift equivalent)
