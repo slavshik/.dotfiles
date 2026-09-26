@@ -14,8 +14,10 @@ bindings = [
     { key = "K", mods = "Command|Shift", chars = "\u0002K" }, # resize herdr pane up
     { key = "H", mods = "Command", chars = "\u0002h" }, # nav left  (herdr pane; does NOT hand off to nvim splits) — ⌘H freed from macOS "Hide" via defaults_write.sh
     { key = "J", mods = "Command", chars = "\u0002j" }, # nav down  (herdr pane; does NOT hand off to nvim splits)
-    { key = "K", mods = "Command", chars = "\u0002k" }, # nav up    (herdr pane; does NOT hand off to nvim splits)
+    { key = "K", mods = "Command", chars = "\u0002k" }, # nav up    (herdr focus_pane_up)
     { key = "L", mods = "Command", chars = "\u0002l" }, # nav right (herdr pane; does NOT hand off to nvim splits)
+    { key = "K", mods = "Command|Alt", chars = "\u0002(" }, # space (workspace) up   -> previous_workspace
+    { key = "J", mods = "Command|Alt", chars = "\u0002)" }, # space (workspace) down -> next_workspace
     # C-j/C-k normally send 0x0A — indistinguishable from Enter in nvim.
     # CSI-u lets nvim bind <C-j>/<C-k> (smart-splits split navigation).
     { key = "J", mods = "Control", chars = "\u001B[106;5u" },
@@ -39,7 +41,7 @@ bindings = [
     # NO HERDR EQUIVALENT (tmux break-pane; prefix+e is edit_scrollback): { key = "E", mods = "Command|Shift", chars = "\u0002e" },
     { key = "M", mods = "Command|Shift", chars = " MM" },
     { key = "B", mods = "Command", chars = "gd" },
-    { key = "P", mods = "Command|Shift", chars = " T" },
+    { key = "P", mods = "Command|Shift", chars = "\u0002g" }, # herdr goto (workspace/tab jump list),
     { key = "O", mods = "Command", chars = " o" },
     { key = "O", mods = "Command|Shift", chars = " lf" }, # open lf browser
     { key = "Return", mods = "Alt", chars = ">" },
@@ -142,8 +144,10 @@ bindings = [
     { key = "л", mods = "Command|Shift", chars = "\u0002K" }, # resize herdr pane up
     { key = "р", mods = "Command", chars = "\u0002h" }, # nav left  (herdr pane; does NOT hand off to nvim splits) — ⌘H freed from macOS "Hide" via defaults_write.sh
     { key = "о", mods = "Command", chars = "\u0002j" }, # nav down  (herdr pane; does NOT hand off to nvim splits)
-    { key = "л", mods = "Command", chars = "\u0002k" }, # nav up    (herdr pane; does NOT hand off to nvim splits)
+    { key = "л", mods = "Command", chars = "\u0002k" }, # nav up    (herdr focus_pane_up)  # RU: K
     { key = "д", mods = "Command", chars = "\u0002l" }, # nav right (herdr pane; does NOT hand off to nvim splits)
+    { key = "л", mods = "Command|Alt", chars = "\u0002(" }, # space (workspace) up   -> previous_workspace  # RU: K
+    { key = "о", mods = "Command|Alt", chars = "\u0002)" }, # space (workspace) down -> next_workspace  # RU: J
     { key = "о", mods = "Control", chars = "\u001B[106;5u" },  # RU: J
     { key = "л", mods = "Control", chars = "\u001B[107;5u" },  # RU: K
     { key = "я", mods = "Command", chars = "\u001Bu" }, # undo in vim (u)
@@ -154,7 +158,7 @@ bindings = [
     # NO HERDR EQUIVALENT (tmux break-pane; prefix+e is edit_scrollback): { key = "у", mods = "Command|Shift", chars = "\u0002e" },  # RU: E
     { key = "ь", mods = "Command|Shift", chars = " MM" },  # RU: M
     { key = "и", mods = "Command", chars = "gd" },  # RU: B
-    { key = "з", mods = "Command|Shift", chars = " T" },  # RU: P
+    { key = "з", mods = "Command|Shift", chars = "\u0002g" },  # herdr goto  # RU: P
     { key = "щ", mods = "Command", chars = " o" },  # RU: O
     { key = "щ", mods = "Command|Shift", chars = " lf" }, # open lf browser
     { key = "в", mods = "Command", chars = "\u0002q" },  # RU: D
@@ -174,4 +178,23 @@ bindings = [
     { key = "ъ", mods = "Command", chars = "\u0002n" }, # CMD+] -> next tab (herdr tab)  # RU: ]
     { key = "Х", mods="Command|Shift", chars = "\u0002(" }, # CMD+Shift+[ -> previous workspace
     { key = "Ъ", mods="Command|Shift", chars = "\u0002)" }, # CMD+Shift+] -> next workspace
+
+    # ╔══ RU CONTROL CHARACTERS (C0) ═════════════════════════════════════════════╗
+    # ║  herdr enables the kitty keyboard protocol, so Alacritty reports Ctrl+     ║
+    # ║  <cyrillic> as its layout codepoint (CSI 1089;5u for Ctrl+с) instead of    ║
+    # ║  the C0 byte — Alacritty cannot send the base-layout key, because winit    ║
+    # ║  does not expose it. herdr then inserts the letter instead of signalling.  ║
+    # ║  These bindings emit the C0 byte directly, so ^C etc. work in RU layout.   ║
+    # ║  Ctrl+о / Ctrl+л are deliberately absent: they are CSI-u above, for nvim.  ║
+    # ╚════════════════════════════════════════════════════════════════════════════╝
+    { key = "ф", mods = "Control", chars = "\u0001" }, # ^A  RU: A
+    { key = "и", mods = "Control", chars = "\u0002" }, # ^B  RU: B — herdr/tmux prefix
+    { key = "с", mods = "Control", chars = "\u0003" }, # ^C  RU: C — interrupt
+    { key = "в", mods = "Control", chars = "\u0004" }, # ^D  RU: D — EOF
+    { key = "у", mods = "Control", chars = "\u0005" }, # ^E  RU: E
+    { key = "г", mods = "Control", chars = "\u0015" }, # ^U  RU: U
+    { key = "ц", mods = "Control", chars = "\u0017" }, # ^W  RU: W
+    { key = "д", mods = "Control", chars = "\u000C" }, # ^L  RU: L — clear
+    { key = "к", mods = "Control", chars = "\u0012" }, # ^R  RU: R — reverse search
+    { key = "я", mods = "Control", chars = "\u001A" }, # ^Z  RU: Z — suspend
 ]
