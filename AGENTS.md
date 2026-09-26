@@ -67,9 +67,21 @@ The install script:
 ## Key Conventions
 
 ### Git & Commits
-- **Commit Format**: Conventional Commits (`type(scope): description`)
-  - Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`, `build`, `ci`
-- **AI Commit Helper**: `aicommit-suggest.sh` generates 3 suggestions (parallel OpenAI-compatible requests to Cerebras or Ollama)
+- **Commit Format**: Gitmoji + Conventional Commits (`emoji type(scope): description`)
+  - **Gitmoji Reference**: 
+    - ✨ `:sparkles:` – New features
+    - 🐛 `:bug:` – Bug fixes
+    - 📝 `:memo:` – Documentation
+    - 🎨 `:art:` – Code style/formatting
+    - ♻️ `:recycle:` – Refactoring
+    - ⚡ `:zap:` – Performance improvements
+    - ✅ `:white_check_mark:` – Tests/testing
+    - 🔧 `:wrench:` – Configuration/tooling (chore)
+    - 🏗️ `:building_construction:` – Architecture/build system
+    - 🚀 `:rocket:` – Deployment/CI
+  - **Conventional Types**: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`, `build`, `ci`
+  - **Example**: `✨ feat(nvim): add new LSP plugin` or `🐛 fix(zsh): resolve zoxide integration issue`
+- **AI Commit Helper**: `aicommit-suggest.sh` generates 3 suggestions (parallel OpenAI-compatible requests to Cerebras or Ollama). **Agents should prepend gitmoji when generating suggestions.**
 - **Staging & Company Submodules**: Private repos (`evolution/`, `ela/`) extend the base config via git submodules; each has an `index.zsh` sourced from `zshrc`
 
 ### Shell & Environment
