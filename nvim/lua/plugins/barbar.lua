@@ -17,6 +17,11 @@ return {
             -- animation = true,
             -- insert_at_start = true,
             -- …etc.
+
+            -- Shift the tab bar right of the neo-tree sidebar, VSCode-style
+            sidebar_filetypes = {
+                ["neo-tree"] = { event = "BufWipeout", text = "neo-tree" },
+            },
         },
         version = "^1.0.0", -- optional: only update when a new 1.x version is released
     },
