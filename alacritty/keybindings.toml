@@ -28,7 +28,7 @@ bindings = [
     { key = "Slash", mods = "Command", chars = "gcc" }, # comment line 
     { key = "Slash", mods = "Command|Alt", chars = "gb" }, # comment out block
 
-    { key = "|", mods="Command|Shift", chars = "\u0002w" }, # herdr workspace picker
+    { key = "|", mods="Command|Shift", chars = "\u0002g" }, # herdr goto — all workspaces/tabs (tmux prefix+w choose-tree)
     { key = "LBracket", mods = "Command", chars = "\u0002p" }, # CMD+[ -> previous tab (herdr tab)
     { key = "RBracket", mods = "Command", chars = "\u0002n" }, # CMD+] -> next tab (herdr tab)
     { key = "{", mods="Command|Shift", chars = "\u0002(" }, # CMD+Shift+[ -> previous workspace
@@ -41,7 +41,6 @@ bindings = [
     # NO HERDR EQUIVALENT (tmux break-pane; prefix+e is edit_scrollback): { key = "E", mods = "Command|Shift", chars = "\u0002e" },
     { key = "M", mods = "Command|Shift", chars = " MM" },
     { key = "B", mods = "Command", chars = "gd" },
-    { key = "P", mods = "Command|Shift", chars = "\u0002g" }, # herdr goto (workspace/tab jump list),
     { key = "O", mods = "Command", chars = " o" },
     { key = "O", mods = "Command|Shift", chars = " lf" }, # open lf browser
     { key = "Return", mods = "Alt", chars = ">" },
@@ -158,7 +157,6 @@ bindings = [
     # NO HERDR EQUIVALENT (tmux break-pane; prefix+e is edit_scrollback): { key = "у", mods = "Command|Shift", chars = "\u0002e" },  # RU: E
     { key = "ь", mods = "Command|Shift", chars = " MM" },  # RU: M
     { key = "и", mods = "Command", chars = "gd" },  # RU: B
-    { key = "з", mods = "Command|Shift", chars = "\u0002g" },  # herdr goto  # RU: P
     { key = "щ", mods = "Command", chars = " o" },  # RU: O
     { key = "щ", mods = "Command|Shift", chars = " lf" }, # open lf browser
     { key = "в", mods = "Command", chars = "\u0002q" },  # RU: D
@@ -176,6 +174,7 @@ bindings = [
     # NO HERDR EQUIVALENT (tmux swap-pane): { key = "д", mods = "Command|Alt", chars = "\u0002\u001B[1;2C" }, # swap pane right
     { key = "х", mods = "Command", chars = "\u0002p" }, # CMD+[ -> previous tab (herdr tab)  # RU: [
     { key = "ъ", mods = "Command", chars = "\u0002n" }, # CMD+] -> next tab (herdr tab)  # RU: ]
+    { key = "/", mods="Command|Shift", chars = "\u0002g" }, # herdr goto — RU: Shift+backslash sends "/" instead of "|"
     { key = "Х", mods="Command|Shift", chars = "\u0002(" }, # CMD+Shift+[ -> previous workspace
     { key = "Ъ", mods="Command|Shift", chars = "\u0002)" }, # CMD+Shift+] -> next workspace
 
