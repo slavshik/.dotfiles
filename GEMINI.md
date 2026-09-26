@@ -1,98 +1,198 @@
-# .dotfiles
+# GEMINI.md
 
-A high-performance macOS development environment centered around Zsh, Neovim, and Tmux, with deep integrations for Jira, GitLab, and AI-assisted workflows.
+**Google Gemini agent guidance for this repository.**
 
-## System Overview
+For universal repo guidance, conventions, and architecture, see [`AGENTS.md`](AGENTS.md).
 
-- **OS:** macOS
-- **Shell:** Zsh (Oh My Zsh + Powerlevel10k)
-- **Editor:** Neovim (`nvim`)
-- **Terminal:** Alacritty
-- **Multiplexer:** Tmux (`tpm`, `tmuxifier`, `sesh`)
-- **Key Tools:** `lazygit` (fork: `slavshik/lazygit`), `lf` (fork: `slavshik/lf`), `fzf`, `lsd`, `zoxide`, `gh`, `glab`, `jq`, `yq`, `bun`
+## Quick Start
 
-## Installation
+1. **Installation**: Run `./install.sh` from the repo root
+2. **Repository Structure**: See [`AGENTS.md`](AGENTS.md) for directory layout and core conventions
+3. **Agent-Specific Setup**: Lightweight shell mode is recommended for performance (see below)
 
+## Gemini-Specific Integration
 
-Run the main installation script to symlink configurations and clone dependencies:
+### Performance Optimization
+
+Gemini CLI runs best with a lightweight shell configuration:
 
 ```bash
-./install.sh
+# Use this for faster startup in Gemini
+GEMINI_AGENT=1 zsh -i -c '...'
 ```
 
-This script manages:
-- Symlinking dotfiles to `~/.config` and `$HOME`.
-- Symlinking Claude skills and agents.
-- Installing Oh My Zsh plugins and themes.
-- Configuring macOS defaults (via `defaults_write.sh`).
+**Important**: In agent mode, oh-my-zsh aliases (like `gp`) are **NOT** available to maintain speed. Use full commands instead:
+- ❌ `gp` → ✅ `git push`
+- ❌ `ga` → ✅ `git add`
+- ❌ `gc` → ✅ `git commit`
 
-## Development Workflow
+### Shell Environment
 
-### Shell Environments
-The configuration detects when it's running inside an AI agent (like Claude Code or Gemini CLI) and switches to a lightweight shell config to improve performance and stability.
+The configuration auto-detects when running inside Gemini and switches to a minimal shell config:
+- **Standard Shell** (interactive): Full P10k prompt, autosuggestions, plugins
+- **Agent Shell** (Gemini mode): Lightweight, no prompt bloat, fast startup
 
-- **Standard Shell:** Full P10k prompt, autosuggestions, etc.
-- **Agent Shell:** `zsh/zshrc.agent.zsh` (minimalist, fast).
+Both modes share:
+- Jira CLI integration
+- GitLab helpers (`glab`)
+- Project management functions (`proj_run`, `proj_install`)
+- Path helpers (zoxide, fzf)
+
+## Available Tools & Helpers
 
 ### Project Management
-Use these helpers for quick navigation and project setup:
-- `proj_run`: Fuzzy-pick and run an NPM/Bun script from `package.json`.
-- `proj_install`: Detect and run the correct package manager install command (`go install`, `bun install`, `yarn`, `npm i`).
-- `runscript`: Fuzzy-pick and run scripts from `.claude/scripts`, `package.json`, or local `commands.txt`.
-- `jj`: fuzzy-pick a `sesh` session to connect to.
-- `glone`: Clone a GitHub repository from a specific organization using fuzzy search.
+
+```bash
+proj_run           # Fuzzy-pick and run NPM/Bun scripts
+proj_install       # Auto-detect and run package manager install
+runscript          # Run scripts from .claude/scripts, package.json, or commands.txt
+glone              # Clone GitHub repo with org fuzzy search
+```
 
 ### Jira Integration
-The `jira` CLI (Go-based) is integrated directly into the shell and Claude skills.
 
-**Key Commands:**
-- `jira <KEY>`: Quick issue summary.
-- `jira-detail <KEY>`: Full issue view.
-- `jira-my`: List your unresolved issues.
-- `jira-status <KEY>`: Transition issue status via fuzzy search.
-- `jira-open <KEY>`: Open the issue in your default browser.
-- `jira-use <label>`: Switch between different Jira profiles/instances.
-
-**Key Inference:**
-Jira keys are automatically inferred from the current Git branch or recent commit logs if not provided.
+```bash
+jira <KEY>         # Quick issue summary
+jira-detail <KEY>  # Full issue view
+jira-my            # List your unresolved issues
+jira-status <KEY>  # Fuzzy transition status
+jira-open <KEY>    # Open in browser
+jira-use <label>   # Switch Jira profiles
+```
 
 ### GitLab Integration
-Helpers built on top of `glab` and `fzf`:
-- `gl-mrs`: List and open your MRs.
-- `gl-pipes`: View and open recent CI pipelines.
 
-### AI-Assisted Commits
-- `aicommit-suggest.sh`: Emits 3 AI-generated commit message suggestions (via `aichat`) for the staged diff, one per line. Invoked by Lazygit's `Ctrl-J` custom command as a streaming `menuFromCommand` prompt. Routes to `evolution/aicommit-suggest.sh` if that file exists and the repo is on evolution.
+```bash
+gl-mrs             # List and open your MRs
+gl-pipes           # View and open recent CI pipelines
+```
 
-## Navigation & UI
-- **Git Interface:** `lazygit` (`lg` alias) is the primary driver for Git operations.
-- **File Manager:** `lf` with `lfcd` for synced directory changing.
-- **Directory Jumping:** `j` (alias for `zoxide`).
-- **Listing:** `l` / `ll` (alias for `lsd` with git status).
-- **SSH:** `ss` fuzzy-picks a device from the local network (via `lan` tool).
+### AI-Powered Commits
+
+```bash
+aicommit-suggest.sh    # Generate 3 commit message suggestions
+aicommit-pick.sh       # Interactive streaming picker for suggestions
+```
+
+Commit messages follow **Conventional Commits** format:
+```
+type(scope): description
+
+Example: feat(nvim): add neo-tree plugin
+```
+
+### Navigation & UI
+
+```bash
+lg                 # Lazygit (primary git interface)
+lf                 # File manager
+j <dir>            # Jump to directory (zoxide)
+l / ll             # List files (lsd with git status)
+v                  # Open Neovim
+ss                 # SSH to local network device (fuzzy)
+```
 
 ## Work-Specific Helpers
 
-The configuration includes specialized helpers for the `evolution` and `ela` environments:
-- **Jira:** Automatically registers and activates the `evo` Jira profile.
-- **Testing:**
-  - `jt` / `jtw`: Run Jest tests in the current directory (finds the nearest `jest.config.cjs`).
-  - `waa`: Run Jest tests in watch mode for the current directory.
-  - `check`: Run tests in a new Tmux pane and execute TS validation.
-- **Git:** `minevo` and `evoweek` for quick commit history filtering.
-- **VPN:** `evoru` for fixing VPN issues.
-- **Game Dev:** `rungame` for fuzzy-starting games in specific monorepos.
+### Evolution Environment (Private Submodule)
 
-## Coding Standards & Preferences
-- **Editor:** Neovim is the primary editor (`v` alias).
-- **Keybindings:** Vim-style keybindings are enabled in the shell (`bindkey -v`).
-- **Architecture:** Keep logic modular (e.g., `zsh/jira.zsh`, `zsh/gitlab.zsh`, `nvim/lua/plugins/`).
-- **Shell Commands:** Use `GEMINI_AGENT=1 zsh -i -c '...'` for a fast, lightweight shell. Note that oh-my-zsh aliases (like `gp`) are NOT available in this mode to maintain performance.
+If `evolution/` submodule is present:
 
-## Important Paths
-- `~/.dotfiles`: Root of the configuration.
-- `~/.config/nvim`: Neovim configuration.
-- `~/.claude`: Claude-specific skills and configurations.
-- `.github/copilot-instructions.md`: Rules and architectural overview for AI assistants.
-- `~/Library/Application Support/lazygit`: Lazygit configuration.
-nfiguration.
+```bash
+jira-use evo       # Activate evolution Jira profile
+minevo             # Filter commits to evolution-related work
+evoweek            # Show evolution commits from this week
+evoru              # Fix VPN issues
+jt / jtw           # Run Jest tests (find nearest jest.config.cjs)
+waa                # Watch mode for Jest tests
+check              # Run tests + TypeScript validation
+rungame            # Fuzzy-start game in monorepo
+```
+
+### ELA Environment (Private Submodule)
+
+Similar helpers available if `ela/` submodule is present.
+
+## File Structure Overview
+
+Key files for Gemini work:
+
+- **`zsh/zshrc`** — Main shell entry point (sources helpers, aliases, company configs)
+- **`zsh/aliases.zsh`** — All CLI shortcuts
+- **`zsh/scripts/jira.zsh`** — Jira multi-profile CLI
+- **`nvim/init.lua`** — Neovim config (LSP, plugins, keybindings)
+- **`lazygit/config.yml`** — Git workflow UI
+- **`claude/`** — Claude Code skills and configs (can be reused)
+- **`cli/`** — CLI tool helpers and scripts
+
+See [`AGENTS.md`](AGENTS.md) for complete directory structure.
+
+## System Overview
+
+- **OS**: macOS (Linux support with XDG fallbacks)
+- **Shell**: Zsh (Oh My Zsh + Powerlevel10k)
+- **Editor**: Neovim (Lazy.nvim)
+- **Terminal**: Alacritty
+- **Terminal Manager**: herdr (replaces tmux)
+- **Key Tools**: lazygit, lf, fzf, lsd, zoxide, gh, glab, jq, yq, bun
+
+## Working with Git
+
+### Common Workflow
+
+```bash
+# Check status
+git status
+
+# View diff
+git diff <file>
+
+# Stage changes
+git add <file>
+
+# Create conventional commit
+git commit -m "feat(scope): description"
+
+# Push to origin
+git push
+
+# View log
+git log --oneline
+```
+
+### AI-Assisted Commits
+
+1. Stage your changes
+2. Run `aicommit-suggest.sh` or use Lazygit `Ctrl-J`
+3. Pick a suggestion, edit, and commit
+
+Generated via Cerebras (`gpt-oss-120b`) or local Ollama fallback.
+
+## Troubleshooting
+
+### Shell Startup Slow in Agent Mode
+
+- Ensure you're using `GEMINI_AGENT=1` for lightweight shell
+- Check `.env` for missing API keys (Jira, Cerebras, etc.)
+- Verify all `command -v` guards are in place
+
+### Git Issues
+
+If you see index.lock errors:
+```bash
+rm -f .git/index.lock
+```
+
+### Missing Dependencies
+
+All tools are optional and guarded with `command -v` checks. Missing tools won't break startup:
+- zoxide, fnm, direnv, syntax highlighting — all optional
+- Required: git, zsh, minimal coreutils
+
+## Next Steps
+
+- See [`AGENTS.md`](AGENTS.md) for universal conventions and architecture
+- Run `./install.sh` to symlink all configs
+- Explore private submodules (`evolution/`, `ela/`) if available
+- Review [`README.md`](README.md) for project overview
+- Check `.github/copilot-instructions.md` for GitHub Copilot + Codespaces guidance

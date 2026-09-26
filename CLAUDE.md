@@ -1,47 +1,160 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+**Claude Code agent guidance for this repository.**
 
-## Overview
+For universal repo guidance, conventions, and architecture, see [`AGENTS.md`](AGENTS.md).
 
-Personal dotfiles, primarily for macOS but also usable on generic Linux (e.g. Synology NAS with Entware). Configs are symlinked from `~/.dotfiles/` to their expected locations via `install.sh`.
+## Quick Start
 
-**OS guard convention**: `install.sh` sets `IS_MACOS` from `uname -s`; `zsh/zshrc` sets `IS_MACOS` from `$OSTYPE`. macOS-only steps (karabiner, subl, `defaults_write.sh`, `~/Library/…` paths) are gated on it; Linux uses XDG paths instead (e.g. lazygit → `~/.config/lazygit`, fnm → `~/.local/share/fnm`). Optional tools (zoxide, tmuxifier, fnm, syntax highlighting) are guarded with `command -v`/path checks so a missing tool never breaks shell startup.
+1. **Installation**: Run `./install.sh` from the repo root
+2. **Claude Skills**: Symlinked to `~/.claude/skills/` — these are loaded automatically by Claude Code
+3. **Configuration**: Additional guidance in `claude/` directory (hooks, scripts, styles)
 
-## Installation
+## Claude Code Integration
+
+### Available Skills
+
+Skills are organized in `claude/skills/` and automatically discovered. Key skill categories:
+- **cloudflare** — Workers, Pages, KV, D1, R2, AI, Tunnel
+- **agents-sdk** — Cloudflare Agents SDK (state, durable execution, RPC)
+- **durable-objects** — Stateful coordination, WebSockets, SQLite
+- **wrangler** — Cloudflare CLI (deploy, dev, manage resources)
+- **workers-best-practices** — Code review, anti-patterns, observability
+- **sandbox-stable/next** — Sandbox SDK (code execution, AI runners, terminals)
+- **turnstile-spin** — Bot protection (CAPTCHA)
+- **web-perf** — Performance analysis (Chrome DevTools MCP, Core Web Vitals)
+- **remote-claw** — Offload tasks to remote machine via SSH + HTTP API
+- **jira** — Jira ticket interaction (view, comment, assign, transition)
+- **wiki** — Confluence wiki search
+- **graphify** — Knowledge graph (codebase structure, architecture queries)
+- **axi** — Agent eXperience Interface (CLI standards for agents)
+
+Plus general-purpose skills: pdf, xlsx, pptx, docx, docs, morning, import-memory, deep-research, skill-creator
+
+### Shell Access
+
+You have full bash access to the repo. Common commands:
 
 ```bash
-./install.sh        # Symlinks all configs to ~/ and ~/.config/
-./defaults_write.sh # Sets macOS key repeat preferences
+# See uncommitted changes
+git status
+
+# View git logs with conventional commits
+git log --oneline
+
+# Run tests (project-specific, see Makefile or package.json)
+npm test
+bun test
+
+# Install dependencies (auto-detected)
+./install.sh
+
+# List available CLI helpers
+ls -la cli/
 ```
 
-Homebrew packages are tracked in `Brewfile` (flat list, no `brew bundle` integration — just a reference).
+### Key Files to Know
 
-## Repository Structure
+- **`zsh/aliases.zsh`** — Shell aliases and functions you can invoke via bash
+- **`nvim/init.lua`** — Neovim entry point (LSP, plugins, keybindings)
+- **`Brewfile`** — Canonical package list (reference; not automated)
+- **`AGENTS.md`** — Universal conventions (commit format, git workflow, directory structure)
+- **`README.md`** — Project overview
 
-- **zsh/zshrc** — Main shell config. Sources oh-my-zsh (powerlevel10k theme), then loads in order: `zsh/scripts/*` helpers → `aliases.zsh` → `keybindings.zsh` → company submodules (`evolution/`, `ela/`) → `_jira_restore_profile`
-- **zsh/scripts/jira.zsh** — Multi-profile Jira CLI (shared across company configs). Company submodules call `jira-register` to add profiles; `_jira_restore_profile` auto-activates on shell start
-- **zsh/aliases.zsh** — Shell aliases and utility functions (`proj_run`, `proj_install`, `glone`, etc.)
-- **nvim/** — Neovim config using Lazy.nvim. Entry point: `init.lua` → `lua/{set,remap,russian}.lua` + `lua/config/{lazy,lsp}.lua`. Plugins live in `lua/plugins/` as individual files
-- **herdr/** — `config.toml` for herdr, the terminal workspace manager that replaced tmux. Prefix is `ctrl+b` — the same byte as the old tmux prefix, so Alacritty's `chars` bindings carry over. **herdr's own defaults are the source of truth**; only actions herdr leaves unset by default are declared. Validate with `herdr config check` (it reports invalid keys and which action wins a collision) and apply to a running server with `herdr server reload-config`. Only `config.toml` is symlinked — `~/.config/herdr` also holds runtime state (sockets, logs, `session.json`).
-- **tmux/** — legacy tmux config, kept as a fallback. Sub-configs sourced from `tmux.conf`: `plugins.conf` → `statusline.conf`
-- **alacritty/** — Terminal emulator config (TOML format)
-- **lazygit/** — Lazygit config
-- **lf/** — lf file manager config with `lfcd.sh` for directory-changing integration
-- **karabiner/** — Karabiner-Elements keyboard remapping
-- **sesh/** — tmux session manager config
+### Working with Neovim Config
 
-## Git Submodules
+When editing `nvim/lua/plugins/`, each file is a Lazy.nvim plugin spec. Common patterns:
 
-Company-specific dotfiles are kept as submodules (`evolution/`, `ela/`). These are private repos that extend the base config (each has an `index.zsh` sourced from `zshrc`).
+```lua
+return {
+  "plugin-author/plugin-name",
+  opts = {
+    -- config options here
+  },
+  keys = { -- lazy keybindings
+    { "<leader>x", function() end }
+  }
+}
+```
 
-## Key Conventions
+Reload with `:Lazy sync` or restart nvim.
 
-- **Commit messages** follow conventional commits: `type(scope): description` (feat, fix, docs, style, refactor, perf, test, chore, build, ci)
-- **AI commit helper**: `aicommit-suggest.sh` emits N (default 3) Conventional Commits messages to stdout, one per line, by firing parallel OpenAI-compatible requests (Cerebras `gpt-oss-120b` via `CEREBRAS_API_KEY`, local Ollama fallback via `OLLAMA_HOST`/`AICOMMIT_OLLAMA_BASE`). Lazygit's `Ctrl-J` feeds them into a native `menuFromCommand` popup (snappy now that generation is sub-second), then an edit prompt and commit. `aicommit-pick.sh` is an optional standalone `fzf` streaming picker (`output: terminal`) for a one-by-one reveal. Routes to `evolution/aicommit-suggest.sh` if present and repo is on evolution
-- **Alacritty ↔ herdr contract**: `alacritty/keybindings.toml` is only a CMD-key → prefix-chord translator; it must not invent chords herdr does not bind. After changing a `chars` payload, confirm the chord exists in `herdr/config.toml` or in `herdr --default-config`. Keeping herdr at its defaults is deliberate: the same chords then work bare over SSH from iPad/Blink, where CMD-key remapping isn't in the dotfiles.
-- **Neovim plugins**: Each plugin gets its own file in `nvim/lua/plugins/`. Use Lazy.nvim spec format
-- **Shell keybindings**: Defined in `zsh/keybindings.zsh` using `bindkey -s`. Vim mode is enabled (`bindkey -v`)
-- **fnm** is used for Node.js version management (not nvm)
-- **delta** is the git pager (side-by-side diffs)
-- **Russian layout pairing**: `alacritty/keybindings.toml` carries an EN block and a Cyrillic mirror at the bottom of the same `bindings` array — every letter binding in the EN block has a RU duplicate with an identical `chars` payload. **When editing either block, update the other.** Key map: `,`→`б` `.`→`ю` `h`→`р` `j`→`о` `k`→`л` `l`→`д` (uppercase = Shift equivalent)
+### Working with Shell Configs
+
+Shell startup is optimized for performance. When adding new helpers:
+
+1. **Small helpers** → `zsh/aliases.zsh`
+2. **Modular logic** → `zsh/scripts/myfeature.zsh` (sourced from `zshrc`)
+3. **Company-specific** → Private submodule (`evolution/`, `ela/`)
+
+Always guard optional tools with `command -v`:
+
+```bash
+if command -v zoxide &> /dev/null; then
+  eval "$(zoxide init zsh)"
+fi
+```
+
+## Agent-Specific Behavior
+
+### Performance Optimization
+
+Claude Code may run in a lightweight shell mode for speed. Full P10k prompt, autosuggestions, and oh-my-zsh plugins are still available but may be slower on large codebases. The repo's optional-tool guards ensure nothing breaks even if a tool is missing.
+
+### Git Operations
+
+Use `git` commands directly or through the helpers:
+
+```bash
+# View uncommitted changes
+git diff
+
+# Stage and commit (use conventional commits)
+git add <file>
+git commit -m "type(scope): description"
+
+# Push to origin
+git push
+```
+
+AI commit suggestions available: see `aicommit-suggest.sh` and Lazygit `Ctrl-J`.
+
+### File Editing
+
+- Use `edit` tool for precise, multi-location changes
+- Use `write` for new files or full rewrites
+- Use `read` to examine existing files
+
+All paths are relative to `/Users/slavshik/.dotfiles`.
+
+## Troubleshooting
+
+### Shell Startup Issues
+
+If shell startup breaks:
+1. Check `.env` for missing secrets
+2. Verify `IS_MACOS` logic for your OS
+3. Look for unguarded `command -v` calls in `zsh/scripts/`
+4. See `HINTS.md` for macOS-specific fixes
+
+### Git Lock File
+
+If you see `fatal: Unable to create '.git/index.lock'`:
+```bash
+rm -f .git/index.lock
+```
+
+### Neovim Plugin Issues
+
+Clear Lazy cache and resync:
+```bash
+rm -rf ~/.local/share/nvim/lazy/
+nvim -c "Lazy! sync" -c "qa"
+```
+
+## Next Steps
+
+- See [`AGENTS.md`](AGENTS.md) for repo-wide conventions
+- See [`README.md`](README.md) for project overview
+- Explore `claude/skills/` for available AI capabilities
+- Run `./install.sh` if you haven't already
